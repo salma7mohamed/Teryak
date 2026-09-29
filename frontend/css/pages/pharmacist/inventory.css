@@ -478,37 +478,61 @@ header {
 
 .actions {
     display: flex;
-
     align-items: center;
-
-    justify-content: center;
-
-    gap: 10px;
-
-    min-width: 90px;
-
+    justify-content: flex-end;
+    gap: 8px;
     flex-shrink: 0;
-
     order: 2;
+}
+
+.action-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #475569;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+    line-height: 1;
+}
+
+.action-btn i {
+    pointer-events: none;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.action-btn.btn-edit-item:hover {
+    background: #ecfdf5;
+    color: var(--primary);
+    border-color: #a7f3d0;
+}
+
+.action-btn.btn-delete-item:hover {
+    background: #fef2f2;
+    color: #ef4444;
+    border-color: #fecaca;
 }
 
 .badge {
     display: inline-flex;
-
     align-items: center;
     justify-content: center;
-
-    padding: 8px 18px;
-
-    min-width: 82px;
-    min-height: 36px;
-
+    padding: 7px 16px;
+    min-width: 78px;
+    min-height: 34px;
     border-radius: 30px;
-
     font-size: 13px;
-
     font-weight: 700;
-
     white-space: nowrap;
 }
 
@@ -517,19 +541,16 @@ header {
 
 .available {
     background: #EAF8F3;
-
     color: #00A66A;
 }
 
 .limited {
     background: #FFF3D8;
-
     color: #D48A00;
 }
 
 .unavailable {
     background: #FDECEC;
-
     color: #E53935;
 }
 
@@ -680,5 +701,305 @@ header {
         font-size: 13px !important;
     }
 }
+
+/* ==========================================================================
+   Expert Pharmacy Inventory Modal & Image Uploader Styles
+   ========================================================================== */
+
+.inventory-modal-box {
+  border-radius: 18px !important;
+  overflow: hidden;
+  border: none !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2) !important;
+}
+
+.inventory-modal-box .modal-header {
+  background: linear-gradient(135deg, #0A9C6B 0%, #065f46 100%) !important;
+  color: #ffffff !important;
+  padding: 18px 24px !important;
+  border-bottom: none;
+}
+
+.modal-header-icon {
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.modal-subtitle {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.82);
+  display: block;
+}
+
+/* Image Upload & Preview Card */
+.medicine-image-upload-card {
+  background: #f8fafc;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: 14px;
+  padding: 14px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.medicine-image-upload-card:hover {
+  border-color: var(--primary);
+  background: #f0fdf4;
+}
+
+.image-preview-wrapper {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 2px solid #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-preview-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.image-preview-wrapper:hover img {
+  transform: scale(1.06);
+}
+
+.image-overlay-actions {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.image-preview-wrapper:hover .image-overlay-actions {
+  opacity: 1;
+}
+
+.btn-upload-overlay,
+.btn-clear-image {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.15s ease, background 0.15s ease;
+  margin: 0;
+}
+
+.btn-upload-overlay:hover {
+  background: var(--primary);
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+.btn-clear-image:hover {
+  background: #ef4444;
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+/* Image Presets Row */
+.image-presets-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+  width: 100%;
+}
+
+.preset-btn {
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  padding: 3px 7px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.preset-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: #ecfdf5;
+}
+
+.preset-btn.active {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+}
+
+/* Profit Margin Widget */
+.profit-margin-bar {
+  transition: all 0.25s ease;
+}
+
+/* Autocomplete list styling */
+#catalogAutocompleteList .list-group-item {
+  cursor: pointer;
+  border-left: none;
+  border-right: none;
+  transition: background 0.15s ease;
+}
+
+#catalogAutocompleteList .list-group-item:hover {
+  background-color: #f0fdf4;
+}
+
+/* ==========================================================================
+   Dark Theme Adaptation for Inventory Page
+   ========================================================================== */
+body.dark-theme .medicine-card,
+[data-theme="dark"] .medicine-card {
+  background: #111827 !important;
+  border-color: #1f2937 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark-theme .details h3,
+[data-theme="dark"] .details h3 {
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .details p,
+[data-theme="dark"] .details p {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .add-new-card,
+[data-theme="dark"] .add-new-card {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border-color: #334155 !important;
+  color: #10b981 !important;
+}
+
+body.dark-theme .add-new-card:hover,
+[data-theme="dark"] .add-new-card:hover {
+  background: rgba(16, 185, 129, 0.08) !important;
+  border-color: #10b981 !important;
+}
+
+body.dark-theme .action-btn,
+[data-theme="dark"] .action-btn {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .action-btn.edit-btn:hover,
+[data-theme="dark"] .action-btn.edit-btn:hover {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  border-color: #0284c7 !important;
+}
+
+body.dark-theme .action-btn.delete-btn:hover,
+[data-theme="dark"] .action-btn.delete-btn:hover {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+  border-color: #ef4444 !important;
+}
+
+body.dark-theme .search input,
+[data-theme="dark"] .search input {
+  background: #070c18 !important;
+  color: #f1f5f9 !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .preset-btn,
+[data-theme="dark"] .preset-btn {
+  background: #1e293b !important;
+  color: #cbd5e1 !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .preset-btn:hover,
+[data-theme="dark"] .preset-btn:hover {
+  background: #334155 !important;
+  color: #ffffff !important;
+  border-color: var(--primary) !important;
+}
+
+body.dark-theme .preset-btn.active,
+[data-theme="dark"] .preset-btn.active {
+  background: var(--primary) !important;
+  color: #ffffff !important;
+  border-color: var(--primary) !important;
+}
+
+body.dark-theme #catalogAutocompleteList .list-group-item,
+[data-theme="dark"] #catalogAutocompleteList .list-group-item {
+  background-color: #111827 !important;
+  color: #f1f5f9 !important;
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme #catalogAutocompleteList .list-group-item:hover,
+[data-theme="dark"] #catalogAutocompleteList .list-group-item:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .stock-pill,
+[data-theme="dark"] .stock-pill {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .status-badge.available,
+[data-theme="dark"] .status-badge.available {
+  background: rgba(16, 185, 129, 0.16) !important;
+  color: #34d399 !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+}
+
+body.dark-theme .status-badge.low,
+[data-theme="dark"] .status-badge.low {
+  background: rgba(245, 158, 11, 0.16) !important;
+  color: #fbbf24 !important;
+  border: 1px solid rgba(245, 158, 11, 0.35) !important;
+}
+
+body.dark-theme .status-badge.out,
+[data-theme="dark"] .status-badge.out {
+  background: rgba(239, 68, 68, 0.16) !important;
+  color: #f87171 !important;
+  border: 1px solid rgba(239, 68, 68, 0.35) !important;
+}
+
+
+
 
 

@@ -8,9 +8,6 @@
   <!-- Vendor CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js" defer></script>
-
   <!-- Base & Component CSS -->
   <link rel="stylesheet" href="../../css/base/variables.css">
   <link rel="stylesheet" href="../../css/base/global.css">
@@ -36,91 +33,31 @@
     <!-- Main Content Area -->
     <main class="main-content">
       <!-- Search and Add Bar -->
-      <div class="top-bar d-flex justify-content-between align-items-center mb-4 gap-3">
-        <button class="add-btn btn btn-success" id="addMedBtn">
-          <i class="fa-solid fa-plus me-1"></i> إضافة دواء للمخزون
-        </button>
+      <div class="top-bar d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+        <div class="d-flex gap-2 align-items-center flex-wrap">
+          <button class="add-btn btn btn-success font-bold" id="addMedBtn">
+            <i class="fa-solid fa-plus me-1"></i> إضافة دواء للمخزون
+          </button>
+          <button class="btn btn-primary font-bold" id="bulkImportBtn" title="استيراد مئات الأدوية دفعة واحدة عبر ملف Excel أو CSV">
+            <i class="fa-solid fa-file-import me-1"></i> استيراد شيت إكسل / CSV
+          </button>
+          <button class="btn btn-outline-secondary font-bold" id="exportInventoryBtn" title="تصدير مخزون الصيدلية الحالي كملف CSV">
+            <i class="fa-solid fa-file-export me-1"></i> تصدير المخزون
+          </button>
+        </div>
 
-        <div class="search flex-grow-1 position-relative">
-          <input type="text" id="inventorySearchInput" class="form-control" placeholder="ابحث عن دواء بالاسم أو الكود...">
+        <div class="search flex-grow-1 position-relative" style="min-width: 260px;">
+          <input type="text" id="inventorySearchInput" class="form-control" placeholder="ابحث في المخزون بالاسم أو المادة الفعالة...">
         </div>
       </div>
 
       <!-- Medicine List Cards Grid -->
       <div class="medicine-list" id="inventoryList">
-        <!-- Item 1: Paracetamol -->
-        <div class="medicine-card">
-          <div class="actions">
-            <i class="fa-regular fa-pen-to-square edit" title="تعديل"></i>
-            <i class="fa-regular fa-trash-can delete" title="حذف"></i>
-            <span class="badge available">متوفر</span>
-          </div>
-          <img src="../../assets/images/1.jpg" alt="باراسيتامول 500 مجم" class="medicine-image">
-          <div class="details">
-            <h3>باراسيتامول 500 مجم</h3>
-            <p>المخزون: 45 علبة | السعر: 24.50 ج.م | الصلاحية: 03-2027</p>
-          </div>
-        </div>
-
-        <!-- Item 2: Amoxicillin -->
-        <div class="medicine-card">
-          <div class="actions">
-            <i class="fa-regular fa-pen-to-square edit" title="تعديل"></i>
-            <i class="fa-regular fa-trash-can delete" title="حذف"></i>
-            <span class="badge limited">محدود</span>
-          </div>
-          <img src="../../assets/images/2.jpg" alt="أموكسيسيلين 500 مجم" class="medicine-image">
-          <div class="details">
-            <h3>أموكسيسيلين 500 مجم</h3>
-            <p>المخزون: 3 علب | السعر: 78.00 ج.م | الصلاحية: 11-2026</p>
-          </div>
-        </div>
-
-        <!-- Item 3: Vitamin D -->
-        <div class="medicine-card">
-          <div class="actions">
-            <i class="fa-regular fa-pen-to-square edit" title="تعديل"></i>
-            <i class="fa-regular fa-trash-can delete" title="حذف"></i>
-            <span class="badge unavailable">غير متوفر</span>
-          </div>
-          <img src="../../assets/images/4.jpg" alt="فيتامين د 1000" class="medicine-image">
-          <div class="details">
-            <h3>فيتامين د 1000</h3>
-            <p>المخزون: 0 | السعر: 85.00 ج.م | الصلاحية: 06-2027</p>
-          </div>
-        </div>
-
-        <!-- Item 4: Omega 3 -->
-        <div class="medicine-card">
-          <div class="actions">
-            <i class="fa-regular fa-pen-to-square edit" title="تعديل"></i>
-            <i class="fa-regular fa-trash-can delete" title="حذف"></i>
-            <span class="badge available">متوفر</span>
-          </div>
-          <img src="../../assets/images/3.jpg" alt="أوميجا 3" class="medicine-image">
-          <div class="details">
-            <h3>أوميجا 3 بلس</h3>
-            <p>المخزون: 20 علبة | السعر: 120.00 ج.م | الصلاحية: 09-2026</p>
-          </div>
-        </div>
-
-        <!-- Item 5: Congestal -->
-        <div class="medicine-card">
-          <div class="actions">
-            <i class="fa-regular fa-pen-to-square edit" title="تعديل"></i>
-            <i class="fa-regular fa-trash-can delete" title="حذف"></i>
-            <span class="badge limited">محدود</span>
-          </div>
-          <img src="../../assets/images/5.jpg" alt="كونجستال" class="medicine-image">
-          <div class="details">
-            <h3>كونجستال أقراص</h3>
-            <p>المخزون: 8 علب | السعر: 35.00 ج.م | الصلاحية: 12-2026</p>
-          </div>
-        </div>
+        <!-- Dynamic content rendered by JS -->
       </div>
 
-      <div class="add-new-card text-center p-3 border rounded mt-3" style="cursor: pointer; border-style: dashed !important;">
-        + إضافة دواء جديد للمخزون
+      <div class="add-new-card text-center p-3 border rounded mt-3 font-bold" id="bottomAddMedBtn">
+        <i class="fa-solid fa-plus-circle me-1"></i> + إضافة دواء جديد للمخزون
       </div>
     </main>
   </div>

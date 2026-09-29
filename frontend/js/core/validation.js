@@ -74,6 +74,12 @@
     inputEl.classList.add('is-invalid');
     inputEl.classList.remove('is-valid');
 
+    const inputBox = inputEl.closest('.input-box');
+    if (inputBox) {
+      inputBox.classList.add('is-invalid');
+      inputBox.classList.remove('is-valid');
+    }
+
     // Remove existing error message
     clearError(inputEl);
 
@@ -81,10 +87,15 @@
     errorDiv.className = 'teryak-error-message';
     errorDiv.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${message}`;
 
-    if (inputEl.nextSibling) {
+    const formGroup = inputEl.closest('.form-group') || (inputBox ? inputBox.parentNode : inputEl.parentNode);
+    if (inputBox && inputBox.nextSibling) {
+      inputBox.parentNode.insertBefore(errorDiv, inputBox.nextSibling);
+    } else if (inputBox) {
+      inputBox.parentNode.appendChild(errorDiv);
+    } else if (inputEl.nextSibling) {
       inputEl.parentNode.insertBefore(errorDiv, inputEl.nextSibling);
     } else {
-      inputEl.parentNode.appendChild(errorDiv);
+      formGroup.appendChild(errorDiv);
     }
   }
 
@@ -94,9 +105,16 @@
   function clearError(inputEl) {
     if (!inputEl) return;
     inputEl.classList.remove('is-invalid');
-    const existingMsg = inputEl.parentNode ? inputEl.parentNode.querySelector('.teryak-error-message') : null;
-    if (existingMsg) {
-      existingMsg.remove();
+
+    const inputBox = inputEl.closest('.input-box');
+    if (inputBox) {
+      inputBox.classList.remove('is-invalid');
+    }
+
+    const container = inputEl.closest('.form-group') || (inputBox ? inputBox.parentNode : inputEl.parentNode);
+    if (container) {
+      const existingMsgs = container.querySelectorAll('.teryak-error-message');
+      existingMsgs.forEach(msg => msg.remove());
     }
   }
 
@@ -107,6 +125,12 @@
     if (!inputEl) return;
     clearError(inputEl);
     inputEl.classList.add('is-valid');
+
+    const inputBox = inputEl.closest('.input-box');
+    if (inputBox) {
+      inputBox.classList.add('is-valid');
+      inputBox.classList.remove('is-invalid');
+    }
   }
 
   /**

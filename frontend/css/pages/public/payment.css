@@ -205,3 +205,88 @@ body {
     padding: 14px;
   }
 }
+
+/* ==========================================================================
+   Dark Theme Adaptation for Payment Page
+   ========================================================================== */
+body.dark-theme,
+[data-theme="dark"] body {
+  background-color: #0b1120 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .form,
+body.dark-theme .DIV,
+[data-theme="dark"] .form,
+[data-theme="dark"] .DIV {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark-theme .DIV1,
+[data-theme="dark"] .DIV1 {
+  background-color: #1a2234 !important;
+  border-color: #1f2937 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .DIV1:hover,
+[data-theme="dark"] .DIV1:hover {
+  border-color: #334155 !important;
+  background-color: #1e293b !important;
+}
+
+body.dark-theme .DIV1.active,
+[data-theme="dark"] .DIV1.active {
+  border-color: var(--primary-color) !important;
+  background-color: rgba(0, 139, 94, 0.12) !important;
+}
+
+body.dark-theme .F1,
+body.dark-theme .F2,
+[data-theme="dark"] .F1,
+[data-theme="dark"] .F2 {
+  background-color: #070c18 !important;
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .F1 label,
+body.dark-theme .F2 label,
+[data-theme="dark"] .F1 label,
+[data-theme="dark"] .F2 label {
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .F1 input,
+body.dark-theme .F2 input,
+[data-theme="dark"] .F1 input,
+[data-theme="dark"] .F2 input {
+  background-color: #111827 !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .DIV .parg,
+body.dark-theme .Name,
+body.dark-theme .blk,
+[data-theme="dark"] .DIV .parg,
+[data-theme="dark"] .Name,
+[data-theme="dark"] .blk {
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .sml,
+[data-theme="dark"] .sml {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .line,
+[data-theme="dark"] .line {
+  background-color: #1f2937 !important;
+}
+
+body.dark-theme .IMGG,
+[data-theme="dark"] .IMGG {
+  border-color: #334155 !important;
+}

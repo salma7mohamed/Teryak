@@ -241,8 +241,25 @@
   gap: 12px;
 }
 
+.user-avatar-btn-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 139, 94, 0.1);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.user-avatar-btn-wrap:hover {
+  background: rgba(0, 139, 94, 0.2);
+  transform: scale(1.08);
+}
+
 .auth-user-section #Icon {
-  font-size: 30px;
+  font-size: 26px;
   color: var(--primary-color, #008b5e);
   cursor: pointer;
   transition: transform 0.2s;
@@ -252,22 +269,29 @@
   transform: scale(1.1);
 }
 
-.auth-user-section #Logout {
+.auth-user-section #Logout,
+#Logout {
   padding: 6px 14px;
   border-radius: 8px;
   background-color: #fee2e2;
   border: 1px solid #fecaca;
-  color: #dc2626;
+  color: #dc2626 !important;
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.auth-user-section #Logout:hover {
-  background-color: #dc2626;
-  color: #ffffff;
+.auth-user-section #Logout:hover,
+#Logout:hover {
+  background-color: #dc2626 !important;
+  color: #ffffff !important;
+  border-color: #dc2626 !important;
 }
+
 
 /* ---------------- Responsive Mobile Header Bar ---------------- */
 .btn-resp {
@@ -586,3 +610,155 @@
     display: flex !important;
   }
 }
+
+/* ==========================================================================
+   Dark Theme Adaptation for Unified Navbar
+   ========================================================================== */
+body.dark-theme .header,
+body.dark-theme .btn-resp,
+[data-theme="dark"] .header,
+[data-theme="dark"] .btn-resp {
+  background-color: #0b1120 !important;
+  border-bottom: 1px solid #1f2937 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark-theme .centerofHeader ul li a,
+[data-theme="dark"] .centerofHeader ul li a {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .centerofHeader ul li a:hover,
+[data-theme="dark"] .centerofHeader ul li a:hover {
+  color: #34d399 !important;
+  background-color: rgba(16, 185, 129, 0.1) !important;
+}
+
+body.dark-theme .centerofHeader ul li a.active,
+[data-theme="dark"] .centerofHeader ul li a.active {
+  color: #ffffff !important;
+  background-color: var(--primary-color, #008b5e) !important;
+}
+
+body.dark-theme .rightofHeader .span,
+body.dark-theme .rightofHeader #SignIn,
+[data-theme="dark"] .rightofHeader .span,
+[data-theme="dark"] .rightofHeader #SignIn {
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .rightofHeader .span:hover,
+body.dark-theme .rightofHeader #SignIn:hover,
+[data-theme="dark"] .rightofHeader .span:hover,
+[data-theme="dark"] .rightofHeader #SignIn:hover {
+  background-color: #1e293b !important;
+  color: #34d399 !important;
+}
+
+body.dark-theme .rightofHeader .btn2,
+body.dark-theme .rightofHeaderResp .btn2,
+[data-theme="dark"] .rightofHeader .btn2,
+[data-theme="dark"] .rightofHeaderResp .btn2 {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .rightofHeader .btn2:hover,
+body.dark-theme .rightofHeaderResp .btn2:hover,
+[data-theme="dark"] .rightofHeader .btn2:hover,
+[data-theme="dark"] .rightofHeaderResp .btn2:hover {
+  background-color: #334155 !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .cart-icon-wrapper,
+[data-theme="dark"] .cart-icon-wrapper {
+  background-color: rgba(16, 185, 129, 0.15) !important;
+}
+
+body.dark-theme .cart-icon-wrapper .icon,
+[data-theme="dark"] .cart-icon-wrapper .icon {
+  color: #34d399 !important;
+}
+
+body.dark-theme .cart-icon-wrapper #count,
+body.dark-theme .cart-icon-wrapper #counter,
+[data-theme="dark"] .cart-icon-wrapper #count,
+[data-theme="dark"] .cart-icon-wrapper #counter {
+  border-color: #0b1120 !important;
+}
+
+/* Auth User Section & Sleek Logout Button in Dark Mode */
+body.dark-theme .user-avatar-btn-wrap,
+[data-theme="dark"] .user-avatar-btn-wrap {
+  background: rgba(16, 185, 129, 0.15) !important;
+}
+
+body.dark-theme .auth-user-section #Icon,
+[data-theme="dark"] .auth-user-section #Icon {
+  color: #34d399 !important;
+}
+
+body.dark-theme .auth-user-section #Logout,
+body.dark-theme #Logout,
+[data-theme="dark"] .auth-user-section #Logout,
+[data-theme="dark"] #Logout {
+  background-color: rgba(239, 68, 68, 0.16) !important;
+  border: 1px solid rgba(239, 68, 68, 0.35) !important;
+  color: #f87171 !important;
+  font-weight: 700 !important;
+}
+
+body.dark-theme .auth-user-section #Logout:hover,
+body.dark-theme #Logout:hover,
+[data-theme="dark"] .auth-user-section #Logout:hover,
+[data-theme="dark"] #Logout:hover {
+  background-color: #ef4444 !important;
+  color: #ffffff !important;
+  border-color: #ef4444 !important;
+}
+
+body.dark-theme .navbar-toggler,
+[data-theme="dark"] .navbar-toggler {
+  color: #f1f5f9 !important;
+}
+
+/* Offcanvas Drawer in Dark Mode */
+body.dark-theme .offcanvas,
+[data-theme="dark"] .offcanvas {
+  background-color: #0b1120 !important;
+  color: #f1f5f9 !important;
+  border-left: 1px solid #1f2937 !important;
+}
+
+body.dark-theme .offcanvas-header,
+body.dark-theme .offcanvas-body .bottom,
+[data-theme="dark"] .offcanvas-header,
+[data-theme="dark"] .offcanvas-body .bottom {
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .offcanvas-body ul li,
+[data-theme="dark"] .offcanvas-body ul li {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .offcanvas-body ul li:hover,
+body.dark-theme .offcanvas-body ul li.active,
+[data-theme="dark"] .offcanvas-body ul li:hover,
+[data-theme="dark"] .offcanvas-body ul li.active {
+  background-color: var(--primary-color, #008b5e) !important;
+  color: #ffffff !important;
+  border-color: var(--primary-color, #008b5e) !important;
+}
+
+body.dark-theme .offcanvas-body .bottom .btn-login,
+[data-theme="dark"] .offcanvas-body .bottom .btn-login {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+

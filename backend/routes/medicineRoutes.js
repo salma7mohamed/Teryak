@@ -7,10 +7,13 @@ const {
   createMedicine,
   updateMedicine,
   deleteMedicine,
+  bulkImportMedicines,
 } = require('../controllers/medicineController');
 const { protect } = require('../middlewares/authMiddleware');
 const { authorize } = require('../middlewares/roleMiddleware');
 const { validateMedicine } = require('../middlewares/validationMiddleware');
+
+router.post('/bulk-import', protect, authorize('admin'), bulkImportMedicines);
 
 router.route('/')
   .get(getMedicines)

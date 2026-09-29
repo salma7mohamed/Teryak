@@ -28,3 +28,24 @@
   --transition-fast: 0.2s ease;
   --transition-normal: 0.3s ease;
 }
+
+/* ==========================================================================
+   Dark Theme System Tokens
+   ========================================================================== */
+[data-theme="dark"],
+body.dark-theme {
+  --bg-main: #0b1120;
+  --bg-card: #1e293b;
+  --bg-dark: #070c18;
+  --bg-muted: #1e293b;
+  
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  
+  --border-color: #334155;
+  --border: #334155;
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.6);
+}

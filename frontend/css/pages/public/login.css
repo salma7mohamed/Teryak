@@ -1,10 +1,11 @@
 /* ==========================================================================
-   Teryak Platform - Login Page Styles
+   Teryak Platform - Auth Pages (Login & Register) Styles
    ========================================================================== */
 
 :root {
   --primary: #008b5e;
   --primary-hover: #059669;
+  --primary-subtle: rgba(0, 139, 94, 0.08);
   --bg: #f8fafc;
   --card: #ffffff;
   --text: #0f172a;
@@ -23,31 +24,31 @@ body {
 
 .hero {
   text-align: center;
-  margin-top: 40px;
+  margin-top: 36px;
   padding: 0 15px;
 }
 
 .hero h1 {
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 800;
   color: var(--text);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .hero p {
   color: var(--gray);
-  font-size: 16px;
+  font-size: 15px;
   margin: 0;
 }
 
 .auth-card {
   width: 100%;
-  max-width: 520px;
+  max-width: 500px;
   background: var(--card);
-  margin: 30px auto 60px;
-  padding: 35px 30px;
+  margin: 25px auto 60px;
+  padding: 32px 28px;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.05);
   border: 1px solid var(--border);
 }
 
@@ -56,7 +57,7 @@ body {
   display: flex;
   justify-content: space-between;
   background: #f1f5f9;
-  padding: 6px;
+  padding: 5px;
   border-radius: 12px;
   margin-bottom: 24px;
   gap: 6px;
@@ -69,97 +70,162 @@ body {
   cursor: pointer;
   background: transparent;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 14.5px;
   font-weight: 700;
   color: #475569;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
+  text-align: center;
 }
 
 .tab.active {
   background: var(--primary);
   color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 139, 94, 0.25);
+  box-shadow: 0 3px 10px rgba(0, 139, 94, 0.25);
 }
 
-/* Input Fields */
+/* ==========================================================================
+   Modern Floating Label & Input Field System
+   ========================================================================== */
+
 .form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--text);
-  font-size: 14px;
-  font-weight: 700;
+  position: relative;
+  margin-bottom: 18px;
 }
 
 .input-box {
+  position: relative;
   display: flex;
   align-items: center;
-  border: 1.5px solid var(--border);
-  padding: 10px 14px;
-  border-radius: 10px;
   background: #ffffff;
-  transition: border-color 0.2s;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  min-height: 56px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .input-box:focus-within {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(0, 139, 94, 0.1);
+  box-shadow: 0 0 0 3.5px rgba(0, 139, 94, 0.12);
+  background: #ffffff;
 }
 
-.input-box i {
+.input-box.is-invalid {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+}
+
+.input-box.is-valid {
+  border-color: #10b981 !important;
+}
+
+/* Leading Field Icon (Right in RTL) */
+.field-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
   color: #94a3b8;
-  margin-left: 10px;
   font-size: 16px;
+  pointer-events: none;
+  transition: color 0.2s ease;
+  z-index: 2;
+  width: 18px;
+  text-align: center;
 }
 
-.input-box input {
+.input-box:focus-within .field-icon {
+  color: var(--primary);
+}
+
+/* The Floating Input */
+.floating-input {
+  width: 100%;
+  height: 56px;
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  font-size: 15px;
+  color: var(--text);
+  padding: 20px 44px 6px 14px !important; /* top for floated label, right for field-icon */
+  direction: rtl;
+  border-radius: 12px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+/* For password field with eye icon on left */
+.password-box .floating-input {
+  padding-left: 44px !important;
+}
+
+/* Floating Label */
+.floating-label {
+  position: absolute;
+  right: 44px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  font-weight: 500;
+  color: #94a3b8;
+  pointer-events: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: right top;
+  z-index: 1;
+  margin: 0;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Float Label Up State */
+.floating-input:focus ~ .floating-label,
+.floating-input:not(:placeholder-shown) ~ .floating-label,
+.floating-input.has-value ~ .floating-label {
+  top: 13px;
+  transform: translateY(0);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.input-box:not(:focus-within) .floating-input:not(:placeholder-shown) ~ .floating-label,
+.input-box:not(:focus-within) .floating-input.has-value ~ .floating-label {
+  color: #64748b;
+}
+
+/* Eye Toggle Button (Left in RTL) */
+.eye-btn {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
   border: none;
   outline: none;
-  width: 100%;
-  font-size: 15px;
-  direction: rtl;
-  color: var(--text);
-  background: transparent;
-}
-
-.eye {
-  cursor: pointer;
+  padding: 8px;
   color: #94a3b8;
-}
-
-.remember-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
-  margin: 16px 0 24px;
-}
-
-.remember {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #475569;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  z-index: 3;
 }
 
-.remember-row a {
+.eye-btn:hover {
   color: var(--primary);
-  text-decoration: none;
-  font-weight: 600;
+  background: #f1f5f9;
 }
 
-.remember-row a:hover {
-  text-decoration: underline;
+.eye-btn i {
+  font-size: 16px;
+  pointer-events: none;
 }
 
 /* Submit & Social Buttons */
 .main-btn {
   width: 100%;
-  padding: 14px;
+  padding: 13px;
   background: var(--primary);
   color: #ffffff;
   border: none;
@@ -178,17 +244,17 @@ body {
 
 .google-btn {
   width: 100%;
-  padding: 12px;
+  padding: 11px;
   border: 1.5px solid var(--border);
   background: #ffffff;
-  margin-top: 14px;
+  margin-top: 12px;
   border-radius: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 600;
   color: #334155;
   transition: all 0.2s;
@@ -201,7 +267,7 @@ body {
 
 .google-btn i {
   color: #ea4335;
-  font-size: 18px;
+  font-size: 17px;
 }
 
 .divider {
@@ -245,8 +311,70 @@ body {
 
 @media (max-width: 576px) {
   .auth-card {
-    padding: 25px 20px;
+    padding: 24px 18px;
     margin: 20px auto 40px;
     border-radius: 16px;
   }
+}
+
+/* ==========================================================================
+   Dark Theme Adaptation for Auth Pages (Login & Register)
+   ========================================================================== */
+body.dark-theme .auth-card,
+[data-theme="dark"] .auth-card {
+  background: #111827 !important;
+  border-color: #1f2937 !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5) !important;
+}
+
+body.dark-theme .hero h1,
+[data-theme="dark"] .hero h1 {
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .tabs,
+[data-theme="dark"] .tabs {
+  background: #070c18 !important;
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .tab,
+[data-theme="dark"] .tab {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .tab.active,
+[data-theme="dark"] .tab.active {
+  background: var(--primary) !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .floating-input,
+[data-theme="dark"] .floating-input {
+  background: #070c18 !important;
+  color: #f1f5f9 !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .google-btn,
+[data-theme="dark"] .google-btn {
+  background: #1e293b !important;
+  color: #f1f5f9 !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .google-btn:hover,
+[data-theme="dark"] .google-btn:hover {
+  background: #334155 !important;
+}
+
+body.dark-theme .divider span,
+[data-theme="dark"] .divider span {
+  background: #111827 !important;
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .divider::before,
+[data-theme="dark"] .divider::before {
+  background-color: #1f2937 !important;
 }

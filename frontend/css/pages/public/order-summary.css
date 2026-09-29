@@ -167,3 +167,62 @@ body {
     padding: 12px 14px;
   }
 }
+
+/* ==========================================================================
+   Dark Theme Adaptation for Order Summary Page
+   ========================================================================== */
+body.dark-theme,
+[data-theme="dark"] body {
+  background-color: #0b1120 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .form,
+body.dark-theme .DIV,
+[data-theme="dark"] .form,
+[data-theme="dark"] .DIV {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark-theme .DIV1,
+body.dark-theme .btm,
+[data-theme="dark"] .DIV1,
+[data-theme="dark"] .btm {
+  background-color: #1a2234 !important;
+  border-color: #1f2937 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .secure,
+[data-theme="dark"] .secure {
+  background-color: rgba(16, 185, 129, 0.12) !important;
+  border-color: rgba(16, 185, 129, 0.25) !important;
+  color: #34d399 !important;
+}
+
+body.dark-theme .DIV .parg,
+body.dark-theme .Name,
+body.dark-theme .blk,
+[data-theme="dark"] .DIV .parg,
+[data-theme="dark"] .Name,
+[data-theme="dark"] .blk {
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .sml,
+[data-theme="dark"] .sml {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .line,
+[data-theme="dark"] .line {
+  background-color: #1f2937 !important;
+}
+
+body.dark-theme .IMGG,
+[data-theme="dark"] .IMGG {
+  border-color: #334155 !important;
+}
+

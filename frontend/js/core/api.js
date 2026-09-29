@@ -82,6 +82,7 @@
       getById: (id) => API.get(`/medicines/${id}`),
       getAlternatives: (id) => API.get(`/medicines/${id}/alternatives`),
       create: (data) => API.post('/medicines', data),
+      bulkImport: (medicines) => API.post('/medicines/bulk-import', { medicines }),
       update: (id, data) => API.put(`/medicines/${id}`, data),
       delete: (id) => API.delete(`/medicines/${id}`),
     },
@@ -98,6 +99,7 @@
     inventory: {
       getAll: (params) => API.get('/inventory', params),
       add: (data) => API.post('/inventory', data),
+      bulkImport: (items) => API.post('/inventory/bulk-import', { items }),
       update: (id, data) => API.put(`/inventory/${id}`, data),
       delete: (id) => API.delete(`/inventory/${id}`),
       getLowStock: () => API.get('/inventory/low-stock'),

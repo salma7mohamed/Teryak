@@ -202,3 +202,57 @@ body { background: var(--bg); color: var(--text); direction: rtl; overflow-x: hi
 		height: max-content !important;
 	}
 }
+
+/* ==========================================================================
+   Dark Theme Adaptation for Admin Reports
+   ========================================================================== */
+body.dark-theme,
+[data-theme="dark"] body {
+	background-color: #0b1120 !important;
+	color: #f1f5f9 !important;
+}
+
+body.dark-theme .report-card,
+body.dark-theme .sidebar,
+body.dark-theme .chart-card,
+[data-theme="dark"] .report-card,
+[data-theme="dark"] .sidebar,
+[data-theme="dark"] .chart-card {
+	background-color: #111827 !important;
+	border-color: #1f2937 !important;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark-theme .report-copy h2,
+body.dark-theme .main-title,
+body.dark-theme .chart-title,
+[data-theme="dark"] .report-copy h2,
+[data-theme="dark"] .main-title,
+[data-theme="dark"] .chart-title {
+	color: #f1f5f9 !important;
+}
+
+body.dark-theme .report-copy p,
+body.dark-theme .sub-title,
+[data-theme="dark"] .report-copy p,
+[data-theme="dark"] .sub-title {
+	color: #94a3b8 !important;
+}
+
+body.dark-theme .nav-item,
+[data-theme="dark"] .nav-item {
+	color: #94a3b8 !important;
+}
+
+body.dark-theme .nav-item:hover,
+[data-theme="dark"] .nav-item:hover {
+	background-color: #1e293b !important;
+	color: #ffffff !important;
+}
+
+body.dark-theme .nav-item.active,
+[data-theme="dark"] .nav-item.active {
+	background-color: var(--primary-green) !important;
+	color: #ffffff !important;
+}
+

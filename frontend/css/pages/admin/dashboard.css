@@ -837,4 +837,73 @@ canvas {
   }
 }
 
+/* ==========================================================================
+   Dark Theme Adaptation for Admin Dashboard
+   ========================================================================== */
+body.dark-theme,
+[data-theme="dark"] body {
+  background-color: #0b1120 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .card,
+body.dark-theme .kpi-card,
+body.dark-theme .sidebar,
+body.dark-theme .quick-action-card,
+body.dark-theme .table-container,
+body.dark-theme .chart-card,
+[data-theme="dark"] .card,
+[data-theme="dark"] .kpi-card,
+[data-theme="dark"] .sidebar,
+[data-theme="dark"] .quick-action-card,
+[data-theme="dark"] .table-container,
+[data-theme="dark"] .chart-card {
+  background-color: #111827 !important;
+  border: 1px solid #1f2937 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark-theme .main-title,
+body.dark-theme .kpi-val,
+body.dark-theme .card-title,
+body.dark-theme .section-title,
+[data-theme="dark"] .main-title,
+[data-theme="dark"] .kpi-val,
+[data-theme="dark"] .card-title,
+[data-theme="dark"] .section-title {
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .sub-title,
+body.dark-theme .kpi-title,
+body.dark-theme .kpi-label,
+[data-theme="dark"] .sub-title,
+[data-theme="dark"] .kpi-title,
+[data-theme="dark"] .kpi-label {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .nav-item,
+[data-theme="dark"] .nav-item {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .nav-item:hover,
+[data-theme="dark"] .nav-item:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .nav-item.active,
+[data-theme="dark"] .nav-item.active {
+  background-color: var(--primary-green) !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .activity-item,
+[data-theme="dark"] .activity-item {
+  border-bottom-color: #1f2937 !important;
+}
+
+
 

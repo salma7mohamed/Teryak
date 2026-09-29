@@ -5,7 +5,6 @@
 class AppFooter extends HTMLElement {
   connectedCallback() {
     this.render();
-    this.attachEvents();
   }
 
   getBasePath() {
@@ -127,27 +126,10 @@ class AppFooter extends HTMLElement {
               <span class="sep">•</span>
               <a href="${aboutUrl}">الخصوصية</a>
             </div>
-
-            <button type="button" class="back-to-top-btn" id="footerBackToTopBtn" aria-label="العودة لأعلى الصفحة" title="العودة لأعلى الصفحة">
-              <span>للأعلى</span>
-              <i class="fa-solid fa-arrow-up"></i>
-            </button>
           </div>
         </div>
       </footer>
     `;
-  }
-
-  attachEvents() {
-    const btn = this.querySelector('#footerBackToTopBtn');
-    if (btn) {
-      btn.addEventListener('click', () => {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-      });
-    }
   }
 }
 

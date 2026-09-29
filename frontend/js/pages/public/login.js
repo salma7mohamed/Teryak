@@ -16,21 +16,48 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Toggle Password Visibility
-  const eyeIcons = document.querySelectorAll('.eye, .password-box i.fa-eye, .password-box i.fa-eye-slash');
-  eyeIcons.forEach(icon => {
-    icon.addEventListener('click', () => {
-      const input = icon.closest('.input-box').querySelector('input');
-      if (input.type === 'password') {
-        input.type = 'text';
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
+  // Floating labels value sync & change events
+  const allFloatingInputs = document.querySelectorAll(".floating-input");
+  allFloatingInputs.forEach(input => {
+    const updateHasValue = () => {
+      if (input.value && input.value.trim().length > 0) {
+        input.classList.add("has-value");
       } else {
-        input.type = 'password';
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
+        input.classList.remove("has-value");
       }
-    });
+    };
+    input.addEventListener("input", updateHasValue);
+    input.addEventListener("change", updateHasValue);
+    input.addEventListener("blur", updateHasValue);
+    updateHasValue();
+  });
+
+  // Toggle Password Visibility (Robust Delegation)
+  document.addEventListener("click", (e) => {
+    const eyeBtn = e.target.closest(".eye-btn, .eye");
+    if (!eyeBtn) return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    const box = eyeBtn.closest(".password-box, .input-box");
+    if (!box) return;
+    const input = box.querySelector("input");
+    const icon = eyeBtn.querySelector("i") || (eyeBtn.tagName === "I" ? eyeBtn : null);
+    if (!input) return;
+
+    if (input.type === "password") {
+      input.type = "text";
+      if (icon) {
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+      }
+    } else {
+      input.type = "password";
+      if (icon) {
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+      }
+    }
   });
 
   const loginForm = document.querySelector('#loginForm');

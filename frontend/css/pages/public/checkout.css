@@ -375,3 +375,91 @@ body {
   }
 }
 
+/* ==========================================================================
+   Dark Theme Adaptation for Checkout Page
+   ========================================================================== */
+body.dark-theme,
+[data-theme="dark"] body {
+  background-color: #0b1120 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .checkout-steps-bar,
+body.dark-theme .checkout-form-card,
+body.dark-theme .checkout-summary-card,
+body.dark-theme .user-greeting-banner,
+[data-theme="dark"] .checkout-steps-bar,
+[data-theme="dark"] .checkout-form-card,
+[data-theme="dark"] .checkout-summary-card,
+[data-theme="dark"] .user-greeting-banner {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .step-item .step-num,
+[data-theme="dark"] .step-item .step-num {
+  background-color: #1e293b !important;
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .step-item.active .step-num,
+[data-theme="dark"] .step-item.active .step-num {
+  background-color: var(--primary-color) !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .step-line,
+[data-theme="dark"] .step-line {
+  background-color: #1f2937 !important;
+}
+
+body.dark-theme .input-group-custom .form-control,
+body.dark-theme .input-group-custom .form-select,
+[data-theme="dark"] .input-group-custom .form-control,
+[data-theme="dark"] .input-group-custom .form-select {
+  background-color: #070c18 !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .summary-item-row,
+body.dark-theme .summary-divider,
+[data-theme="dark"] .summary-item-row,
+[data-theme="dark"] .summary-divider {
+  border-color: #1f2937 !important;
+  background-color: transparent !important;
+}
+
+body.dark-theme .summary-title,
+body.dark-theme .summary-item-name,
+body.dark-theme .card-header-clean h3,
+[data-theme="dark"] .summary-title,
+[data-theme="dark"] .summary-item-name,
+[data-theme="dark"] .card-header-clean h3 {
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .summary-item-img,
+[data-theme="dark"] .summary-item-img {
+  border-color: #334155 !important;
+}
+
+body.dark-theme .trust-box,
+[data-theme="dark"] .trust-box {
+  background-color: #1a2234 !important;
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .auth-warning-card,
+[data-theme="dark"] .auth-warning-card {
+  background: #2a1f0a !important;
+  border-color: #78350f !important;
+}
+
+body.dark-theme .auth-icon-circle,
+[data-theme="dark"] .auth-icon-circle {
+  background-color: #451a03 !important;
+}
+
+

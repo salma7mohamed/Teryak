@@ -645,3 +645,103 @@ body {
     height: 160px;
   }
 }
+
+/* ==========================================================================
+   Dark Theme Adaptation for Medicines Catalog
+   ========================================================================== */
+body.dark-theme .toolbar-card,
+[data-theme="dark"] .toolbar-card,
+body.dark-theme .medicine-card,
+[data-theme="dark"] .medicine-card,
+body.dark-theme .empty-results-box,
+[data-theme="dark"] .empty-results-box,
+body.dark-theme .filters-wrapper,
+[data-theme="dark"] .filters-wrapper {
+  background: #111827 !important;
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .catalog-header-wrap h2,
+[data-theme="dark"] .catalog-header-wrap h2,
+body.dark-theme .card-title a,
+[data-theme="dark"] .card-title a,
+body.dark-theme .empty-title,
+[data-theme="dark"] .empty-title {
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .search-box-wrap,
+[data-theme="dark"] .search-box-wrap,
+body.dark-theme #sortSelect,
+[data-theme="dark"] #sortSelect {
+  background-color: #070c18 !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .cat-pill,
+[data-theme="dark"] .cat-pill,
+body.dark-theme .filter-pill,
+[data-theme="dark"] .filter-pill {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .cat-pill.active,
+[data-theme="dark"] .cat-pill.active,
+body.dark-theme .filter-pill.active,
+[data-theme="dark"] .filter-pill.active {
+  background: var(--primary-color, #008b5e) !important;
+  color: #ffffff !important;
+  border-color: var(--primary-color, #008b5e) !important;
+}
+
+body.dark-theme .filter-toggle-btn,
+[data-theme="dark"] .filter-toggle-btn {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .img-box,
+[data-theme="dark"] .img-box {
+  background-color: #0f172a !important;
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .btn-details,
+[data-theme="dark"] .btn-details {
+  background-color: #1e293b !important;
+  color: #f1f5f9 !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .btn-details:hover,
+[data-theme="dark"] .btn-details:hover {
+  background-color: #334155 !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .meta-tag,
+[data-theme="dark"] .meta-tag {
+  background: #1e293b !important;
+  color: #94a3b8 !important;
+  border: 1px solid #334155 !important;
+}
+
+body.dark-theme .badge-prescription,
+[data-theme="dark"] .badge-prescription {
+  background: rgba(239, 68, 68, 0.18) !important;
+  color: #f87171 !important;
+  border: 1px solid rgba(239, 68, 68, 0.35) !important;
+}
+
+body.dark-theme .badge-discount,
+[data-theme="dark"] .badge-discount {
+  background: rgba(245, 158, 11, 0.18) !important;
+  color: #fbbf24 !important;
+  border: 1px solid rgba(245, 158, 11, 0.35) !important;
+}
+
+

@@ -332,28 +332,6 @@
   font-size: 12px;
 }
 
-.back-to-top-btn {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #ffffff;
-  padding: 7px 14px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.25s ease;
-}
-
-.back-to-top-btn:hover {
-  background: #10b981;
-  border-color: #10b981;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-}
-
 /* ==========================================================================
    Responsive Breakpoints for Footer (Mobile & Tablet)
    ========================================================================== */
@@ -460,3 +438,45 @@
     font-size: 14px;
   }
 }
+
+/* ==========================================================================
+   Dark Theme Adaptation for Unified Footer
+   ========================================================================== */
+body.dark-theme .app-unified-footer,
+[data-theme="dark"] .app-unified-footer {
+  background: #090d16 !important;
+  border-top: 1px solid #1f2937 !important;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+body.dark-theme .app-unified-footer .contact-card,
+[data-theme="dark"] .app-unified-footer .contact-card {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .app-unified-footer .contact-card:hover,
+[data-theme="dark"] .app-unified-footer .contact-card:hover {
+  background: rgba(16, 185, 129, 0.1) !important;
+  border-color: #059669 !important;
+}
+
+body.dark-theme .app-unified-footer .social-btn,
+[data-theme="dark"] .app-unified-footer .social-btn {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: #1f2937 !important;
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .app-unified-footer .social-btn:hover,
+[data-theme="dark"] .app-unified-footer .social-btn:hover {
+  background: #008b5e !important;
+  color: #ffffff !important;
+  border-color: #008b5e !important;
+}
+
+body.dark-theme .app-unified-footer .footer-bottom,
+[data-theme="dark"] .app-unified-footer .footer-bottom {
+  border-top-color: #1f2937 !important;
+}
+

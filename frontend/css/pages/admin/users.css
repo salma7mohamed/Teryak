@@ -927,3 +927,96 @@ body,
   .pharmacies-table td,
   .add-btn { font-size: 18px; }
 }
+
+/* ==========================================================================
+   Dark Theme Adaptation for Admin Users
+   ========================================================================== */
+body.dark-theme,
+[data-theme="dark"] body {
+  background-color: #0b1120 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .table-card,
+body.dark-theme .sidebar,
+body.dark-theme .modal-box,
+[data-theme="dark"] .table-card,
+[data-theme="dark"] .sidebar,
+[data-theme="dark"] .modal-box {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark-theme .pharmacies-table th,
+[data-theme="dark"] .pharmacies-table th {
+  background-color: #1a2234 !important;
+  color: #cbd5e1 !important;
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .pharmacies-table td,
+[data-theme="dark"] .pharmacies-table td {
+  border-color: #1f2937 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .pharmacies-table tbody tr:hover,
+[data-theme="dark"] .pharmacies-table tbody tr:hover {
+  background-color: #1e293b !important;
+}
+
+body.dark-theme .pharmacy-name,
+body.dark-theme .main-title,
+body.dark-theme .bold-text,
+[data-theme="dark"] .pharmacy-name,
+[data-theme="dark"] .main-title,
+[data-theme="dark"] .bold-text {
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .doctor-name,
+body.dark-theme .sub-title,
+body.dark-theme .date-text,
+[data-theme="dark"] .doctor-name,
+[data-theme="dark"] .sub-title,
+[data-theme="dark"] .date-text {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .search-box input,
+[data-theme="dark"] .search-box input {
+  background-color: #070c18 !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .filter-btn,
+[data-theme="dark"] .filter-btn {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .nav-item,
+[data-theme="dark"] .nav-item {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .nav-item:hover,
+[data-theme="dark"] .nav-item:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .nav-item.active,
+[data-theme="dark"] .nav-item.active {
+  background-color: var(--primary-green) !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .action-btn:hover,
+[data-theme="dark"] .action-btn:hover {
+  background-color: #1e293b !important;
+}
+

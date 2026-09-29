@@ -473,3 +473,79 @@ body {
     font-size: 14px;
   }
 }
+
+/* ==========================================================================
+   Dark Theme Adaptation for Medicine Detail Page
+   ========================================================================== */
+body.dark-theme,
+[data-theme="dark"] body {
+  background-color: #0b1120 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .DIV,
+[data-theme="dark"] .DIV,
+body.dark-theme .sidebar-card,
+[data-theme="dark"] .sidebar-card {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark-theme .stat-box,
+[data-theme="dark"] .stat-box,
+body.dark-theme .alt-item,
+[data-theme="dark"] .alt-item {
+  background-color: #1a2234 !important;
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .alt-item:hover,
+[data-theme="dark"] .alt-item:hover {
+  background-color: #1e293b !important;
+  border-color: var(--primary-color) !important;
+}
+
+body.dark-theme .top .font,
+body.dark-theme .parg2,
+body.dark-theme .pharmacy-name-box .parg,
+body.dark-theme .stat-val,
+body.dark-theme .sidebar-header .parg,
+body.dark-theme .alt-top strong,
+[data-theme="dark"] .top .font,
+[data-theme="dark"] .parg2,
+[data-theme="dark"] .pharmacy-name-box .parg,
+[data-theme="dark"] .stat-val,
+[data-theme="dark"] .sidebar-header .parg,
+[data-theme="dark"] .alt-top strong {
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .badge-dist,
+[data-theme="dark"] .badge-dist {
+  background-color: #1e293b !important;
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .line,
+[data-theme="dark"] .line {
+  background-color: #1f2937 !important;
+}
+
+body.dark-theme .btn-notify,
+[data-theme="dark"] .btn-notify {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .btn-notify:hover,
+[data-theme="dark"] .btn-notify:hover {
+  background-color: #334155 !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .advice-list li,
+[data-theme="dark"] .advice-list li {
+  color: #cbd5e1 !important;
+}

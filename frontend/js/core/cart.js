@@ -6,6 +6,8 @@
 (function () {
   'use strict';
 
+  let lastAddTimestamp = 0;
+
   const Cart = {
     // Retrieve all items currently in cart
     getCart: function () {
@@ -70,7 +72,7 @@
           image: productImg,
           img: productImg,
           quantity: qtyToAdd,
-          pharmacy: product.pharmacy || 'صيدلية النهضة الحديثة',
+          pharmacy: product.pharmacy || 'صيدلية ترياق المعتمدة',
           pharmacyId: product.pharmacyId || undefined
         });
       }
@@ -155,13 +157,18 @@
       });
     },
 
-    // Global click listener for .addCart buttons
+    // Global click listener for fallback static .addCart buttons
     initGlobalListeners: function () {
       document.addEventListener('click', (e) => {
         const btn = e.target.closest('.addCart, .btn-add-cart');
         if (btn) {
-          // If button already handled by page script, don't double add
-          if (btn.dataset.handledByPage) return;
+          // If event already handled or explicitly prevented, do nothing
+          if (btn.dataset.handledByPage === 'true' || e.defaultPrevented) return;
+
+          // Throttle duplicate rapid clicks (within 350ms)
+          const now = Date.now();
+          if (now - lastAddTimestamp < 350) return;
+          lastAddTimestamp = now;
 
           const card = btn.closest('.card, .medicine-card, .medicine-item, .sec') || document;
           const titleEl = card.querySelector('.card-title, .title, .NameOfMedicine, h1, h2');

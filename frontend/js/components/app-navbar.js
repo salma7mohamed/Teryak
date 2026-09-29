@@ -1,17 +1,20 @@
 /**
  * Teryak Platform - Reusable <app-navbar> Web Component
+ * Supports Live Authentication State, Cart Sync, Theme Switching (Dark/Light), and Language Switcher
  */
 
 class AppNavbar extends HTMLElement {
   connectedCallback() {
     this.render();
+    this.initTheme();
     this.bindEvents();
     this.updateAuthState();
     this.updateCartCount();
 
-    // Listen to global events
+    // Listen to global platform events
     window.addEventListener('teryak:auth-change', () => this.updateAuthState());
     window.addEventListener('teryak:cart-change', () => this.updateCartCount());
+    window.addEventListener('teryak:theme-change', (e) => this.applyTheme(e.detail?.theme));
   }
 
   // Calculate relative root path dynamically based on page location
@@ -30,6 +33,35 @@ class AppNavbar extends HTMLElement {
     const path = window.location.pathname.replace(/\\/g, '/');
     const segment = path.split('/').pop() || 'index.html';
     return segment;
+  }
+
+  initTheme() {
+    const savedTheme = localStorage.getItem('teryak_theme') || 'light';
+    this.applyTheme(savedTheme, false);
+  }
+
+  applyTheme(theme, save = true) {
+    const isDark = theme === 'dark';
+    if (isDark) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.body.classList.add('dark-theme');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      document.body.classList.remove('dark-theme');
+    }
+
+    if (save) {
+      localStorage.setItem('teryak_theme', isDark ? 'dark' : 'light');
+    }
+
+    // Update icons
+    const themeBtns = this.querySelectorAll('#themeToggleBtn, #mobileThemeToggleBtn');
+    themeBtns.forEach((btn) => {
+      btn.innerHTML = isDark
+        ? '<i class="fa-solid fa-sun text-warning"></i>'
+        : '<i class="fa-solid fa-moon"></i>';
+      btn.title = isDark ? 'تفعيل الوضع النهاري' : 'تفعيل الوضع الليلي';
+    });
   }
 
   render() {
@@ -55,9 +87,9 @@ class AppNavbar extends HTMLElement {
       <!-- Desktop Header -->
       <header class="header">
         <div class="leftofHeader">
-          <a href="${homeUrl}">
+          <a href="${homeUrl}" class="d-flex align-items-center gap-2 text-decoration-none">
             <img class="logo" src="${logoImg}" alt="Teryak Logo">
-            <h1>تـريـاق</h1>
+            <h1 class="m-0">تـريـاق</h1>
           </a>
         </div>
 
@@ -74,8 +106,12 @@ class AppNavbar extends HTMLElement {
         <div class="rightofHeader">
           <!-- Logged-in User Controls -->
           <div class="auth-user-section hide" id="userAuthDisplay">
-            <button class="btn btn-sm" id="Logout">تسجيل خروج</button>
-            <i class="fa-solid fa-circle-user" id="Icon" title="الملف الشخصي / لوحة التحكم"></i>
+            <button class="btn btn-sm btn-outline-danger font-bold" id="Logout" title="تسجيل الخروج">
+              <i class="fa-solid fa-right-from-bracket me-1"></i> خروج
+            </button>
+            <div class="user-avatar-btn-wrap" id="IconWrapper" title="لوحة التحكم / الملف الشخصي" style="cursor: pointer;">
+              <i class="fa-solid fa-circle-user" id="Icon"></i>
+            </div>
           </div>
 
           <!-- Guest Controls -->
@@ -84,8 +120,8 @@ class AppNavbar extends HTMLElement {
             <a href="${loginUrl}" class="span" id="SignIn">تسجيل الدخول</a>
           </div>
 
-          <button class="btn2" id="langToggleBtn" title="تغيير اللغة">AR</button>
-          <button class="btn2" id="themeToggleBtn" title="الوضع الليلي"><i class="fa-solid fa-moon"></i></button>
+          <button type="button" class="btn2" id="langToggleBtn" title="تغيير اللغة">AR</button>
+          <button type="button" class="btn2" id="themeToggleBtn" title="الوضع الليلي"><i class="fa-solid fa-moon"></i></button>
 
           <div class="cart-icon-wrapper" data-bs-toggle="modal" data-bs-target="#exampleModalToggle" title="سلة الطلبات">
             <i class="fa-solid fa-cart-shopping icon"></i>
@@ -98,9 +134,9 @@ class AppNavbar extends HTMLElement {
       <div class="btn-resp">
         <!-- Right (RTL Start): Brand Logo & Platform Title -->
         <div class="leftofHeaderRes">
-          <a href="${homeUrl}">
+          <a href="${homeUrl}" class="d-flex align-items-center gap-2 text-decoration-none">
             <img class="logo" src="${logoImg}" alt="Teryak Logo">
-            <h1>تـريـاق</h1>
+            <h1 class="m-0">تـريـاق</h1>
           </a>
         </div>
 
@@ -110,8 +146,8 @@ class AppNavbar extends HTMLElement {
             <i class="fa-solid fa-cart-shopping icon"></i>
             <span id="counter">0</span>
           </div>
-          <button class="btn2" id="mobileThemeToggleBtn" title="الوضع الليلي"><i class="fa-solid fa-moon"></i></button>
-          <button class="btn2" id="mobileLangToggleBtn" title="تغيير اللغة">AR</button>
+          <button type="button" class="btn2" id="mobileThemeToggleBtn" title="الوضع الليلي"><i class="fa-solid fa-moon"></i></button>
+          <button type="button" class="btn2" id="mobileLangToggleBtn" title="تغيير اللغة">AR</button>
           <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
             <i class="fa-solid fa-bars"></i>
           </button>
@@ -125,22 +161,22 @@ class AppNavbar extends HTMLElement {
           <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-          <ul>
-            <a href="${homeUrl}"><li class="${isHome ? 'active' : ''}">الرئيسية</li></a>
-            <a href="${medicinesUrl}"><li class="${isMedicines ? 'active' : ''}">الأدوية</li></a>
-            <a href="${pharmaciesUrl}"><li class="${isPharmacies ? 'active' : ''}">الصيدليات</li></a>
-            <a href="${donationUrl}"><li class="${isDonation ? 'active' : ''}">التبرع</li></a>
-            <a href="${aboutUrl}"><li class="${isAbout ? 'active' : ''}">من نحن</li></a>
+          <ul class="list-unstyled d-flex flex-column gap-2 mb-4">
+            <a href="${homeUrl}"><li class="${isHome ? 'active' : ''} p-2 rounded">الرئيسية</li></a>
+            <a href="${medicinesUrl}"><li class="${isMedicines ? 'active' : ''} p-2 rounded">الأدوية</li></a>
+            <a href="${pharmaciesUrl}"><li class="${isPharmacies ? 'active' : ''} p-2 rounded">الصيدليات</li></a>
+            <a href="${donationUrl}"><li class="${isDonation ? 'active' : ''} p-2 rounded">التبرع</li></a>
+            <a href="${aboutUrl}"><li class="${isAbout ? 'active' : ''} p-2 rounded">من نحن</li></a>
           </ul>
 
           <div class="bottom mt-auto">
             <div id="mobileGuestButtons" class="d-flex flex-column gap-2">
-              <a href="${registerUrl}"><button class="btn btn-register">إنشاء حساب</button></a>
-              <a href="${loginUrl}"><button class="btn btn-login">تسجيل الدخول</button></a>
+              <a href="${registerUrl}"><button class="btn btn-register w-100 font-bold">إنشاء حساب</button></a>
+              <a href="${loginUrl}"><button class="btn btn-login w-100 font-bold">تسجيل الدخول</button></a>
             </div>
             <div id="mobileUserButtons" class="d-flex flex-column gap-2 hide">
-              <button class="btn btn-success" id="mobileDashboardBtn"><i class="fa-solid fa-gauge-high me-2"></i> لوحة التحكم</button>
-              <button class="btn btn-danger" id="mobileLogoutBtn"><i class="fa-solid fa-right-from-bracket me-2"></i> تسجيل خروج</button>
+              <button class="btn btn-success w-100 font-bold" id="mobileDashboardBtn"><i class="fa-solid fa-gauge-high me-2"></i> لوحة التحكم</button>
+              <button class="btn btn-outline-danger w-100 font-bold" id="mobileLogoutBtn"><i class="fa-solid fa-right-from-bracket me-2"></i> تسجيل خروج</button>
             </div>
           </div>
         </div>
@@ -153,15 +189,19 @@ class AppNavbar extends HTMLElement {
     const logoutBtn = this.querySelector('#Logout');
     const mobileLogoutBtn = this.querySelector('#mobileLogoutBtn');
     const userIcon = this.querySelector('#Icon');
+    const iconWrapper = this.querySelector('#IconWrapper');
     const mobileDashBtn = this.querySelector('#mobileDashboardBtn');
     const themeToggleBtn = this.querySelector('#themeToggleBtn');
     const mobileThemeToggleBtn = this.querySelector('#mobileThemeToggleBtn');
     const langToggleBtn = this.querySelector('#langToggleBtn');
     const mobileLangToggleBtn = this.querySelector('#mobileLangToggleBtn');
 
-    const handleDashboardNav = () => {
-      const userType = window.Auth ? window.Auth.getUserType() : localStorage.getItem('userType');
-      if (userType === 'صيدلي') {
+    const handleDashboardNav = (e) => {
+      if (e) e.preventDefault();
+      const currentUser = window.Auth ? window.Auth.getCurrentUser() : JSON.parse(localStorage.getItem('currentUser') || 'null');
+      const userType = currentUser ? (currentUser.role || currentUser.userType) : localStorage.getItem('userType');
+
+      if (userType === 'صيدلي' || userType === 'pharmacist') {
         window.location.href = base + 'pages/pharmacist/index.html';
       } else if (userType === 'إدارة' || userType === 'admin') {
         window.location.href = base + 'pages/admin/index.html';
@@ -170,7 +210,8 @@ class AppNavbar extends HTMLElement {
       }
     };
 
-    const handleLogout = () => {
+    const handleLogout = (e) => {
+      if (e) e.preventDefault();
       if (window.Auth) {
         window.Auth.logout(base + 'index.html');
       } else {
@@ -179,21 +220,28 @@ class AppNavbar extends HTMLElement {
       }
     };
 
-    const handleThemeToggle = () => {
-      const isDark = document.body.classList.toggle('dark-theme');
-      localStorage.setItem('teryak_theme', isDark ? 'dark' : 'light');
+    const handleThemeToggle = (e) => {
+      if (e) e.preventDefault();
+      const isCurrentlyDark = document.body.classList.contains('dark-theme') || document.documentElement.getAttribute('data-theme') === 'dark';
+      const newTheme = isCurrentlyDark ? 'light' : 'dark';
+      this.applyTheme(newTheme, true);
+      window.dispatchEvent(new CustomEvent('teryak:theme-change', { detail: { theme: newTheme } }));
+    };
+
+    const handleLangToggle = (e) => {
+      if (e) e.preventDefault();
+      if (window.Toast) {
+        window.Toast.info('اللغة الحالية هي العربية (الافتراضية). دعم اللغات الإضافية قريباً!', 'لغة الواجهة', 3000);
+      }
     };
 
     if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
     if (mobileLogoutBtn) mobileLogoutBtn.addEventListener('click', handleLogout);
     if (userIcon) userIcon.addEventListener('click', handleDashboardNav);
+    if (iconWrapper) iconWrapper.addEventListener('click', handleDashboardNav);
     if (mobileDashBtn) mobileDashBtn.addEventListener('click', handleDashboardNav);
     if (themeToggleBtn) themeToggleBtn.addEventListener('click', handleThemeToggle);
-    const handleLangToggle = () => {
-      if (window.Toast) {
-        window.Toast.info('اللغة الحالية هي العربية (الافتراضية). دعم اللغات الإضافية قريباً!', 'لغة الواجهة');
-      }
-    };
+    if (mobileThemeToggleBtn) mobileThemeToggleBtn.addEventListener('click', handleThemeToggle);
     if (langToggleBtn) langToggleBtn.addEventListener('click', handleLangToggle);
     if (mobileLangToggleBtn) mobileLangToggleBtn.addEventListener('click', handleLangToggle);
   }

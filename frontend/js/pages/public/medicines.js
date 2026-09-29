@@ -424,8 +424,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Bind Cart Button Click
       const addBtn = col.querySelector('.addCart');
       if (addBtn) {
+        addBtn.dataset.handledByPage = 'true';
         addBtn.addEventListener('click', (e) => {
           e.preventDefault();
+          e.stopPropagation();
           if (window.Cart) {
             window.Cart.addItem({
               id: med.id || Date.now(),
@@ -436,11 +438,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
 
             if (window.Toast) {
-              window.Toast.success(`تمت إضافة (${med.nameAr}) إلى سلة المشتريات بنجاح`, 'سلة المشتريات', 4000, {
+              window.Toast.success(`تمت إضافة (${med.nameAr}) إلى سلة المشتريات بنجاح`, 'سلة المشتريات', 3500, {
                 text: 'عرض السلة',
                 onClick: () => {
-                  const modal = document.querySelector('app-cart-modal');
-                  if (modal && modal.open) modal.open();
+                  const modalEl = document.getElementById('exampleModalToggle');
+                  if (modalEl && typeof bootstrap !== 'undefined') {
+                    const modalInstance = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                    modalInstance.show();
+                  }
                 },
               });
             }

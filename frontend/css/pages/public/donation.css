@@ -254,3 +254,90 @@ body {
   .tabs-nav { flex-direction: column; align-items: center; }
   .nav-tab { width: 100%; max-width: 320px; justify-content: center; }
 }
+
+/* ==========================================================================
+   Dark Theme Adaptation for Donation Page
+   ========================================================================== */
+body.dark-theme,
+[data-theme="dark"] body {
+  background-color: #0b1120 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .medicine-card,
+body.dark-theme .donation-form,
+body.dark-theme .stat-card,
+[data-theme="dark"] .medicine-card,
+[data-theme="dark"] .donation-form,
+[data-theme="dark"] .stat-card {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark-theme .nav-tab,
+[data-theme="dark"] .nav-tab {
+  background-color: #1a2234 !important;
+  border-color: #1f2937 !important;
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .nav-tab.active[data-tab="browse"],
+[data-theme="dark"] .nav-tab.active[data-tab="browse"] {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .header-title,
+body.dark-theme .med-name,
+body.dark-theme .info-value,
+body.dark-theme .form-title,
+body.dark-theme .form-group label,
+[data-theme="dark"] .header-title,
+[data-theme="dark"] .med-name,
+[data-theme="dark"] .info-value,
+[data-theme="dark"] .form-title,
+[data-theme="dark"] .form-group label {
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .header-subtitle,
+body.dark-theme .med-scientific,
+body.dark-theme .info-label,
+body.dark-theme .med-meta,
+body.dark-theme .donor-info,
+body.dark-theme .stat-label,
+[data-theme="dark"] .header-subtitle,
+[data-theme="dark"] .med-scientific,
+[data-theme="dark"] .info-label,
+[data-theme="dark"] .med-meta,
+[data-theme="dark"] .donor-info,
+[data-theme="dark"] .stat-label {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .form-control,
+[data-theme="dark"] .form-control {
+  background-color: #070c18 !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .op-btn,
+[data-theme="dark"] .op-btn {
+  background-color: #1a2234 !important;
+  border-color: #1f2937 !important;
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .divider,
+[data-theme="dark"] .divider {
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .header-icon,
+[data-theme="dark"] .header-icon {
+  background-color: rgba(124, 58, 237, 0.2) !important;
+}
+

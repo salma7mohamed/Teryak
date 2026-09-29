@@ -8,8 +8,6 @@
   <!-- Vendor CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js" defer></script>
 
   <!-- Base & Component CSS -->
   <link rel="stylesheet" href="../../css/base/variables.css">
@@ -17,6 +15,7 @@
   <link rel="stylesheet" href="../../css/components/navbar.css">
   <link rel="stylesheet" href="../../css/components/footer.css">
   <link rel="stylesheet" href="../../css/components/modal.css">
+  <link rel="stylesheet" href="../../css/components/validation.css">
 
   <!-- Page Custom CSS -->
   <link rel="stylesheet" href="../../css/pages/pharmacist/dashboard.css">
@@ -35,85 +34,132 @@
 
     <!-- Main Content Area -->
     <main class="main-content">
-      <div class="container">
-        <h3 class="font-bold mb-4">طلبات المرضى الواردة</h3>
+      <div class="orders-page-wrapper">
+        <!-- Page Header -->
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+          <div>
+            <h2 class="font-bold text-dark mb-1">
+              <i class="fa-solid fa-receipt text-success me-2"></i> إدارة طلبات المرضى
+            </h2>
+            <p class="text-muted mb-0" style="font-size: 14px;">متابعة وتجهيز طلبيات الأدوية الواردة لصيدليتك والتحكم في حالات الاستلام والتوصيل</p>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-success font-bold" id="btnRefreshOrders" title="تحديث قائمة الطلبات">
+              <i class="fa-solid fa-arrows-rotate me-1"></i> تحديث فوري
+            </button>
+          </div>
+        </div>
 
-        <!-- Order 1 -->
-        <div class="order-card p-3 bg-white border rounded mb-3 shadow-sm d-flex justify-content-between align-items-center">
-          <div class="medicine d-flex align-items-center gap-3">
-            <img src="../../assets/images/parst.jpg" alt="Paracetamol" style="width: 60px; height: 60px; border-radius: 8px;">
-            <div class="info">
-              <h4 class="font-bold mb-1">باراسيتامول 500 مجم <span class="badge bg-secondary">× 2</span></h4>
-              <p class="text-muted mb-1">أحمد محمد - 01012345678</p>
-              <div class="details text-muted" style="font-size: 12px;">
-                <span class="me-2">#ORD-001</span>
-                <span><i class="fa-regular fa-clock me-1"></i> اليوم 10:30 ص</span>
+        <!-- KPI Quick Stats Row -->
+        <div class="row g-3 mb-4" id="ordersKpiContainer">
+          <div class="col-md-3 col-6">
+            <div class="kpi-card total-orders">
+              <div class="kpi-icon"><i class="fa-solid fa-boxes-packing"></i></div>
+              <div class="kpi-info">
+                <span class="kpi-label">إجمالي الطلبات</span>
+                <h3 class="kpi-val" id="kpiTotalOrders">0</h3>
               </div>
             </div>
           </div>
-          <div class="actions">
-            <div class="buttons d-flex gap-2">
-              <button class="ready-btn btn btn-success btn-sm">جاهز للتسليم</button>
-              <button class="cancel-btn btn btn-outline-danger btn-sm">إلغاء</button>
+          <div class="col-md-3 col-6">
+            <div class="kpi-card pending-orders">
+              <div class="kpi-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+              <div class="kpi-info">
+                <span class="kpi-label">قيد الانتظار</span>
+                <h3 class="kpi-val" id="kpiPendingOrders">0</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="kpi-card preparing-orders">
+              <div class="kpi-icon"><i class="fa-solid fa-mortar-pestle"></i></div>
+              <div class="kpi-info">
+                <span class="kpi-label">قيد التجهيز</span>
+                <h3 class="kpi-val" id="kpiPreparingOrders">0</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="kpi-card completed-orders">
+              <div class="kpi-icon"><i class="fa-solid fa-circle-check"></i></div>
+              <div class="kpi-info">
+                <span class="kpi-label">مكتملة ومُسلّمة</span>
+                <h3 class="kpi-val" id="kpiCompletedOrders">0</h3>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Order 2 -->
-        <div class="order-card p-3 bg-white border rounded mb-3 shadow-sm d-flex justify-content-between align-items-center">
-          <div class="medicine d-flex align-items-center gap-3">
-            <img src="../../assets/images/amoc.jpg" alt="Amoxicillin" style="width: 60px; height: 60px; border-radius: 8px;">
-            <div class="info">
-              <h4 class="font-bold mb-1">أموكسيسيلين 500 مجم <span class="badge bg-secondary">× 1</span></h4>
-              <p class="text-muted mb-1">سارة علي - 01198765432</p>
-              <div class="details text-muted" style="font-size: 12px;">
-                <span class="me-2">#ORD-002</span>
-                <span><i class="fa-regular fa-clock me-1"></i> اليوم 09:15 ص</span>
+        <!-- Filter Tabs & Search Bar -->
+        <div class="orders-filter-bar bg-white p-3 rounded-4 shadow-sm border mb-4">
+          <div class="row g-3 align-items-center">
+            <!-- Search Box -->
+            <div class="col-lg-5 col-12">
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
+                <input type="text" id="orderSearchInput" class="form-control border-start-0" placeholder="ابحث برقم الطلب، اسم المريض، الهاتف، أو الدواء...">
               </div>
             </div>
-          </div>
-          <div class="actions">
-            <span class="badge ready bg-success p-2">جاهز للاستلام</span>
+
+            <!-- Status Tabs -->
+            <div class="col-lg-7 col-12">
+              <div class="order-status-tabs d-flex flex-wrap gap-2" id="orderStatusTabs">
+                <button type="button" class="tab-pill active" data-status="all">
+                  الكل <span class="pill-count" id="countAll">0</span>
+                </button>
+                <button type="button" class="tab-pill" data-status="pending">
+                  قيد الانتظار <span class="pill-count bg-warning" id="countPending">0</span>
+                </button>
+                <button type="button" class="tab-pill" data-status="preparing">
+                  قيد التجهيز <span class="pill-count bg-info" id="countPreparing">0</span>
+                </button>
+                <button type="button" class="tab-pill" data-status="ready">
+                  جاهز للاستلام <span class="pill-count bg-primary" id="countReady">0</span>
+                </button>
+                <button type="button" class="tab-pill" data-status="completed">
+                  مكتمل <span class="pill-count bg-success" id="countCompleted">0</span>
+                </button>
+                <button type="button" class="tab-pill" data-status="cancelled">
+                  ملغي <span class="pill-count bg-danger" id="countCancelled">0</span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Order 3 -->
-        <div class="order-card p-3 bg-white border rounded mb-3 shadow-sm d-flex justify-content-between align-items-center">
-          <div class="medicine d-flex align-items-center gap-3">
-            <img src="../../assets/images/omega.jpg" alt="Omega 3" style="width: 60px; height: 60px; border-radius: 8px;">
-            <div class="info">
-              <h4 class="font-bold mb-1">أوميجا 3 بلس <span class="badge bg-secondary">× 1</span></h4>
-              <p class="text-muted mb-1">محمد حسن - 01234567890</p>
-              <div class="details text-muted" style="font-size: 12px;">
-                <span class="me-2">#ORD-003</span>
-                <span><i class="fa-regular fa-clock me-1"></i> أمس 5:00 م</span>
-              </div>
-            </div>
-          </div>
-          <div class="actions">
-            <span class="badge completed bg-primary p-2">مكتمل ومُسلّم</span>
-          </div>
-        </div>
-
-        <!-- Order 4 -->
-        <div class="order-card p-3 bg-white border rounded mb-3 shadow-sm d-flex justify-content-between align-items-center">
-          <div class="medicine d-flex align-items-center gap-3">
-            <img src="../../assets/images/congestal.jpg" alt="Congestal" style="width: 60px; height: 60px; border-radius: 8px;">
-            <div class="info">
-              <h4 class="font-bold mb-1">كونجستال أقراص <span class="badge bg-secondary">× 1</span></h4>
-              <p class="text-muted mb-1">نورا أحمد - 01122334455</p>
-              <div class="details text-muted" style="font-size: 12px;">
-                <span class="me-2">#ORD-004</span>
-                <span><i class="fa-regular fa-clock me-1"></i> أمس 2:00 م</span>
-              </div>
-            </div>
-          </div>
-          <div class="actions">
-            <span class="badge cancelled bg-danger p-2">ملغي</span>
-          </div>
+        <!-- Orders Cards Container -->
+        <div class="orders-list-wrapper" id="ordersListContainer">
+          <!-- Dynamic Orders will be rendered here by JS -->
         </div>
       </div>
     </main>
+  </div>
+
+  <!-- Order Details & Invoice Modal -->
+  <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+        <div class="modal-header bg-success text-white py-3 px-4">
+          <div class="d-flex align-items-center gap-2">
+            <i class="fa-solid fa-file-invoice fs-4"></i>
+            <div>
+              <h5 class="modal-title font-bold m-0" id="modalOrderTitle">تفاصيل الطلب</h5>
+              <small class="text-white-50" id="modalOrderDate">--</small>
+            </div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4" id="modalOrderBody">
+          <!-- Populated by JS -->
+        </div>
+        <div class="modal-footer bg-light py-2 px-4 justify-content-between">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">إغلاق</button>
+          <button type="button" class="btn btn-success font-bold" id="btnPrintOrderInvoice">
+            <i class="fa-solid fa-print me-1"></i> طباعة الفاتورة
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Reusable App Footer -->

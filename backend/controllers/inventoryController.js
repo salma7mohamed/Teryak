@@ -58,9 +58,15 @@ const addToInventory = async (req, res, next) => {
       medicineName,
       quantity = 1,
       customPrice,
+      costPrice,
+      shelfLocation,
       expiryDate,
       batchNumber,
       lowStockThreshold = 5,
+      image,
+      activeIngredient,
+      category,
+      dosageForm,
     } = req.body;
 
     let targetMedicineId = medicineId;
@@ -75,12 +81,23 @@ const addToInventory = async (req, res, next) => {
         med = await Medicine.create({
           nameAr: medicineName,
           nameEn: medicineName,
-          activeIngredient: 'عام',
-          category: 'أدوية عامة',
+          activeIngredient: activeIngredient || 'عام',
+          category: category || 'أدوية عامة',
+          dosageForm: dosageForm || 'أقراص',
+          image: image || '',
           price: customPrice || 25,
         });
+      } else if (image && !med.image) {
+        med.image = image;
+        await med.save();
       }
       targetMedicineId = med._id;
+    } else if (targetMedicineId && image) {
+      const med = await Medicine.findById(targetMedicineId);
+      if (med && image !== med.image) {
+        med.image = image;
+        await med.save();
+      }
     }
 
     if (!targetMedicineId) {
@@ -96,6 +113,8 @@ const addToInventory = async (req, res, next) => {
     if (inventoryItem) {
       inventoryItem.quantity += Number(quantity);
       if (customPrice !== undefined) inventoryItem.customPrice = Number(customPrice);
+      if (costPrice !== undefined) inventoryItem.costPrice = Number(costPrice);
+      if (shelfLocation !== undefined) inventoryItem.shelfLocation = shelfLocation;
       if (expiryDate) inventoryItem.expiryDate = expiryDate;
       if (batchNumber) inventoryItem.batchNumber = batchNumber;
       await inventoryItem.save();
@@ -105,6 +124,8 @@ const addToInventory = async (req, res, next) => {
         medicineId: targetMedicineId,
         quantity: Number(quantity),
         customPrice: customPrice ? Number(customPrice) : undefined,
+        costPrice: costPrice ? Number(costPrice) : undefined,
+        shelfLocation: shelfLocation || '',
         expiryDate: expiryDate || new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
         batchNumber: batchNumber || 'BATCH-' + Math.floor(1000 + Math.random() * 9000),
         lowStockThreshold: Number(lowStockThreshold),
@@ -122,7 +143,7 @@ const addToInventory = async (req, res, next) => {
   }
 };
 
-// @desc    Update inventory item (quantity, price, expiry)
+// @desc    Update inventory item (quantity, price, expiry, shelf, cost)
 // @route   PUT /api/inventory/:id
 // @access  Private (Pharmacist)
 const updateInventoryItem = async (req, res, next) => {
@@ -133,7 +154,7 @@ const updateInventoryItem = async (req, res, next) => {
     }
 
     const { id } = req.params;
-    const { quantity, customPrice, expiryDate, isAvailable, lowStockThreshold } = req.body;
+    const { quantity, customPrice, costPrice, shelfLocation, batchNumber, expiryDate, isAvailable, lowStockThreshold, image } = req.body;
 
     const item = await PharmacyInventory.findOne({
       _id: id,
@@ -146,11 +167,22 @@ const updateInventoryItem = async (req, res, next) => {
 
     if (quantity !== undefined) item.quantity = Number(quantity);
     if (customPrice !== undefined) item.customPrice = Number(customPrice);
+    if (costPrice !== undefined) item.costPrice = Number(costPrice);
+    if (shelfLocation !== undefined) item.shelfLocation = shelfLocation;
+    if (batchNumber !== undefined) item.batchNumber = batchNumber;
     if (expiryDate) item.expiryDate = expiryDate;
     if (typeof isAvailable === 'boolean') item.isAvailable = isAvailable;
     if (lowStockThreshold !== undefined) item.lowStockThreshold = Number(lowStockThreshold);
 
     await item.save();
+
+    if (image && item.medicineId) {
+      const med = await Medicine.findById(item.medicineId);
+      if (med && med.image !== image) {
+        med.image = image;
+        await med.save();
+      }
+    }
 
     const populated = await PharmacyInventory.findById(item._id).populate(
       'medicineId',
@@ -210,10 +242,102 @@ const getLowStockItems = async (req, res, next) => {
   }
 };
 
+// @desc    Bulk import medicines to pharmacy inventory
+// @route   POST /api/inventory/bulk-import
+// @access  Private (Pharmacist, Admin)
+const bulkImportInventory = async (req, res, next) => {
+  try {
+    const pharmacy = await getUserPharmacy(req.user._id);
+    if (!pharmacy) {
+      return errorResponse(res, 404, 'لم يتم العثور على صيدلية مرتبطة بهذا الحساب');
+    }
+
+    const { items } = req.body;
+    if (!Array.isArray(items) || items.length === 0) {
+      return errorResponse(res, 400, 'يرجى إرسال قائمة أدوية صالحة للاستيراد');
+    }
+
+    let addedCount = 0;
+    let updatedCount = 0;
+    const errors = [];
+
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      const name = (item.medicineName || item.nameAr || item.name || '').trim();
+      if (!name && !item.medicineId) {
+        errors.push(`الصف #${i + 1}: اسم الدواء أو معرّفه مطلوب`);
+        continue;
+      }
+
+      let targetMedId = item.medicineId;
+      if (!targetMedId && name) {
+        let med = await Medicine.findOne({
+          $or: [
+            { nameAr: name },
+            { nameEn: new RegExp('^' + name + '$', 'i') }
+          ]
+        });
+        if (!med) {
+          med = await Medicine.create({
+            nameAr: name,
+            nameEn: item.nameEn || name,
+            activeIngredient: item.activeIngredient || 'عام',
+            category: item.category || 'أدوية عامة',
+            price: Number(item.customPrice || item.price) || 25,
+            status: 'active'
+          });
+        }
+        targetMedId = med._id;
+      }
+
+      let existing = await PharmacyInventory.findOne({
+        pharmacyId: pharmacy._id,
+        medicineId: targetMedId
+      });
+
+      const qty = Number(item.quantity) || 0;
+      const price = item.customPrice !== undefined ? Number(item.customPrice) : (item.price ? Number(item.price) : undefined);
+      const expiry = item.expiryDate ? new Date(item.expiryDate) : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+      const batch = item.batchNumber || 'BATCH-' + Math.floor(1000 + Math.random() * 9000);
+
+      if (existing) {
+        existing.quantity += qty;
+        if (price !== undefined) existing.customPrice = price;
+        if (item.expiryDate) existing.expiryDate = expiry;
+        if (item.batchNumber) existing.batchNumber = batch;
+        await existing.save();
+        updatedCount++;
+      } else {
+        await PharmacyInventory.create({
+          pharmacyId: pharmacy._id,
+          medicineId: targetMedId,
+          quantity: qty,
+          customPrice: price,
+          expiryDate: expiry,
+          batchNumber: batch,
+          lowStockThreshold: Number(item.lowStockThreshold) || 5
+        });
+        addedCount++;
+      }
+    }
+
+    return successResponse(res, 200, 'تم استيراد مخزون الأدوية بنجاح', {
+      addedCount,
+      updatedCount,
+      totalProcessed: items.length,
+      errors
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getMyInventory,
   addToInventory,
   updateInventoryItem,
   deleteInventoryItem,
   getLowStockItems,
+  bulkImportInventory,
 };
+

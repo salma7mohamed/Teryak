@@ -45,24 +45,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
   toggleFields("مريض");
 
-  // Eye Password Toggle
-  const eyeIcons = document.querySelectorAll(".eye");
-  eyeIcons.forEach(icon => {
-    icon.addEventListener("click", () => {
-      const input = icon.parentElement.querySelector("input");
-      if (input.type === "password") {
-        input.type = "text";
+  // Floating labels value sync & change events
+  const allFloatingInputs = document.querySelectorAll(".floating-input");
+  allFloatingInputs.forEach(input => {
+    const updateHasValue = () => {
+      if (input.value && input.value.trim().length > 0) {
+        input.classList.add("has-value");
+      } else {
+        input.classList.remove("has-value");
+      }
+    };
+    input.addEventListener("input", updateHasValue);
+    input.addEventListener("change", updateHasValue);
+    input.addEventListener("blur", updateHasValue);
+    updateHasValue();
+  });
+
+  // Eye Password Toggle (Robust Delegation)
+  document.addEventListener("click", (e) => {
+    const eyeBtn = e.target.closest(".eye-btn, .eye");
+    if (!eyeBtn) return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    const box = eyeBtn.closest(".password-box, .input-box");
+    if (!box) return;
+    const input = box.querySelector("input");
+    const icon = eyeBtn.querySelector("i") || (eyeBtn.tagName === "I" ? eyeBtn : null);
+    if (!input) return;
+
+    if (input.type === "password") {
+      input.type = "text";
+      if (icon) {
         icon.classList.remove("fa-eye");
         icon.classList.add("fa-eye-slash");
-      } else {
-        input.type = "password";
+      }
+    } else {
+      input.type = "password";
+      if (icon) {
         icon.classList.remove("fa-eye-slash");
         icon.classList.add("fa-eye");
       }
-    });
+    }
   });
 
   // Real-time input validation handlers
+  const fullNameInput = document.getElementById("fullName");
   const emailInput = document.getElementById("email");
   const phoneInput = document.getElementById("phone");
   const passwordInput = document.getElementById("password");
@@ -70,6 +98,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const pharmacyNameInput = document.getElementById("pharmacyName");
   const licenseNumberInput = document.getElementById("licenseNumber");
   const termsCheckbox = document.getElementById("terms") || document.querySelector('input[type="checkbox"]');
+
+  if (fullNameInput && window.TeryakValidator) {
+    fullNameInput.addEventListener("blur", () => {
+      if (!fullNameInput.value || fullNameInput.value.trim().length < 3) {
+        window.TeryakValidator.setError(fullNameInput, 'الاسم يجب أن يحتوي على 3 أحرف على الأقل');
+      } else {
+        window.TeryakValidator.setValid(fullNameInput);
+      }
+    });
+  }
 
   if (phoneInput && window.TeryakValidator) {
     phoneInput.addEventListener("input", () => {
@@ -109,6 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     registerForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
+      const fullName = fullNameInput ? fullNameInput.value.trim() : '';
       const pharmacyName = pharmacyNameInput ? pharmacyNameInput.value.trim() : '';
       const email = emailInput ? emailInput.value.trim() : '';
       const phone = phoneInput ? phoneInput.value.trim() : '';
@@ -116,6 +155,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const password = passwordInput ? passwordInput.value : '';
       const confirmPassword = confirmPasswordInput ? confirmPasswordInput.value : '';
       const terms = termsCheckbox ? termsCheckbox.checked : true;
+
+      // Validate Full Name
+      if (!fullName || fullName.length < 3) {
+        if (window.TeryakValidator && fullNameInput) window.TeryakValidator.setError(fullNameInput, 'يرجى إدخال اسمك بالكامل (3 أحرف على الأقل)');
+        if (window.Toast) window.Toast.warning('يرجى كتابة الاسم بالكامل بشكل صحيح', 'الاسم مطلوب');
+        fullNameInput?.focus();
+        return;
+      }
 
       // Validate Email
       if (!email || (window.TeryakValidator && window.TeryakValidator.rules.email(email) !== true)) {
@@ -179,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const userData = {
-        name: email.split('@')[0],
+        name: fullName,
         email,
         phone,
         password,
@@ -196,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           if (window.Toast) {
             window.Toast.success(
-              `أهلاً بك يا ${user.name || 'عزيزنا المستخدم'} في منصة ترياق الطبية!`,
+              `أهلاً بك يا ${user.name || fullName} في منصة ترياق الطبية!`,
               'تم إنشاء الحساب بنجاح',
               3500
             );

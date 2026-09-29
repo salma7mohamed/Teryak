@@ -197,3 +197,218 @@ a:hover {
     font-size: 14px;
   }
 }
+
+/* ==========================================================================
+   Global Dark Theme Application (Comprehensive Overrides)
+   ========================================================================== */
+body.dark-theme,
+[data-theme="dark"] body {
+  background-color: #0b1120 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .dashboard-container,
+[data-theme="dark"] .dashboard-container,
+body.dark-theme .main-content,
+[data-theme="dark"] .main-content {
+  background-color: #0b1120 !important;
+}
+
+body.dark-theme .header,
+body.dark-theme .btn-resp,
+body.dark-theme .sidebar,
+body.dark-theme .card,
+body.dark-theme .auth-card,
+body.dark-theme .modal-content,
+body.dark-theme .offcanvas,
+body.dark-theme .order-card,
+body.dark-theme .kpi-card,
+body.dark-theme .toolbar-card,
+body.dark-theme .orders-filter-bar,
+body.dark-theme .exchange-card,
+body.dark-theme .exchange-header,
+body.dark-theme .medicine-card,
+body.dark-theme .pharmacy-card,
+body.dark-theme .stat-card,
+body.dark-theme .profile-card,
+body.dark-theme .footer,
+body.dark-theme .modalDiv,
+body.dark-theme .teryak-toast,
+body.dark-theme .teryak-modal-box,
+body.dark-theme .secOne,
+body.dark-theme .Active,
+body.dark-theme .Active2,
+body.dark-theme .total,
+body.dark-theme .empty-results-box,
+body.dark-theme .orders-empty-state,
+body.dark-theme .bg-white {
+  background-color: #111827 !important;
+  color: #f1f5f9 !important;
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .modal-header,
+body.dark-theme .modal-footer,
+body.dark-theme .cart-modal-footer-actions,
+body.dark-theme .order-card-header,
+body.dark-theme .order-card-footer,
+body.dark-theme .table-light,
+body.dark-theme .bg-light,
+body.dark-theme .cart-item-qty-control,
+body.dark-theme .user-welcome-card {
+  background-color: #1a2234 !important;
+  color: #f1f5f9 !important;
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme input:not([type="checkbox"]):not([type="radio"]),
+body.dark-theme select,
+body.dark-theme textarea,
+body.dark-theme .search-box-wrap,
+body.dark-theme .input-box {
+  background-color: #070c18 !important;
+  color: #f1f5f9 !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .btn2 {
+  background-color: #1e293b !important;
+  color: #f1f5f9 !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .btn2:hover {
+  background-color: #334155 !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .text-dark,
+body.dark-theme h1,
+body.dark-theme h2,
+body.dark-theme h3,
+body.dark-theme h4,
+body.dark-theme h5,
+body.dark-theme h6,
+body.dark-theme .card-title,
+body.dark-theme .NameOfMedicine,
+body.dark-theme .kpi-val,
+body.dark-theme .modal-title,
+body.dark-theme .font-bold,
+body.dark-theme strong,
+body.dark-theme b {
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .text-muted,
+body.dark-theme small.text-muted,
+body.dark-theme .kpi-label,
+body.dark-theme p.text-muted {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .centerofHeader ul li a,
+body.dark-theme .sidebar nav a {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .centerofHeader ul li a:hover,
+body.dark-theme .sidebar nav a:hover {
+  color: var(--primary-color) !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+body.dark-theme .centerofHeader ul li a.active,
+body.dark-theme .sidebar nav a.active {
+  color: #ffffff !important;
+  background-color: var(--primary-color) !important;
+}
+
+body.dark-theme .tab-pill {
+  background-color: #1a2234 !important;
+  color: #94a3b8 !important;
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .tab-pill.active {
+  background-color: var(--primary-color) !important;
+  color: #ffffff !important;
+  border-color: var(--primary-color) !important;
+}
+
+body.dark-theme .table {
+  color: #f1f5f9 !important;
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .table th,
+body.dark-theme .table td {
+  background-color: transparent !important;
+  color: #f1f5f9 !important;
+  border-color: #1f2937 !important;
+}
+
+/* Global Button Overrides in Dark Mode (Eliminate Harsh White Buttons) */
+body.dark-theme .btn-light,
+body.dark-theme .btn-white,
+body.dark-theme .btn-secondary,
+body.dark-theme .btn-outline-secondary,
+[data-theme="dark"] .btn-light,
+[data-theme="dark"] .btn-white,
+[data-theme="dark"] .btn-secondary,
+[data-theme="dark"] .btn-outline-secondary {
+  background-color: #1e293b !important;
+  color: #f1f5f9 !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .btn-light:hover,
+body.dark-theme .btn-white:hover,
+body.dark-theme .btn-secondary:hover,
+body.dark-theme .btn-outline-secondary:hover,
+[data-theme="dark"] .btn-light:hover,
+[data-theme="dark"] .btn-white:hover,
+[data-theme="dark"] .btn-secondary:hover,
+[data-theme="dark"] .btn-outline-secondary:hover {
+  background-color: #334155 !important;
+  color: #ffffff !important;
+  border-color: #475569 !important;
+}
+
+/* Global Badges and Pills in Dark Mode (Eliminate Harsh White Badges) */
+body.dark-theme .badge-light,
+body.dark-theme .badge-secondary,
+body.dark-theme .pill-count,
+[data-theme="dark"] .badge-light,
+[data-theme="dark"] .badge-secondary,
+[data-theme="dark"] .pill-count {
+  background-color: #1e293b !important;
+  color: #cbd5e1 !important;
+  border: 1px solid #334155 !important;
+}
+
+body.dark-theme .tab-pill.active .pill-count,
+[data-theme="dark"] .tab-pill.active .pill-count {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+/* Dropdowns & Lists in Dark Mode */
+body.dark-theme .dropdown-menu,
+body.dark-theme .list-group-item,
+[data-theme="dark"] .dropdown-menu,
+[data-theme="dark"] .list-group-item {
+  background-color: #111827 !important;
+  color: #f1f5f9 !important;
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .dropdown-item:hover,
+body.dark-theme .list-group-item:hover,
+[data-theme="dark"] .dropdown-item:hover,
+[data-theme="dark"] .list-group-item:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+

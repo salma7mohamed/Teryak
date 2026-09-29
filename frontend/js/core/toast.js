@@ -74,7 +74,7 @@
         <div class="teryak-toast-message">${message}</div>
         ${actionBtnHtml}
       </div>
-      <button type="button" class="teryak-toast-close" aria-label="إغلاق">&times;</button>
+      <button type="button" class="teryak-toast-close" aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button>
       <div class="teryak-toast-progress">
         <div class="teryak-toast-progress-bar"></div>
       </div>

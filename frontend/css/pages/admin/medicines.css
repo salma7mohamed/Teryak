@@ -545,3 +545,95 @@ html, body {
   .search-box input,
   .add-btn { font-size: 18px; }
 }
+
+/* ==========================================================================
+   Dark Theme Adaptation for Admin Medicines
+   ========================================================================== */
+body.dark-theme,
+[data-theme="dark"] body {
+  background-color: #0b1120 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .medicine-card,
+body.dark-theme .sidebar,
+[data-theme="dark"] .medicine-card,
+[data-theme="dark"] .sidebar {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark-theme .medicine-name,
+body.dark-theme .main-title,
+[data-theme="dark"] .medicine-name,
+[data-theme="dark"] .main-title {
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .medicine-subtext,
+body.dark-theme .sub-title,
+[data-theme="dark"] .medicine-subtext,
+[data-theme="dark"] .sub-title {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .search-box input,
+[data-theme="dark"] .search-box input {
+  background-color: #070c18 !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .nav-item,
+[data-theme="dark"] .nav-item {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .nav-item:hover,
+[data-theme="dark"] .nav-item:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .nav-item.active,
+[data-theme="dark"] .nav-item.active {
+  background-color: var(--primary-green) !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .action-btn:hover,
+[data-theme="dark"] .action-btn:hover {
+  background-color: #1e293b !important;
+}
+
+body.dark-theme .status-active,
+[data-theme="dark"] .status-active {
+  background-color: rgba(16, 185, 129, 0.16) !important;
+  color: #34d399 !important;
+}
+
+body.dark-theme .status-pending,
+[data-theme="dark"] .status-pending {
+  background-color: rgba(245, 158, 11, 0.16) !important;
+  color: #fbbf24 !important;
+}
+
+body.dark-theme .status-suspended,
+[data-theme="dark"] .status-suspended {
+  background-color: rgba(239, 68, 68, 0.16) !important;
+  color: #f87171 !important;
+}
+
+body.dark-theme .status-inactive,
+[data-theme="dark"] .status-inactive {
+  background-color: #1e293b !important;
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .medicine-img-box,
+[data-theme="dark"] .medicine-img-box {
+  background: #0f172a !important;
+  border: 1px solid #1f2937 !important;
+}
+

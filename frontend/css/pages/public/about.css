@@ -312,3 +312,92 @@ body {
     font-size: 1.75rem;
   }
 }
+
+/* ==========================================================================
+   Dark Theme Adaptation for About Us Page
+   ========================================================================== */
+body.dark-theme,
+[data-theme="dark"] body {
+  background-color: #0b1120 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .stat-card,
+body.dark-theme .mission-card,
+body.dark-theme .feature-card,
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .mission-card,
+[data-theme="dark"] .feature-card {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark-theme .hero-title,
+body.dark-theme .mission-card h2,
+body.dark-theme .section-title,
+body.dark-theme .feature-card h3,
+[data-theme="dark"] .hero-title,
+[data-theme="dark"] .mission-card h2,
+[data-theme="dark"] .section-title,
+[data-theme="dark"] .feature-card h3 {
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .hero-desc,
+body.dark-theme .stat-label,
+body.dark-theme .mission-card p,
+body.dark-theme .feature-card p,
+[data-theme="dark"] .hero-desc,
+[data-theme="dark"] .stat-label,
+[data-theme="dark"] .mission-card p,
+[data-theme="dark"] .feature-card p {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .badge-about,
+[data-theme="dark"] .badge-about {
+  background-color: rgba(16, 185, 129, 0.15) !important;
+  color: #34d399 !important;
+}
+
+body.dark-theme .contact-section,
+[data-theme="dark"] .contact-section {
+  background: linear-gradient(135deg, #091e16 0%, #063828 100%) !important;
+  border-color: #065f46 !important;
+}
+
+body.dark-theme .contact-section h2,
+[data-theme="dark"] .contact-section h2 {
+  color: #34d399 !important;
+}
+
+body.dark-theme .contact-section p,
+[data-theme="dark"] .contact-section p {
+  color: #a7f3d0 !important;
+}
+
+body.dark-theme .custom-btn.btn-secondary,
+[data-theme="dark"] .custom-btn.btn-secondary {
+  background-color: #1e293b !important;
+  color: #f1f5f9 !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .icon-green,
+[data-theme="dark"] .icon-green { background-color: rgba(16, 185, 129, 0.15) !important; color: #34d399 !important; }
+
+body.dark-theme .icon-blue,
+[data-theme="dark"] .icon-blue { background-color: rgba(37, 99, 235, 0.15) !important; color: #60a5fa !important; }
+
+body.dark-theme .icon-amber,
+[data-theme="dark"] .icon-amber { background-color: rgba(245, 158, 11, 0.15) !important; color: #fbbf24 !important; }
+
+body.dark-theme .icon-purple,
+[data-theme="dark"] .icon-purple { background-color: rgba(124, 58, 237, 0.15) !important; color: #a78bfa !important; }
+
+body.dark-theme .icon-emerald,
+[data-theme="dark"] .icon-emerald { background-color: rgba(16, 185, 129, 0.15) !important; color: #34d399 !important; }
+
+body.dark-theme .icon-orange,
+[data-theme="dark"] .icon-orange { background-color: rgba(249, 115, 22, 0.15) !important; color: #fb923c !important; }

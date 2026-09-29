@@ -2610,3 +2610,121 @@ body,
   .pharmacies-table th,
   .pharmacies-table td { font-size: 18px; }
 }
+
+/* ==========================================================================
+   Dark Theme Adaptation for Admin Pharmacies
+   ========================================================================== */
+body.dark-theme,
+[data-theme="dark"] body {
+  background-color: #0b1120 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .table-card,
+body.dark-theme .sidebar,
+body.dark-theme .kpi-card,
+body.dark-theme .chart-card,
+body.dark-theme .alerts-card,
+body.dark-theme .modal-box,
+[data-theme="dark"] .table-card,
+[data-theme="dark"] .sidebar,
+[data-theme="dark"] .kpi-card,
+[data-theme="dark"] .chart-card,
+[data-theme="dark"] .alerts-card,
+[data-theme="dark"] .modal-box {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark-theme .pharmacies-table th,
+[data-theme="dark"] .pharmacies-table th {
+  background-color: #1a2234 !important;
+  color: #cbd5e1 !important;
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .pharmacies-table td,
+[data-theme="dark"] .pharmacies-table td {
+  border-color: #1f2937 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .pharmacies-table tbody tr:hover,
+[data-theme="dark"] .pharmacies-table tbody tr:hover {
+  background-color: #1e293b !important;
+}
+
+body.dark-theme .pharmacy-name,
+body.dark-theme .main-title,
+body.dark-theme .bold-text,
+body.dark-theme .modal-header h3,
+body.dark-theme .form-group label,
+[data-theme="dark"] .pharmacy-name,
+[data-theme="dark"] .main-title,
+[data-theme="dark"] .bold-text,
+[data-theme="dark"] .modal-header h3,
+[data-theme="dark"] .form-group label {
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .doctor-name,
+body.dark-theme .sub-title,
+body.dark-theme .date-text,
+[data-theme="dark"] .doctor-name,
+[data-theme="dark"] .sub-title,
+[data-theme="dark"] .date-text {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .search-box input,
+body.dark-theme .form-group input,
+body.dark-theme .form-group select,
+[data-theme="dark"] .search-box input,
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select {
+  background-color: #070c18 !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .nav-item,
+[data-theme="dark"] .nav-item {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .nav-item:hover,
+[data-theme="dark"] .nav-item:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .nav-item.active,
+[data-theme="dark"] .nav-item.active {
+  background-color: var(--primary-green) !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .action-btn:hover,
+[data-theme="dark"] .action-btn:hover {
+  background-color: #1e293b !important;
+}
+
+body.dark-theme .status-active,
+[data-theme="dark"] .status-active {
+  background-color: rgba(16, 185, 129, 0.16) !important;
+  color: #34d399 !important;
+}
+
+body.dark-theme .status-pending,
+[data-theme="dark"] .status-pending {
+  background-color: rgba(245, 158, 11, 0.16) !important;
+  color: #fbbf24 !important;
+}
+
+body.dark-theme .status-suspended,
+[data-theme="dark"] .status-suspended {
+  background-color: rgba(239, 68, 68, 0.16) !important;
+  color: #f87171 !important;
+}
+

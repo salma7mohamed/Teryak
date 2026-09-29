@@ -468,3 +468,82 @@ body {
   }
 }
 
+/* ==========================================================================
+   Dark Theme Adaptation for Home Landing Page
+   ========================================================================== */
+body.dark-theme .sectionOne .search-bar-box,
+[data-theme="dark"] .sectionOne .search-bar-box {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .sectionOne .search-bar-box input,
+[data-theme="dark"] .sectionOne .search-bar-box input {
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .secDIV a button,
+[data-theme="dark"] .secDIV a button {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .secDIV a button:hover,
+[data-theme="dark"] .secDIV a button:hover {
+  background-color: var(--primary-color) !important;
+  color: #ffffff !important;
+  border-color: var(--primary-color) !important;
+}
+
+body.dark-theme .service-card,
+[data-theme="dark"] .service-card {
+  background: #111827 !important;
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .service-card .mainParg,
+[data-theme="dark"] .service-card .mainParg {
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .sectionThree,
+[data-theme="dark"] .sectionThree {
+  background: #111827 !important;
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .sectionThree .DIVS .DIV,
+[data-theme="dark"] .sectionThree .DIVS .DIV {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .sectionThree .DIVS .DIV .nums,
+[data-theme="dark"] .sectionThree .DIVS .DIV .nums {
+  color: #34d399 !important;
+}
+
+body.dark-theme .sectionThree .content h1,
+[data-theme="dark"] .sectionThree .content h1 {
+  color: #34d399 !important;
+}
+
+body.dark-theme .sectionThree .content p,
+[data-theme="dark"] .sectionThree .content p {
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .sectionThree .content ul li,
+[data-theme="dark"] .sectionThree .content ul li {
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .service-card .icon-box,
+[data-theme="dark"] .service-card .icon-box {
+  background: #1e293b !important;
+  color: #34d399 !important;
+}
+
+
+

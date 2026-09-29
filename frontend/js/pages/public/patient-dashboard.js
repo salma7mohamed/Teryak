@@ -1,6 +1,6 @@
 /**
  * Teryak Platform - Patient Dashboard Logic
- * Integrated with Real-Time Database Order Synchronization & Side-Sliding Toast Notifications
+ * Fully Dynamic Data Engine Connected with Live Database & Local Storage
  */
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -26,21 +26,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
 
-  // User Greeting
+  // User Greeting & Details
   const userNameEl = document.getElementById('userName');
+  const userEmailOrPhoneEl = document.getElementById('userEmailOrPhone');
   const currentUser = window.Auth ? window.Auth.getCurrentUser() : JSON.parse(localStorage.getItem('currentUser') || 'null');
-  if (userNameEl) {
-    userNameEl.textContent = currentUser ? (currentUser.name || currentUser.email) : 'أحمد محمود';
+
+  if (currentUser) {
+    if (userNameEl) userNameEl.textContent = currentUser.name || currentUser.fullName || currentUser.email?.split('@')[0] || 'عزيزنا المستخدم';
+    if (userEmailOrPhoneEl) userEmailOrPhoneEl.textContent = currentUser.email || currentUser.phone || 'حساب مفعل في ترياق';
+  } else {
+    if (userNameEl) userNameEl.textContent = 'عزيزنا المستخدم';
+    if (userEmailOrPhoneEl) userEmailOrPhoneEl.textContent = 'حساب تجريبي / ضيف';
   }
 
-  // Load and Render Real Patient Orders from API
+  // Load and Render Dynamic Patient Orders
   async function loadPatientOrders() {
     let orders = [];
 
     try {
       if (window.API && window.API.orders) {
         const res = await window.API.orders.getMyOrders();
-        if (res && res.data) {
+        if (res && res.data && Array.isArray(res.data)) {
           orders = res.data;
         }
       }
@@ -50,77 +56,155 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (orders.length === 0) {
       try {
-        orders = JSON.parse(localStorage.getItem('myOrders')) || [];
+        const saved = localStorage.getItem('myOrders');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed)) orders = parsed;
+        }
       } catch (e) {
         orders = [];
       }
     }
 
-    // Update Overview Metrics (Tab 1)
-    const bookingsCountEl = document.querySelector('.hidden1 .DIV1 .num');
-    const totalSpentEl = document.querySelector('.hidden1 .DIV4 .num');
-    const activeBookingCard = document.querySelector('.hidden1 .Active');
+    // Update Overview Stats
+    const statActive = document.getElementById('statActiveOrders');
+    const statSpent = document.getElementById('statTotalSpent');
+    const paymentsTotal = document.getElementById('paymentsTotalVal');
+    const paymentsCount = document.getElementById('paymentsCountBadge');
+    const overviewContent = document.getElementById('overviewBookingContent');
 
-    if (bookingsCountEl) bookingsCountEl.textContent = orders.length;
+    const activeOrders = orders.filter(o => o.status === 'pending' || o.status === 'preparing' || o.status === 'ready');
+    const totalSpent = orders.reduce((sum, ord) => sum + (Number(ord.totalPrice) || Number(ord.totalAmount) || Number(ord.subtotal) || 0), 0);
 
-    const totalSpent = orders.reduce((sum, ord) => sum + (Number(ord.totalAmount) || Number(ord.subtotal) || 0), 0);
-    if (totalSpentEl) totalSpentEl.textContent = `${totalSpent.toFixed(0)} ج.م`;
+    if (statActive) statActive.textContent = activeOrders.length;
+    if (statSpent) statSpent.textContent = `${totalSpent.toFixed(2)} ج.م`;
+    if (paymentsTotal) paymentsTotal.textContent = `${totalSpent.toFixed(2)} ج.م`;
+    if (paymentsCount) paymentsCount.textContent = `${orders.length} معاملات`;
 
-    // Render Orders in Tab 2 (.hidden2 .mainSection)
-    const ordersContainer = document.querySelector('.hidden2 .mainSection');
-    if (ordersContainer && orders.length > 0) {
-      let ordersHtml = '';
-
-      orders.forEach(order => {
-        const orderNum = order.orderNumber || order._id || 'ORD-000';
-        const items = order.items || [];
-        const firstItem = items[0] || { name: 'أدوية علاجية', price: 25 };
-        const medName = firstItem.name + (items.length > 1 ? ` (+${items.length - 1} أدوية أخرى)` : '');
+    // Overview Active Booking Box
+    if (overviewContent) {
+      if (activeOrders.length > 0) {
+        const topOrder = activeOrders[0];
+        const firstItem = (topOrder.items && topOrder.items[0]) || { name: 'دواء علاجي' };
         const img = firstItem.image || firstItem.img || '../../assets/images/parst.jpg';
-        const pharmacyName = order.pharmacyId?.name || 'صيدلية النهضة الحديثة';
-        const total = (Number(order.totalAmount) || Number(order.subtotal) || 25).toFixed(2);
-        const status = order.status || 'pending';
 
-        let statusBadge = '<span class="badge bg-warning text-dark p-2">قيد المراجعة</span>';
-        let actionBtn = `<button class="btn btn-outline-danger btn-sm btn-cancel-booking" data-id="${order._id}">إلغاء الطلب</button>`;
-
-        if (status === 'preparing') {
-          statusBadge = '<span class="badge bg-info text-white p-2">جاري التحضير</span>';
-          actionBtn = `<button class="btn btn-outline-danger btn-sm btn-cancel-booking" data-id="${order._id}">إلغاء</button>`;
-        } else if (status === 'ready') {
-          statusBadge = '<span class="badge bg-primary text-white p-2">جاهز للاستلام</span>';
-          actionBtn = `<span class="text-success small font-bold"><i class="fa-solid fa-clock me-1"></i> بانتظار الاستلام</span>`;
-        } else if (status === 'delivering') {
-          statusBadge = '<span class="badge bg-info text-white p-2">في الطريق للتوصيل</span>';
-          actionBtn = `<span class="text-info small font-bold"><i class="fa-solid fa-truck-fast me-1"></i> مع المندوب</span>`;
-        } else if (status === 'completed') {
-          statusBadge = '<span class="badge bg-success text-white p-2">مكتمل وتم الاستلام</span>';
-          actionBtn = '<span class="badge bg-success">مكتمل</span>';
-        } else if (status === 'cancelled') {
-          statusBadge = '<span class="badge bg-secondary text-white p-2">ملغي</span>';
-          actionBtn = '<span class="text-muted small">تم الإلغاء</span>';
-        }
-
-        ordersHtml += `
-          <div class="secOne p-3 bg-white border rounded d-flex justify-content-between align-items-center mb-2 shadow-xs" data-order-id="${order._id}">
-            <div class="d-flex align-items-center gap-3">
-              <img src="${img}" alt="${firstItem.name}" style="width: 55px; height: 55px; border-radius: 8px; object-fit: cover;" onerror="this.src='../../assets/images/parst.jpg'">
-              <div>
-                <p class="parg font-bold mb-0">${medName}</p>
-                <small class="text-muted"><i class="fa-solid fa-store me-1"></i> ${pharmacyName}</small><br>
-                <small class="text-muted"><i class="fa-solid fa-hashtag me-1"></i> ${orderNum} · <b>${total} ج.م</b></small>
-              </div>
-            </div>
-            <div class="d-flex align-items-center gap-2">
-              ${statusBadge}
-              ${actionBtn}
+        overviewContent.innerHTML = `
+          <div class="d-flex align-items-center gap-3">
+            <img src="${img}" alt="${firstItem.name}" style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover;" onerror="this.src='../../assets/images/parst.jpg'">
+            <div>
+              <p class="font-bold text-dark mb-0">${firstItem.name}</p>
+              <small class="text-success font-bold">الحالة: ${getOrderStatusLabel(topOrder.status)}</small>
             </div>
           </div>
         `;
-      });
+      } else {
+        overviewContent.innerHTML = `<p class="text-muted small mb-0">لا توجد طلبات جارية حالياً.</p>`;
+      }
+    }
 
-      ordersContainer.innerHTML = ordersHtml;
-      bindCancelListeners();
+    // Render Tab 2: Orders List
+    const ordersContainer = document.getElementById('patientOrdersContainer');
+    if (ordersContainer) {
+      if (orders.length === 0) {
+        ordersContainer.innerHTML = `
+          <div class="text-center py-5 bg-white border rounded">
+            <i class="fa-solid fa-box-open fs-1 text-muted mb-2 d-block"></i>
+            <h6 class="font-bold text-dark mb-1">لا توجد طلبات سابقة</h6>
+            <p class="text-muted small mb-3">يمكنك تصفح دليل الأدوية وطلب علاجك مباشرة ليصلك من الصيدلية</p>
+            <a href="medicines.html" class="btn btn-success font-bold btn-sm">تصفح الأدوية الآن</a>
+          </div>
+        `;
+      } else {
+        let ordersHtml = '';
+        orders.forEach(order => {
+          const orderNum = order.orderNumber || order._id?.substring(order._id.length - 6).toUpperCase() || 'ORD';
+          const items = order.items || [];
+          const firstItem = items[0] || { name: 'أدوية علاجية', price: 25 };
+          const medName = firstItem.name + (items.length > 1 ? ` (+${items.length - 1} أدوية أخرى)` : '');
+          const img = firstItem.image || firstItem.img || '../../assets/images/parst.jpg';
+          const pharmacyName = order.pharmacyName || order.pharmacyId?.name || 'صيدلية ترياق المعتمدة';
+          const total = Number(order.totalPrice || order.totalAmount || order.subtotal || 25).toFixed(2);
+          const status = order.status || 'pending';
+
+          ordersHtml += `
+            <div class="secOne p-3 bg-white border rounded d-flex justify-content-between align-items-center mb-2 shadow-xs" data-order-id="${order._id}">
+              <div class="d-flex align-items-center gap-3">
+                <img src="${img}" alt="${firstItem.name}" style="width: 55px; height: 55px; border-radius: 8px; object-fit: cover;" onerror="this.src='../../assets/images/parst.jpg'">
+                <div>
+                  <p class="parg font-bold mb-0 text-dark">${medName}</p>
+                  <small class="text-muted"><i class="fa-solid fa-store me-1"></i> ${pharmacyName}</small><br>
+                  <small class="text-muted"><i class="fa-solid fa-hashtag me-1"></i> ${orderNum} · <b class="text-success">${total} ج.م</b></small>
+                </div>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                ${getOrderStatusBadge(status)}
+                ${status === 'pending' || status === 'preparing' ? `<button class="btn btn-outline-danger btn-sm btn-cancel-booking" data-id="${order._id}">إلغاء</button>` : ''}
+              </div>
+            </div>
+          `;
+        });
+        ordersContainer.innerHTML = ordersHtml;
+        bindCancelListeners();
+      }
+    }
+
+    // Render Tab 5: Payments List
+    const paymentsContainer = document.getElementById('paymentsListContainer');
+    if (paymentsContainer) {
+      if (orders.length === 0) {
+        paymentsContainer.innerHTML = `
+          <div class="text-center py-4 bg-white border rounded">
+            <p class="text-muted mb-0">لا توجد معاملات مالية مسجلة بعد</p>
+          </div>
+        `;
+      } else {
+        let paymentsHtml = '';
+        orders.forEach(order => {
+          const firstItem = (order.items && order.items[0]) || { name: 'مشتريات أدوية' };
+          const pharmacyName = order.pharmacyName || order.pharmacyId?.name || 'صيدلية ترياق المعتمدة';
+          const total = Number(order.totalPrice || order.totalAmount || order.subtotal || 25).toFixed(2);
+          const dateStr = new Date(order.createdAt || Date.now()).toLocaleDateString('ar-EG');
+
+          paymentsHtml += `
+            <div class="secOne p-3 bg-white border rounded d-flex justify-content-between align-items-center">
+              <div>
+                <p class="font-bold mb-0 text-dark">${firstItem.name}</p>
+                <small class="text-muted"><i class="fa-solid fa-store me-1"></i> ${pharmacyName} · ${dateStr}</small>
+              </div>
+              <span class="font-bold text-success fs-6">${total} ج.م</span>
+            </div>
+          `;
+        });
+        paymentsContainer.innerHTML = paymentsHtml;
+      }
+    }
+  }
+
+  function getOrderStatusLabel(status) {
+    switch (status) {
+      case 'pending': return 'قيد الانتظار والمراجعة';
+      case 'preparing': return 'قيد التجهيز في الصيدلية';
+      case 'ready': return 'جاهز للاستلام الفوري';
+      case 'completed': return 'مكتمل وتم الاستلام';
+      case 'cancelled': return 'ملغي';
+      default: return status;
+    }
+  }
+
+  function getOrderStatusBadge(status) {
+    switch (status) {
+      case 'pending':
+        return '<span class="badge bg-warning text-dark p-2">قيد المراجعة</span>';
+      case 'preparing':
+        return '<span class="badge bg-info text-white p-2">جاري التحضير</span>';
+      case 'ready':
+        return '<span class="badge bg-primary text-white p-2">جاهز للاستلام</span>';
+      case 'completed':
+        return '<span class="badge bg-success text-white p-2">مكتمل وتم الاستلام</span>';
+      case 'cancelled':
+        return '<span class="badge bg-secondary text-white p-2">ملغي</span>';
+      default:
+        return `<span class="badge bg-light text-dark p-2">${status}</span>`;
     }
   }
 
@@ -129,12 +213,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       btn.addEventListener('click', async () => {
         const card = btn.closest('.secOne');
         const orderId = btn.dataset.id;
-        const medName = card ? card.querySelector('.font-bold')?.textContent || 'الطلب' : 'الطلب';
 
         if (window.Toast && window.Toast.confirm) {
           const confirmed = await window.Toast.confirm({
             title: 'إلغاء الطلب',
-            message: `هل أنت متأكد من رغبتك في إلغاء (${medName})؟`,
+            message: 'هل أنت متأكد من رغبتك في إلغاء هذا الطلب؟',
             type: 'danger',
             confirmText: 'نعم، إلغاء الطلب',
             cancelText: 'تراجع'
@@ -142,7 +225,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
           if (confirmed) {
             try {
-              if (window.API && window.API.orders && orderId) {
+              if (window.API && window.API.orders && orderId && orderId.length === 24) {
                 await window.API.orders.cancel(orderId);
               }
             } catch (e) {
@@ -154,7 +237,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               btn.textContent = 'تم الإلغاء';
               btn.disabled = true;
             }
-            window.Toast.success(`تم إلغاء (${medName}) بنجاح وإشعار الصيدلية.`, 'إلغاء الطلب');
+            window.Toast.success('تم إلغاء الطلب بنجاح وإشعار الصيدلية.', 'إلغاء الطلب');
           }
         }
       });
@@ -169,7 +252,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     uploadRxBtn.addEventListener('click', () => {
       if (window.Toast) {
         window.Toast.info(
-          'يمكنك رفع صورة الروشتة الطبية بوضوح وسيتم إرسالها لأقرب صيدلية معتمدة لصرفها فوراً.',
+          'يمكنك تصوير ورفع الروشتة الطبية وسيتم إرسالها لأقرب صيدلية لصرفها فوراً.',
           'رفع روشتة طبية',
           4500
         );

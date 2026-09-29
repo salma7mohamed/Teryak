@@ -1,6 +1,6 @@
 /**
  * Teryak Platform - Admin Medicines Management Logic
- * Connected with Backend API (/api/medicines) & Live Catalog Operations
+ * Connected with Backend API (/api/medicines) & Bulk Import/Export
  */
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -31,6 +31,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const cancelMedModalBtn = document.getElementById('cancelMedModalBtn');
   const medModal = document.getElementById('addMedicineModal');
   const addMedForm = document.getElementById('addMedicineForm');
+
+  const openBulkBtn = document.getElementById('openBulkImportModalBtn');
+  const exportBtn = document.getElementById('exportMedicinesBtn');
 
   let currentMedicines = [];
 
@@ -74,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
       if (window.API && window.API.medicines) {
-        const res = await window.API.medicines.getAll();
+        const res = await window.API.medicines.getAll({ limit: 100 });
         if (res && res.data && Array.isArray(res.data) && res.data.length > 0) {
           items = res.data.map(m => ({
             _id: m._id,
@@ -155,12 +158,12 @@ document.addEventListener('DOMContentLoaded', async () => {
           <div class="medicine-left">
             <span class="status-badge ${statusClass}">${statusText}</span>
             <div class="actions-group">
-              <button class="action-btn delete-btn" title="حذف" data-id="${med._id}">
+              <button class="action-btn delete-btn" title="حذف" data-id="${med._id}" data-name="${med.nameAr}">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
-              <button class="action-btn view-btn" title="معاينة" data-id="${med._id}" data-name="${med.nameAr}">
+              <a href="../public/medicine-detail.html?id=${med._id}" class="action-btn view-btn" title="معاينة الدواء">
                 <i class="fa-solid fa-eye"></i>
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -168,6 +171,47 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     medList.innerHTML = html;
+    bindDeleteActions();
+  }
+
+  // Bind Delete Actions
+  function bindDeleteActions() {
+    medList.querySelectorAll('.delete-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const medId = btn.dataset.id;
+        const name = btn.dataset.name || 'الدواء';
+
+        let confirmed = true;
+        if (window.Toast && window.Toast.confirm) {
+          confirmed = await window.Toast.confirm({
+            title: 'حذف الدواء',
+            message: `هل أنت متأكد من رغبتك في حذف (${name}) من الكتالوج العام نهائياً؟`,
+            type: 'danger',
+            confirmText: 'حذف',
+            cancelText: 'إلغاء'
+          });
+        }
+
+        if (confirmed) {
+          try {
+            if (window.API && window.API.medicines && medId && medId.length === 24) {
+              await window.API.medicines.delete(medId);
+            }
+          } catch (err) {
+            console.warn('API delete medicine fallback:', err.message);
+          }
+
+          currentMedicines = currentMedicines.filter(m => m._id !== medId);
+          saveLocalMedicines();
+          renderMedicines(currentMedicines);
+
+          if (window.Toast) {
+            window.Toast.success(`تم حذف (${name}) من الكتالوج بنجاح`, 'تم الحذف');
+          }
+        }
+      });
+    });
   }
 
   // 6. Search Filter
@@ -191,8 +235,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // 7. Modal Handlers (Add Medicine)
   if (openMedModalBtn && medModal) {
-    const openMedModal = () => medModal.classList.add('active');
-    const closeMedModal = () => medModal.classList.remove('active');
+    const openMedModal = () => {
+      medModal.style.display = 'flex';
+      medModal.classList.add('active');
+    };
+    const closeMedModal = () => {
+      medModal.style.display = 'none';
+      medModal.classList.remove('active');
+    };
 
     openMedModalBtn.addEventListener('click', openMedModal);
     if (closeMedModalBtn) closeMedModalBtn.addEventListener('click', closeMedModal);
@@ -204,7 +254,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const mName = document.getElementById('newMedName')?.value.trim();
         const engName = document.getElementById('newMedEngName')?.value.trim() || mName;
         const category = document.getElementById('newMedCategory')?.value || 'عام';
-        const pCount = Number(document.getElementById('newMedPharmacyCount')?.value) || 1;
+        const price = Number(document.getElementById('newMedPrice')?.value) || 35.0;
+        const dosageForm = document.getElementById('newMedDosageForm')?.value || 'أقراص';
         const status = document.getElementById('newMedStatus')?.value || 'active';
 
         if (!mName) {
@@ -214,14 +265,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         let newId = `med_${Date.now()}`;
 
-        // Send to Backend API
         try {
           if (window.API && window.API.medicines) {
             const res = await window.API.medicines.create({
               nameAr: mName,
               nameEn: engName,
               category,
-              price: 35.0,
+              price: price,
+              dosageForm,
               status: status === 'قيد المراجعة' ? 'pending' : 'active',
             });
             if (res && res.data && res.data._id) {
@@ -237,9 +288,9 @@ document.addEventListener('DOMContentLoaded', async () => {
           nameAr: mName,
           nameEn: engName,
           category,
-          price: 35.0,
+          price: price,
           status: status === 'قيد المراجعة' ? 'pending' : 'active',
-          pharmaciesCount: pCount,
+          pharmaciesCount: 1,
           image: '../../assets/images/parst.jpg',
         };
 
@@ -248,7 +299,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderMedicines(currentMedicines);
 
         if (window.Toast) {
-          window.Toast.success(`تمت إضافة (${mName}) إلى قاعدة بيانات الأدوية بنجاح.`, 'إضافة دواء');
+          window.Toast.success(`تمت إضافة دواء (${mName}) للكتالوج بنجاح`, 'تمت الإضافة');
         }
 
         addMedForm.reset();
@@ -257,51 +308,144 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // 8. Action Delegation (Delete & View)
-  if (medList) {
-    medList.addEventListener('click', async (e) => {
-      const targetBtn = e.target.closest('.action-btn');
-      if (!targetBtn) return;
-
-      const card = targetBtn.closest('.medicine-card');
-      const medId = targetBtn.dataset.id || card?.dataset.id;
-      const medItem = currentMedicines.find(m => m._id === medId);
-      const medName = medItem ? medItem.nameAr : (card?.querySelector('.medicine-name')?.innerText || 'الدواء');
-
-      if (targetBtn.classList.contains('delete-btn')) {
-        let confirmed = true;
-        if (window.Toast && window.Toast.confirm) {
-          confirmed = await window.Toast.confirm({
-            title: 'حذف الدواء',
-            message: `هل أنت متأكد من رغبتك في حذف (${medName}) من قاعدة البيانات؟`,
-            type: 'danger',
-            confirmText: 'حذف نهائي',
-            cancelText: 'إلغاء'
-          });
-        }
-
-        if (confirmed) {
-          try {
-            if (window.API && window.API.medicines && medId && medId.length === 24) {
-              await window.API.medicines.delete(medId);
-            }
-          } catch (err) {
-            console.warn('API delete medicine fallback:', err.message);
-          }
-
-          currentMedicines = currentMedicines.filter(m => m._id !== medId);
-          saveLocalMedicines();
-          renderMedicines(currentMedicines);
-
-          if (window.Toast) {
-            window.Toast.success(`تم حذف (${medName}) بنجاح من المنصة.`, 'تم الحذف');
-          }
-        }
-      } else if (targetBtn.classList.contains('view-btn')) {
-        window.location.href = '../public/medicine-detail.html?med=' + encodeURIComponent(medName);
+  // 8. Bulk Import System (Admin)
+  if (openBulkBtn) {
+    openBulkBtn.addEventListener('click', () => {
+      const modalEl = document.getElementById('adminBulkImportModal');
+      if (modalEl) {
+        const modal = new bootstrap.Modal(modalEl);
+        modal.show();
       }
+    });
+
+    const dlTemplateBtn = document.getElementById('adminDownloadTemplateBtn');
+    if (dlTemplateBtn) {
+      dlTemplateBtn.addEventListener('click', () => {
+        const templateContent = 'الاسم العربي,الاسم الإنجليزي,الفئة,السعر\nبانادول إكسترا أقراص,Panadol Extra,مسكنات,45.00\nأوجمنتين 1 جم أقراص,Augmentin 1g,مضادات حيوية,110.00\nأوميجا 3 بلس كبسول,Omega 3 Plus,مكملات غذائية,120.00';
+        const blob = new Blob(['\uFEFF' + templateContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'قالب_كتالوج_أدوية_ترياق.csv';
+        link.click();
+      });
+    }
+
+    const adminFileInput = document.getElementById('adminCsvFileInput');
+    const adminTextInput = document.getElementById('adminCsvTextInput');
+    const adminExecBtn = document.getElementById('adminExecuteImportBtn');
+
+    if (adminFileInput && adminTextInput) {
+      adminFileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            adminTextInput.value = event.target.result;
+          };
+          reader.readAsText(file, 'UTF-8');
+        }
+      });
+    }
+
+    if (adminExecBtn && adminTextInput) {
+      adminExecBtn.addEventListener('click', async () => {
+        const raw = adminTextInput.value.trim();
+        if (!raw) {
+          if (window.Toast) window.Toast.warning('يرجى لصق بيانات CSV أو اختيار ملف', 'لا توجد بيانات');
+          return;
+        }
+
+        const lines = raw.split(/\r?\n/).filter(l => l.trim() !== '');
+        const startIndex = (lines[0] && (lines[0].includes('الاسم') || lines[0].toLowerCase().includes('name'))) ? 1 : 0;
+        const medsToImport = [];
+
+        for (let i = startIndex; i < lines.length; i++) {
+          const p = lines[i].split(',').map(x => x.trim());
+          if (p[0]) {
+            medsToImport.push({
+              nameAr: p[0],
+              nameEn: p[1] || p[0],
+              category: p[2] || 'أدوية عامة',
+              price: Number(p[3]) || 35.0,
+            });
+          }
+        }
+
+        if (medsToImport.length === 0) {
+          if (window.Toast) window.Toast.warning('لم يتم العثور على أدوية صالحة بالملف', 'خطأ في التنسيق');
+          return;
+        }
+
+        adminExecBtn.disabled = true;
+        adminExecBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-2"></i> جاري استيراد الأدوية...';
+
+        try {
+          if (window.API && window.API.medicines) {
+            await window.API.medicines.bulkImport(medsToImport);
+          }
+        } catch (err) {
+          console.warn('Admin Bulk import API fallback:', err.message);
+        }
+
+        medsToImport.forEach(item => {
+          const existing = currentMedicines.find(m => m.nameAr === item.nameAr);
+          if (existing) {
+            existing.price = item.price;
+            existing.category = item.category;
+          } else {
+            currentMedicines.unshift({
+              _id: `med_${Date.now()}_${Math.floor(Math.random() * 1000)}`,
+              nameAr: item.nameAr,
+              nameEn: item.nameEn,
+              category: item.category,
+              price: item.price,
+              status: 'active',
+              pharmaciesCount: 5,
+              image: '../../assets/images/parst.jpg',
+            });
+          }
+        });
+
+        saveLocalMedicines();
+        renderMedicines(currentMedicines);
+
+        const modalEl = document.getElementById('adminBulkImportModal');
+        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+        if (modalInstance) modalInstance.hide();
+
+        if (window.Toast) {
+          window.Toast.success(`تم استيراد ${medsToImport.length} دواء إلى الكتالوج بنجاح!`, 'تم الاستيراد');
+        }
+
+        adminExecBtn.disabled = false;
+        adminExecBtn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up me-1"></i> بدء الاستيراد للكتالوج';
+      });
+    }
+  }
+
+  // 9. Export Catalog
+  if (exportBtn) {
+    exportBtn.addEventListener('click', () => {
+      if (!currentMedicines || currentMedicines.length === 0) {
+        if (window.Toast) window.Toast.warning('الكتالوج فارغ حالياً لتصديره', 'تنبيه');
+        return;
+      }
+
+      let csv = 'الاسم العربي,الاسم الإنجليزي,الفئة,السعر,الحالة\n';
+      currentMedicines.forEach(m => {
+        csv += `"${m.nameAr}","${m.nameEn || ''}","${m.category || ''}",${m.price || 25},"${m.status || 'active'}"\n`;
+      });
+
+      const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `كتالوج_أدوية_ترياق_${new Date().toISOString().split('T')[0]}.csv`;
+      link.click();
+
+      if (window.Toast) window.Toast.success('تم تصدير كتالوج الأدوية بصيغة CSV بنجاح', 'تصدير الكتالوج');
     });
   }
 
-  await loadMedicines();
+  // Load initial data
+  loadMedicines();
 });

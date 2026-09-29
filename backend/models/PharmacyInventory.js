@@ -24,6 +24,14 @@ const pharmacyInventorySchema = new mongoose.Schema(
       type: Number,
       min: [0, 'السعر لا يمكن أن يكون سالباً'],
     },
+    costPrice: {
+      type: Number,
+      min: [0, 'سعر التكلفة لا يمكن أن يكون سالباً'],
+    },
+    shelfLocation: {
+      type: String,
+      default: '',
+    },
     expiryDate: {
       type: Date,
       default: () => new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // Default 1 year ahead

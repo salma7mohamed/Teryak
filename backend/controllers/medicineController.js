@@ -274,6 +274,75 @@ const deleteMedicine = async (req, res, next) => {
   }
 };
 
+// @desc    Bulk import medicines into catalog
+// @route   POST /api/medicines/bulk-import
+// @access  Private (Admin)
+const bulkImportMedicines = async (req, res, next) => {
+  try {
+    const { medicines } = req.body;
+    if (!Array.isArray(medicines) || medicines.length === 0) {
+      return errorResponse(res, 400, 'يرجى إرسال مصفوفة أدوية صالحة للاستيراد');
+    }
+
+    let insertedCount = 0;
+    let updatedCount = 0;
+    const errors = [];
+
+    for (let i = 0; i < medicines.length; i++) {
+      const item = medicines[i];
+      const nameAr = (item.nameAr || item.name || '').trim();
+      if (!nameAr) {
+        errors.push(`العنصر #${i + 1}: اسم الدواء بالعربية مطلوب`);
+        continue;
+      }
+
+      const existing = await Medicine.findOne({
+        $or: [
+          { nameAr: nameAr },
+          ...(item.nameEn ? [{ nameEn: item.nameEn.trim() }] : [])
+        ]
+      });
+
+      if (existing) {
+        if (item.price) existing.price = Number(item.price);
+        if (item.category) existing.category = item.category;
+        if (item.activeIngredient) existing.activeIngredient = item.activeIngredient;
+        if (item.dosageForm) existing.dosageForm = item.dosageForm;
+        if (item.concentration) existing.concentration = item.concentration;
+        if (item.description) existing.description = item.description;
+        if (item.image) existing.image = item.image;
+        await existing.save();
+        updatedCount++;
+      } else {
+        await Medicine.create({
+          nameAr: nameAr,
+          nameEn: (item.nameEn || nameAr).trim(),
+          activeIngredient: item.activeIngredient || 'مادة فعالة عامة',
+          category: item.category || 'أدوية عامة',
+          dosageForm: item.dosageForm || 'أقراص',
+          concentration: item.concentration || '',
+          description: item.description || '',
+          usageInstructions: item.usageInstructions || '',
+          price: Number(item.price) || 25,
+          requiresPrescription: Boolean(item.requiresPrescription),
+          image: item.image || '',
+          status: 'active'
+        });
+        insertedCount++;
+      }
+    }
+
+    return successResponse(res, 200, 'تمت عملية الاستيراد الجماعي للأدوية بنجاح', {
+      insertedCount,
+      updatedCount,
+      totalProcessed: medicines.length,
+      errors
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getMedicines,
   getMedicineById,
@@ -281,4 +350,6 @@ module.exports = {
   createMedicine,
   updateMedicine,
   deleteMedicine,
+  bulkImportMedicines,
 };
+

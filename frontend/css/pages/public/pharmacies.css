@@ -680,3 +680,158 @@ svg {
   }
 }
 
+/* ==========================================================================
+   Dark Theme Adaptation for Pharmacies Directory
+   ========================================================================== */
+body.dark-theme,
+[data-theme="dark"] body {
+  background-color: #0b1120 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .search-box,
+body.dark-theme .toolbar-btn,
+body.dark-theme .pharmacy-card,
+body.dark-theme .sidebar-box,
+body.dark-theme .panel,
+body.dark-theme .card,
+body.dark-theme .open-filter-row,
+body.dark-theme .dropdown-menu,
+[data-theme="dark"] .search-box,
+[data-theme="dark"] .toolbar-btn,
+[data-theme="dark"] .pharmacy-card,
+[data-theme="dark"] .sidebar-box,
+[data-theme="dark"] .panel,
+[data-theme="dark"] .card,
+[data-theme="dark"] .open-filter-row,
+[data-theme="dark"] .dropdown-menu {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+  color: #f1f5f9 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark-theme .dropdown-item,
+[data-theme="dark"] .dropdown-item {
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .dropdown-item:hover,
+[data-theme="dark"] .dropdown-item:hover {
+  background-color: #1e293b !important;
+  color: #34d399 !important;
+}
+
+body.dark-theme .header2 h1,
+body.dark-theme .panel-title,
+body.dark-theme .card-title,
+body.dark-theme .detail-name,
+body.dark-theme .open-now-title,
+body.dark-theme .open-item .name,
+body.dark-theme .stat-row .value,
+body.dark-theme .open-filter-row span,
+[data-theme="dark"] .header2 h1,
+[data-theme="dark"] .panel-title,
+[data-theme="dark"] .card-title,
+[data-theme="dark"] .detail-name,
+[data-theme="dark"] .open-now-title,
+[data-theme="dark"] .open-item .name,
+[data-theme="dark"] .stat-row .value,
+[data-theme="dark"] .open-filter-row span {
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .panel-sub,
+body.dark-theme .header2 p,
+body.dark-theme .card-doctor,
+body.dark-theme .card-address,
+body.dark-theme .stat-row .label,
+body.dark-theme .open-item .hours,
+[data-theme="dark"] .panel-sub,
+[data-theme="dark"] .header2 p,
+[data-theme="dark"] .card-doctor,
+[data-theme="dark"] .card-address,
+[data-theme="dark"] .stat-row .label,
+[data-theme="dark"] .open-item .hours {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .stat-row,
+body.dark-theme .card-expand,
+[data-theme="dark"] .stat-row,
+[data-theme="dark"] .card-expand {
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .card-photo,
+[data-theme="dark"] .card-photo {
+  background-color: #0f172a !important;
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .tag,
+body.dark-theme .call-btn,
+body.dark-theme .badge-dist,
+body.dark-theme .badge-hours,
+body.dark-theme .feature-chip,
+body.dark-theme .tag-item,
+body.dark-theme .quick-pill,
+[data-theme="dark"] .tag,
+[data-theme="dark"] .call-btn,
+[data-theme="dark"] .badge-dist,
+[data-theme="dark"] .badge-hours,
+[data-theme="dark"] .feature-chip,
+[data-theme="dark"] .tag-item,
+[data-theme="dark"] .quick-pill {
+  background-color: #1e293b !important;
+  color: #cbd5e1 !important;
+  border: 1px solid #334155 !important;
+}
+
+body.dark-theme .tag:hover,
+body.dark-theme .call-btn:hover,
+[data-theme="dark"] .tag:hover,
+[data-theme="dark"] .call-btn:hover {
+  background-color: #334155 !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .open-item:hover,
+[data-theme="dark"] .open-item:hover {
+  background-color: #1e293b !important;
+}
+
+body.dark-theme .badge.open,
+body.dark-theme .badge-status.open,
+[data-theme="dark"] .badge.open,
+[data-theme="dark"] .badge-status.open {
+  background-color: rgba(16, 185, 129, 0.16) !important;
+  color: #34d399 !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+}
+
+body.dark-theme .badge.closed,
+body.dark-theme .badge-status.closed,
+[data-theme="dark"] .badge.closed,
+[data-theme="dark"] .badge-status.closed {
+  background-color: rgba(239, 68, 68, 0.16) !important;
+  color: #f87171 !important;
+  border: 1px solid rgba(239, 68, 68, 0.35) !important;
+}
+
+body.dark-theme .panel .pin-icon,
+[data-theme="dark"] .panel .pin-icon {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #34d399 !important;
+}
+
+body.dark-theme .call-btn svg,
+[data-theme="dark"] .call-btn svg {
+  color: #34d399 !important;
+}
+
+
+
+
+
+

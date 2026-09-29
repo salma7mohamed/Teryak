@@ -8,8 +8,6 @@
   <!-- Vendor CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js" defer></script>
 
   <!-- Base & Component CSS -->
   <link rel="stylesheet" href="../../css/base/variables.css">
@@ -42,7 +40,7 @@
             <h2 class="font-bold mb-1"><i class="fa-solid fa-right-left text-success me-2"></i> نظام تبادل المخزون بين الصيدليات</h2>
             <p class="text-muted mb-0">اعرض أدويتك الزائدة أو اطلب نواقص الأدوية من الصيدليات المشاركة في شبكة ترياق</p>
           </div>
-          <button class="add-btn btn btn-success">
+          <button class="add-btn btn btn-success font-bold" id="btnOpenExchangeModal">
             <i class="fa-solid fa-plus me-1"></i> طلب / عرض دواء
           </button>
         </div>
@@ -50,7 +48,7 @@
         <!-- Exchange Offers List -->
         <div class="exchange-card p-3 bg-white border rounded mb-3 shadow-sm d-flex justify-content-between align-items-center">
           <div class="right d-flex align-items-center gap-3">
-            <img src="../../assets/images/amoc.jpg" alt="Amoxicillin" style="width: 55px; height: 55px; border-radius: 8px;">
+            <img src="../../assets/images/amoc.jpg" alt="Amoxicillin" style="width: 55px; height: 55px; border-radius: 8px; object-fit: cover;">
             <div class="info">
               <span class="type request badge bg-info text-dark mb-1">طلب استلام</span>
               <h4 class="font-bold mb-0">أموكسيسيلين 500 مجم</h4>
@@ -59,15 +57,15 @@
           </div>
           <div class="left">
             <div class="buttons d-flex gap-2">
-              <button class="accept btn btn-success btn-sm">قبول</button>
-              <button class="reject btn btn-outline-danger btn-sm">رفض</button>
+              <button class="accept btn btn-success btn-sm font-bold">قبول</button>
+              <button class="reject btn btn-outline-danger btn-sm font-bold">رفض</button>
             </div>
           </div>
         </div>
 
         <div class="exchange-card p-3 bg-white border rounded mb-3 shadow-sm d-flex justify-content-between align-items-center">
           <div class="right d-flex align-items-center gap-3">
-            <img src="../../assets/images/vitamine.jpg" alt="Vitasil" style="width: 55px; height: 55px; border-radius: 8px;">
+            <img src="../../assets/images/vitamine.jpg" alt="Vitasil" style="width: 55px; height: 55px; border-radius: 8px; object-fit: cover;">
             <div class="info">
               <span class="type exchange badge bg-warning text-dark mb-1">معروض للتبادل</span>
               <h4 class="font-bold mb-0">فيتامين د 1000 مجم</h4>
@@ -81,7 +79,7 @@
 
         <div class="exchange-card p-3 bg-white border rounded mb-3 shadow-sm d-flex justify-content-between align-items-center">
           <div class="right d-flex align-items-center gap-3">
-            <img src="../../assets/images/parst.jpg" alt="Paracetamol" style="width: 55px; height: 55px; border-radius: 8px;">
+            <img src="../../assets/images/parst.jpg" alt="Paracetamol" style="width: 55px; height: 55px; border-radius: 8px; object-fit: cover;">
             <div class="info">
               <span class="type request badge bg-info text-dark mb-1">طلب استلام</span>
               <h4 class="font-bold mb-0">باراسيتامول 500 مجم</h4>
