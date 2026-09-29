@@ -41,8 +41,8 @@
 
 ### 📝 المتغيرات في ملف `.env`:
 ```env
-GOOGLE_CLIENT_ID=xxxxxxxxxxxx-xxxxxxxxxxxxxxxx.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET=GOCSPX-xxxxxxxxxxxxxxxxxxxxxxxx
+GOOGLE_CLIENT_ID=your_google_client_id_here.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=your_google_client_secret_here
 GOOGLE_CALLBACK_URL=https://your-domain.com/api/auth/google/callback
 ```
 
@@ -67,10 +67,10 @@ GOOGLE_CALLBACK_URL=https://your-domain.com/api/auth/google/callback
 
 ### 📝 المتغيرات في ملف `.env`:
 ```env
-PAYMOB_API_KEY=ZXlKaGJHY2lPaUpJVXpVeE1pS...
-PAYMOB_HMAC_SECRET=4B5A79E89C6D...
-PAYMOB_CARD_INTEGRATION_ID=123456
-PAYMOB_WALLET_INTEGRATION_ID=654321
+PAYMOB_API_KEY=your_paymob_api_key_here
+PAYMOB_HMAC_SECRET=your_paymob_hmac_secret_here
+PAYMOB_CARD_INTEGRATION_ID=your_paymob_card_id
+PAYMOB_WALLET_INTEGRATION_ID=your_paymob_wallet_id
 ```
 
 ---
@@ -89,11 +89,11 @@ PAYMOB_WALLET_INTEGRATION_ID=654321
 
 ### 📝 المتغيرات في ملف `.env`:
 ```env
-TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-TWILIO_AUTH_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-TWILIO_PHONE_NUMBER=+1234567890
-WHATSAPP_API_TOKEN=EAABxxxxxxxxxxxxxxxxxxxx
-WHATSAPP_PHONE_NUMBER_ID=109876543210
+TWILIO_ACCOUNT_SID=your_twilio_account_sid_here
+TWILIO_AUTH_TOKEN=your_twilio_auth_token_here
+TWILIO_PHONE_NUMBER=your_twilio_phone_number_here
+WHATSAPP_API_TOKEN=your_whatsapp_api_token_here
+WHATSAPP_PHONE_NUMBER_ID=your_whatsapp_phone_number_id_here
 ```
 
 ---
@@ -111,9 +111,9 @@ WHATSAPP_PHONE_NUMBER_ID=109876543210
 
 ### 📝 المتغيرات في ملف `.env`:
 ```env
-CLOUDINARY_CLOUD_NAME=teryak-app
-CLOUDINARY_API_KEY=123456789012345
-CLOUDINARY_API_SECRET=abcdefghijklmnopqrstuvwxyz12345
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 ```
 
 ---
@@ -130,9 +130,9 @@ CLOUDINARY_API_SECRET=abcdefghijklmnopqrstuvwxyz12345
 
 ### 📝 المتغيرات في ملف `.env`:
 ```env
-MAPBOX_ACCESS_TOKEN=pk.eyJ1IjoidGVyeWFrIiwiYSI6ImNsc3...
+MAPBOX_ACCESS_TOKEN=your_mapbox_access_token_here
 # أو خرائط جوجل:
-GOOGLE_MAPS_API_KEY=AIzaSyDxxxxxxxxxxxxxxxxxxxxxxxxx
+GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
 ```
 
 ---
@@ -149,8 +149,8 @@ GOOGLE_MAPS_API_KEY=AIzaSyDxxxxxxxxxxxxxxxxxxxxxxxxx
 
 ### 📝 المتغيرات في ملف `.env`:
 ```env
-MONGODB_URI=mongodb+srv://teryak_prod_user:StrongPassword@teryak.boxngyx.mongodb.net/teryak_db?retryWrites=true&w=majority
-JWT_SECRET=teryak_secret_jwt_key_2026_super_secure_hash_89a4b98c76ef4
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/teryak_db?retryWrites=true&w=majority
+JWT_SECRET=your_jwt_secret_key_here_change_in_production
 JWT_EXPIRES_IN=7d
 ```
 

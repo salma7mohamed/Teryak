@@ -11,7 +11,7 @@ const protect = async (req, res, next) => {
   ) {
     try {
       token = req.headers.authorization.split(' ')[1];
-      const secret = process.env.JWT_SECRET || 'teryak_secret_jwt_key_2026_super_secure_hash_89a4b98c76ef4';
+      const secret = process.env.JWT_SECRET || 'dev_jwt_secret_key_teryak_2026';
       const decoded = jwt.verify(token, secret);
 
       const user = await User.findById(decoded.id).select('-password');
