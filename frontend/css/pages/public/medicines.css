@@ -646,6 +646,67 @@ body {
   }
 }
 
+/* ---------------- Pagination Navigation ---------------- */
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 36px 0 16px;
+  flex-wrap: wrap;
+}
+
+.pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  color: #334155;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  font-family: inherit;
+  user-select: none;
+}
+
+.pagination-btn:hover:not(:disabled):not(.active) {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #0f172a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.pagination-btn.active {
+  background: var(--primary-color, #008b5e) !important;
+  border-color: var(--primary-color, #008b5e) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(0, 139, 94, 0.35);
+  transform: translateY(-1px);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.pagination-info {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #64748b;
+  margin-top: 6px;
+  text-align: center;
+}
+
 /* ==========================================================================
    Dark Theme Adaptation for Medicines Catalog
    ========================================================================== */
@@ -653,6 +714,10 @@ body.dark-theme .toolbar-card,
 [data-theme="dark"] .toolbar-card,
 body.dark-theme .medicine-card,
 [data-theme="dark"] .medicine-card,
+body.dark-theme .card,
+[data-theme="dark"] .card,
+body.dark-theme .advanced-filter-drawer,
+[data-theme="dark"] .advanced-filter-drawer,
 body.dark-theme .empty-results-box,
 [data-theme="dark"] .empty-results-box,
 body.dark-theme .filters-wrapper,
@@ -663,11 +728,20 @@ body.dark-theme .filters-wrapper,
 
 body.dark-theme .catalog-header-wrap h2,
 [data-theme="dark"] .catalog-header-wrap h2,
+body.dark-theme .card-title,
 body.dark-theme .card-title a,
+[data-theme="dark"] .card-title,
 [data-theme="dark"] .card-title a,
+body.dark-theme .filter-section-title,
+[data-theme="dark"] .filter-section-title,
 body.dark-theme .empty-title,
 [data-theme="dark"] .empty-title {
   color: #f1f5f9 !important;
+}
+
+body.dark-theme .card-body small,
+[data-theme="dark"] .card-body small {
+  color: #94a3b8 !important;
 }
 
 body.dark-theme .search-box-wrap,
@@ -704,10 +778,72 @@ body.dark-theme .filter-toggle-btn,
   color: #f1f5f9 !important;
 }
 
+body.dark-theme .filter-drawer-footer,
+[data-theme="dark"] .filter-drawer-footer {
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .btn-reset-filters,
+[data-theme="dark"] .btn-reset-filters {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .btn-reset-filters:hover,
+[data-theme="dark"] .btn-reset-filters:hover {
+  background: rgba(239, 68, 68, 0.2) !important;
+  border-color: #ef4444 !important;
+  color: #f87171 !important;
+}
+
+body.dark-theme .results-meta-bar,
+[data-theme="dark"] .results-meta-bar {
+  border-color: #1f2937 !important;
+}
+
+body.dark-theme .results-count-text,
+[data-theme="dark"] .results-count-text {
+  color: #94a3b8 !important;
+}
+
 body.dark-theme .img-box,
 [data-theme="dark"] .img-box {
   background-color: #0f172a !important;
   border-color: #1f2937 !important;
+}
+
+body.dark-theme .img-box .rate,
+[data-theme="dark"] .img-box .rate {
+  background: rgba(15, 23, 42, 0.9) !important;
+  color: #fbbf24 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark-theme .pagination-btn,
+[data-theme="dark"] .pagination-btn {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .pagination-btn:hover:not(:disabled):not(.active),
+[data-theme="dark"] .pagination-btn:hover:not(:disabled):not(.active) {
+  background: #334155 !important;
+  color: #ffffff !important;
+  border-color: #475569 !important;
+}
+
+body.dark-theme .pagination-btn.active,
+[data-theme="dark"] .pagination-btn.active {
+  background: var(--primary-color, #008b5e) !important;
+  border-color: var(--primary-color, #008b5e) !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .pagination-info,
+[data-theme="dark"] .pagination-info {
+  color: #94a3b8 !important;
 }
 
 body.dark-theme .btn-details,
@@ -743,5 +879,6 @@ body.dark-theme .badge-discount,
   color: #fbbf24 !important;
   border: 1px solid rgba(245, 158, 11, 0.35) !important;
 }
+
 
 

@@ -88,38 +88,74 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let selectedMethod = 'cash'; // 'cash' | 'card' | 'vodafone_cash'
 
+  function setIndicatorState(iconEl, isChecked) {
+    if (!iconEl) return;
+    if (isChecked) {
+      iconEl.className = 'fa-solid fa-circle-check text-success fs-4 check-indicator';
+    } else {
+      iconEl.className = 'fa-regular fa-circle text-muted fs-4 check-indicator';
+    }
+  }
+
   function selectPayment(type) {
     selectedMethod = type;
 
-    // Reset options
+    // Reset all option cards
     [byHand, Cash, credit].forEach(opt => opt?.classList.remove('active'));
-    [byHandIC, cashIC, creditIC].forEach(ic => ic?.classList.add('d-none'));
+    setIndicatorState(byHandIC, false);
+    setIndicatorState(cashIC, false);
+    setIndicatorState(creditIC, false);
+
     if (VisaForm) VisaForm.classList.add('d-none');
     if (CashForm) CashForm.classList.add('d-none');
 
     if (type === 'cash') {
       if (byHand) byHand.classList.add('active');
-      if (byHandIC) byHandIC.classList.remove('d-none');
-      localStorage.setItem('paymentMethod', 'الدفع عند الاستلام');
+      setIndicatorState(byHandIC, true);
+      localStorage.setItem('paymentMethod', 'الدفع عند الاستلام (كاش)');
       localStorage.setItem('paymentMethodCode', 'cash');
     } else if (type === 'card') {
       if (Cash) Cash.classList.add('active');
-      if (cashIC) cashIC.classList.remove('d-none');
+      setIndicatorState(cashIC, true);
       if (VisaForm) VisaForm.classList.remove('d-none');
-      localStorage.setItem('paymentMethod', 'بطاقة بنكية');
+      localStorage.setItem('paymentMethod', 'بطاقة بنكية (Visa / Mastercard / ميزة)');
       localStorage.setItem('paymentMethodCode', 'card');
     } else if (type === 'wallet') {
       if (credit) credit.classList.add('active');
-      if (creditIC) creditIC.classList.remove('d-none');
+      setIndicatorState(creditIC, true);
       if (CashForm) CashForm.classList.remove('d-none');
-      localStorage.setItem('paymentMethod', 'محفظة إلكترونية');
+      localStorage.setItem('paymentMethod', 'محفظة إلكترونية (فودافون كاش / انستاباي)');
       localStorage.setItem('paymentMethodCode', 'vodafone_cash');
     }
   }
 
-  if (byHand) byHand.addEventListener('click', () => selectPayment('cash'));
-  if (Cash) Cash.addEventListener('click', () => selectPayment('card'));
-  if (credit) credit.addEventListener('click', () => selectPayment('wallet'));
+  if (byHand) {
+    byHand.addEventListener('click', () => selectPayment('cash'));
+    byHand.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectPayment('cash'); } });
+  }
+
+  if (Cash) {
+    Cash.addEventListener('click', () => selectPayment('card'));
+    Cash.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectPayment('card'); } });
+  }
+
+  if (credit) {
+    credit.addEventListener('click', () => selectPayment('wallet'));
+    credit.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectPayment('wallet'); } });
+  }
+
+  // Also activate corresponding payment method if user clicks/focuses inside sub-forms
+  if (VisaForm) {
+    VisaForm.addEventListener('focusin', () => {
+      if (selectedMethod !== 'card') selectPayment('card');
+    });
+  }
+
+  if (CashForm) {
+    CashForm.addEventListener('focusin', () => {
+      if (selectedMethod !== 'wallet') selectPayment('wallet');
+    });
+  }
 
   // Default selection
   selectPayment('cash');

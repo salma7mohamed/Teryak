@@ -2,6 +2,7 @@ const Medicine = require('../models/Medicine');
 const PharmacyInventory = require('../models/PharmacyInventory');
 const Pharmacy = require('../models/Pharmacy');
 const { successResponse, errorResponse } = require('../utils/apiResponse');
+const { searchEgyptianDrugRegistry, fetchOnlineEgyptianDrugs } = require('../utils/egyptianDrugService');
 
 // @desc    Get all medicines with search, category filtering, sorting & pagination
 // @route   GET /api/medicines
@@ -343,6 +344,56 @@ const bulkImportMedicines = async (req, res, next) => {
   }
 };
 
+// @desc    Search authentic Egyptian Drug Authority & Market Database live
+// @route   GET /api/medicines/egypt-registry
+// @access  Public
+const getEgyptianDrugRegistry = async (req, res, next) => {
+  try {
+    const { search = '', limit = 25 } = req.query;
+    const results = await searchEgyptianDrugRegistry(search, Number(limit) || 25);
+    return successResponse(res, 200, 'تم جلب بيانات دليل الأدوية المصرية بنجاح', results, {
+      count: results.length,
+      search: search || 'all',
+      source: 'Egyptian Drug Authority & National Open Registry (EDA)'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Sync Egyptian drugs to local MongoDB database
+// @route   POST /api/medicines/sync-egypt-registry
+// @access  Private (Admin)
+const syncEgyptianDrugCatalog = async (req, res, next) => {
+  try {
+    const drugs = await fetchOnlineEgyptianDrugs();
+    let imported = 0;
+    for (const d of drugs.slice(0, 100)) {
+      const exists = await Medicine.findOne({ nameAr: d.nameAr });
+      if (!exists) {
+        await Medicine.create({
+          nameAr: d.nameAr,
+          nameEn: d.nameEn,
+          activeIngredient: d.activeIngredient,
+          category: d.category,
+          dosageForm: d.dosageForm,
+          price: d.price,
+          image: d.image,
+          requiresPrescription: d.requiresPrescription,
+          status: 'active'
+        });
+        imported++;
+      }
+    }
+    return successResponse(res, 200, `تمت مزامنة ${imported} دواء مصري رسمي لقاعدة البيانات بنجاح`, {
+      importedCount: imported,
+      totalRegistryCount: drugs.length
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getMedicines,
   getMedicineById,
@@ -351,5 +402,7 @@ module.exports = {
   updateMedicine,
   deleteMedicine,
   bulkImportMedicines,
+  getEgyptianDrugRegistry,
+  syncEgyptianDrugCatalog,
 };
 

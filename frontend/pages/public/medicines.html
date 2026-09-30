@@ -142,6 +142,18 @@
       </div>
     </div>
 
+    <!-- Pagination Controls (1, 2, 3...) -->
+    <div id="paginationNav" class="pagination-container hide">
+      <button type="button" class="pagination-btn" id="prevPageBtn" aria-label="الصفحة السابقة">
+        <i class="fa-solid fa-chevron-right me-1"></i> السابق
+      </button>
+      <div id="pageNumbersContainer" class="d-flex gap-1 align-items-center"></div>
+      <button type="button" class="pagination-btn" id="nextPageBtn" aria-label="الصفحة التالية">
+        التالي <i class="fa-solid fa-chevron-left ms-1"></i>
+      </button>
+    </div>
+    <div id="paginationInfo" class="pagination-info hide"></div>
+
     <!-- Empty State (Shown when no matching medicines found) -->
     <div id="noResultsState" class="empty-results-box hide">
       <div class="empty-icon-wrap">

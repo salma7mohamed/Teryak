@@ -341,3 +341,11 @@ body.dark-theme .header-icon,
   background-color: rgba(124, 58, 237, 0.2) !important;
 }
 
+body.dark-theme .badge-donation,
+[data-theme="dark"] .badge-donation {
+  background-color: rgba(16, 185, 129, 0.16) !important;
+  color: #34d399 !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+}
+
+

@@ -8,11 +8,15 @@ const {
   updateMedicine,
   deleteMedicine,
   bulkImportMedicines,
+  getEgyptianDrugRegistry,
+  syncEgyptianDrugCatalog,
 } = require('../controllers/medicineController');
 const { protect } = require('../middlewares/authMiddleware');
 const { authorize } = require('../middlewares/roleMiddleware');
 const { validateMedicine } = require('../middlewares/validationMiddleware');
 
+router.get('/egypt-registry', getEgyptianDrugRegistry);
+router.post('/sync-egypt-registry', protect, authorize('admin'), syncEgyptianDrugCatalog);
 router.post('/bulk-import', protect, authorize('admin'), bulkImportMedicines);
 
 router.route('/')

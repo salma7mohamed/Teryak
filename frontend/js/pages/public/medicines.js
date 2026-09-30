@@ -22,6 +22,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   const activeChipsContainer = document.getElementById('activeChipsContainer');
   const noResultsState = document.getElementById('noResultsState');
   const grid = document.getElementById('medicinesGrid');
+  const paginationNav = document.getElementById('paginationNav');
+  const pageNumbersContainer = document.getElementById('pageNumbersContainer');
+  const prevPageBtn = document.getElementById('prevPageBtn');
+  const nextPageBtn = document.getElementById('nextPageBtn');
+  const paginationInfo = document.getElementById('paginationInfo');
 
   // Fallback Catalog Preset
   const DEFAULT_CATALOG = [
@@ -35,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       rating: 4.9,
       status: 'available',
       pharmaciesCount: 48,
-      image: '../../assets/images/1.jpg',
+      image: '../../assets/images/tablets.jpg',
       slug: 'paracetamol',
     },
     {
@@ -48,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       rating: 4.7,
       status: 'available',
       pharmaciesCount: 32,
-      image: '../../assets/images/1.jpg',
+      image: '../../assets/images/tablets.jpg',
       slug: 'paracetamol',
     },
     {
@@ -61,7 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       rating: 4.8,
       status: 'available',
       pharmaciesCount: 26,
-      image: '../../assets/images/6.jpg',
+      image: '../../assets/images/tablets.jpg',
       slug: 'cataflam',
     },
     {
@@ -74,7 +79,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       rating: 4.9,
       status: 'available',
       pharmaciesCount: 30,
-      image: '../../assets/images/8.jpg',
+      image: '../../assets/images/tablets.jpg',
       slug: 'amoxicillin',
     },
     {
@@ -87,7 +92,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       rating: 4.5,
       status: 'limited',
       pharmaciesCount: 12,
-      image: '../../assets/images/2.jpg',
+      image: '../../assets/images/capsules.jpg',
       slug: 'amoxicillin',
     },
     {
@@ -100,7 +105,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       rating: 4.6,
       status: 'available',
       pharmaciesCount: 18,
-      image: '../../assets/images/8.jpg',
+      image: '../../assets/images/tablets.jpg',
       slug: 'amoxicillin',
     },
     {
@@ -113,7 +118,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       rating: 4.8,
       status: 'available',
       pharmaciesCount: 42,
-      image: '../../assets/images/6.jpg',
+      image: '../../assets/images/tablets.jpg',
       slug: 'aspirin',
     },
     {
@@ -126,7 +131,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       rating: 4.7,
       status: 'available',
       pharmaciesCount: 25,
-      image: '../../assets/images/6.jpg',
+      image: '../../assets/images/tablets.jpg',
       slug: 'aspirin',
     },
     {
@@ -139,7 +144,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       rating: 4.6,
       status: 'available',
       pharmaciesCount: 38,
-      image: '../../assets/images/6.jpg',
+      image: '../../assets/images/tablets.jpg',
       slug: 'aspirin',
     },
     {
@@ -152,7 +157,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       rating: 4.9,
       status: 'available',
       pharmaciesCount: 35,
-      image: '../../assets/images/3.jpg',
+      image: '../../assets/images/capsules.jpg',
       slug: 'omega3',
     },
     {
@@ -165,7 +170,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       rating: 4.7,
       status: 'available',
       pharmaciesCount: 40,
-      image: '../../assets/images/4.jpg',
+      image: '../../assets/images/injection.jpg',
       slug: 'vitamind',
     },
     {
@@ -178,7 +183,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       rating: 4.6,
       status: 'available',
       pharmaciesCount: 60,
-      image: '../../assets/images/5.jpg',
+      image: '../../assets/images/tablets.jpg',
       slug: 'congestal',
     },
     {
@@ -191,7 +196,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       rating: 4.8,
       status: 'available',
       pharmaciesCount: 50,
-      image: '../../assets/images/7.jpg',
+      image: '../../assets/images/capsules.jpg',
       slug: 'antinal',
     },
   ];
@@ -199,17 +204,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   let rawMedicinesList = [...DEFAULT_CATALOG];
 
   // Helper Image mapper
-  function getMedicineImage(nameEn, category) {
-    const lower = (nameEn || '').toLowerCase();
-    if (lower.includes('panadol') || lower.includes('paramol') || lower.includes('paracetamol')) return '../../assets/images/1.jpg';
-    if (lower.includes('amox')) return '../../assets/images/2.jpg';
-    if (lower.includes('omega')) return '../../assets/images/3.jpg';
-    if (lower.includes('devarol') || lower.includes('vitamin')) return '../../assets/images/4.jpg';
-    if (lower.includes('congestal') || lower.includes('cold')) return '../../assets/images/5.jpg';
-    if (lower.includes('aspirin') || lower.includes('ecosprin') || lower.includes('aspocid') || lower.includes('cataflam')) return '../../assets/images/6.jpg';
-    if (lower.includes('antinal') || lower.includes('digest') || lower.includes('eno')) return '../../assets/images/7.jpg';
-    if (lower.includes('augmentin') || lower.includes('curam')) return '../../assets/images/8.jpg';
-    return '../../assets/images/1.jpg';
+  function getMedicineImage(nameEn, category, dosageForm) {
+    const combined = `${nameEn || ''} ${category || ''} ${dosageForm || ''}`.toLowerCase();
+    if (combined.includes('syrup') || combined.includes('شراب') || combined.includes('susp') || combined.includes('معلق')) return '../../assets/images/syrup.jpg';
+    if (combined.includes('amp') || combined.includes('vial') || combined.includes('inj') || combined.includes('حقن') || combined.includes('أمبول')) return '../../assets/images/injection.jpg';
+    if (combined.includes('cream') || combined.includes('oint') || combined.includes('مرهم') || combined.includes('كريم') || combined.includes('gel')) return '../../assets/images/ointment.jpg';
+    if (combined.includes('drop') || combined.includes('قطرة') || combined.includes('نقط')) return '../../assets/images/drops.jpg';
+    if (combined.includes('spray') || combined.includes('بخاخ') || combined.includes('inhal')) return '../../assets/images/spray.jpg';
+    if (combined.includes('cap') || combined.includes('كبسول') || combined.includes('omega')) return '../../assets/images/capsules.jpg';
+    return '../../assets/images/tablets.jpg';
   }
 
   // Fetch Live Data from Backend API
@@ -240,7 +243,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               rating: 4.8,
               status: 'available',
               pharmaciesCount: Math.floor(Math.random() * 35) + 10,
-              image: m.image && !m.image.startsWith('assets') ? m.image : getMedicineImage(m.nameEn, m.category),
+              image: m.image && !m.image.startsWith('assets') ? m.image : getMedicineImage(m.nameEn, m.category, m.dosageForm),
               slug: firstWord,
             };
           });
@@ -253,14 +256,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   await loadMedicinesFromAPI();
 
-  // Unified Filter State
+  // Unified Filter State & Pagination
   const state = {
     search: '',
     category: 'all',
     status: 'all',
     priceRange: 'all',
     sortBy: 'default',
+    page: 1,
+    itemsPerPage: 6, // 3 columns x 2 rows = 6 items per page for clean compact viewing
   };
+
+  let lastFilteredCount = 0;
+  let lastTotalPages = 1;
 
   // Toggle Advanced Filter Drawer
   if (filterBtn && filterDrawer) {
@@ -338,7 +346,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           if (searchInput) searchInput.value = '';
           state.search = '';
           if (clearSearchBtn) clearSearchBtn.classList.add('hide');
-          applyFilters();
+          applyFilters(true);
         },
       });
     }
@@ -355,13 +363,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // Dynamic Card Rendering Function
-  function renderCards(medicines) {
+  // Dynamic Card Rendering Function (3 Columns per row: col-lg-4)
+  function renderCards(medicines, totalFiltered, startIndex) {
     if (!grid) return;
     grid.innerHTML = '';
 
     if (totalCountEl) totalCountEl.textContent = rawMedicinesList.length;
-    if (resultsCountEl) resultsCountEl.textContent = medicines.length;
+    if (resultsCountEl) {
+      if (totalFiltered === 0) {
+        resultsCountEl.textContent = '0';
+      } else {
+        const from = startIndex + 1;
+        const to = Math.min(startIndex + medicines.length, totalFiltered);
+        resultsCountEl.textContent = `${from} - ${to} من أصل ${totalFiltered}`;
+      }
+    }
 
     if (medicines.length === 0) {
       if (noResultsState) noResultsState.classList.remove('hide');
@@ -372,7 +388,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     medicines.forEach((med) => {
       const col = document.createElement('div');
-      col.className = 'col-12 col-md-6 col-lg-3 medicine-item';
+      col.className = 'col-12 col-md-6 col-lg-4 medicine-item';
       col.dataset.category = med.category;
       col.dataset.status = med.status;
       col.dataset.price = med.price;
@@ -457,8 +473,73 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
+  // Render Pagination Navigation (1, 2, 3...)
+  function renderPagination(totalItems, totalPages) {
+    lastFilteredCount = totalItems;
+    lastTotalPages = totalPages;
+
+    if (!paginationNav || !pageNumbersContainer) return;
+
+    if (totalPages <= 1 || totalItems === 0) {
+      paginationNav.classList.add('hide');
+      if (paginationInfo) paginationInfo.classList.add('hide');
+      return;
+    }
+
+    paginationNav.classList.remove('hide');
+    if (paginationInfo) {
+      paginationInfo.classList.remove('hide');
+      paginationInfo.textContent = `الصفحة ${state.page} من إجمالي ${totalPages} صفحات`;
+    }
+
+    if (prevPageBtn) prevPageBtn.disabled = state.page <= 1;
+    if (nextPageBtn) nextPageBtn.disabled = state.page >= totalPages;
+
+    pageNumbersContainer.innerHTML = '';
+    for (let i = 1; i <= totalPages; i++) {
+      const pageBtn = document.createElement('button');
+      pageBtn.type = 'button';
+      pageBtn.className = `pagination-btn ${i === state.page ? 'active' : ''}`;
+      pageBtn.textContent = i;
+      pageBtn.setAttribute('aria-label', `الصفحة رقم ${i}`);
+      pageBtn.addEventListener('click', () => {
+        if (state.page !== i) {
+          state.page = i;
+          applyFilters(false);
+          grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+      pageNumbersContainer.appendChild(pageBtn);
+    }
+  }
+
+  // Attach Prev/Next Pagination Button Listeners
+  if (prevPageBtn) {
+    prevPageBtn.addEventListener('click', () => {
+      if (state.page > 1) {
+        state.page--;
+        applyFilters(false);
+        grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
+
+  if (nextPageBtn) {
+    nextPageBtn.addEventListener('click', () => {
+      if (state.page < lastTotalPages) {
+        state.page++;
+        applyFilters(false);
+        grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
+
   // Main Filter Application Function
-  function applyFilters() {
+  function applyFilters(resetPage = true) {
+    if (resetPage) {
+      state.page = 1;
+    }
+
     updateFilterBadge();
     renderFilterChips();
 
@@ -525,8 +606,17 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     });
 
-    // Render to Grid
-    renderCards(filtered);
+    // Calculate Pagination
+    const totalFiltered = filtered.length;
+    const totalPages = Math.max(1, Math.ceil(totalFiltered / state.itemsPerPage));
+    if (state.page > totalPages) state.page = totalPages;
+
+    const startIndex = (state.page - 1) * state.itemsPerPage;
+    const currentSlice = filtered.slice(startIndex, startIndex + state.itemsPerPage);
+
+    // Render to Grid & Pagination Bar
+    renderCards(currentSlice, totalFiltered, startIndex);
+    renderPagination(totalFiltered, totalPages);
   }
 
   // Set Category Helper
@@ -535,7 +625,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     quickCategoryButtons.forEach((btn) => {
       btn.classList.toggle('active', btn.dataset.category === cat);
     });
-    applyFilters();
+    applyFilters(true);
   }
 
   // Set Status Helper
@@ -544,7 +634,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     statusButtons.forEach((btn) => {
       btn.classList.toggle('active', btn.dataset.filter === st);
     });
-    applyFilters();
+    applyFilters(true);
   }
 
   // Set Price Range Helper
@@ -553,7 +643,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     priceButtons.forEach((btn) => {
       btn.classList.toggle('active', btn.dataset.priceRange === range);
     });
-    applyFilters();
+    applyFilters(true);
   }
 
   // Reset All Filters
@@ -563,6 +653,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     state.status = 'all';
     state.priceRange = 'all';
     state.sortBy = 'default';
+    state.page = 1;
 
     if (searchInput) searchInput.value = '';
     if (clearSearchBtn) clearSearchBtn.classList.add('hide');
@@ -572,7 +663,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     statusButtons.forEach((btn) => btn.classList.toggle('active', btn.dataset.filter === 'all'));
     priceButtons.forEach((btn) => btn.classList.toggle('active', btn.dataset.priceRange === 'all'));
 
-    applyFilters();
+    applyFilters(true);
 
     if (window.Toast) {
       window.Toast.info('تمت إعادة تعيين كافة الفلاتر بنجاح وعرض جميع الأدوية.', 'إعادة ضبط');
@@ -586,7 +677,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (clearSearchBtn) {
         clearSearchBtn.classList.toggle('hide', this.value.trim() === '');
       }
-      applyFilters();
+      applyFilters(true);
     });
   }
 
@@ -595,7 +686,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (searchInput) searchInput.value = '';
       clearSearchBtn.classList.add('hide');
       state.search = '';
-      applyFilters();
+      applyFilters(true);
       searchInput?.focus();
     });
   }
@@ -628,7 +719,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (sortSelect) {
     sortSelect.addEventListener('change', function () {
       state.sortBy = this.value;
-      applyFilters();
+      applyFilters(true);
     });
   }
 
@@ -653,5 +744,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Initial Filter & Render Application
-  applyFilters();
+  applyFilters(true);
 });
+

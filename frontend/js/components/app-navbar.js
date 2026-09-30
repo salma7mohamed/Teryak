@@ -148,7 +148,7 @@ class AppNavbar extends HTMLElement {
           </div>
           <button type="button" class="btn2" id="mobileThemeToggleBtn" title="الوضع الليلي"><i class="fa-solid fa-moon"></i></button>
           <button type="button" class="btn2" id="mobileLangToggleBtn" title="تغيير اللغة">AR</button>
-          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="فتح القائمة">
             <i class="fa-solid fa-bars"></i>
           </button>
         </div>
@@ -157,8 +157,12 @@ class AppNavbar extends HTMLElement {
       <!-- Offcanvas Mobile Drawer -->
       <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header d-flex justify-content-between align-items-center border-bottom pb-3">
-          <h5 class="offcanvas-title font-bold text-success" id="offcanvasNavbarLabel">قائمة ترياق</h5>
-          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          <h5 class="offcanvas-title font-bold text-success m-0" id="offcanvasNavbarLabel">
+            <i class="fa-solid fa-layer-group me-2"></i> قائمة ترياق
+          </h5>
+          <button type="button" class="btn-drawer-close" data-bs-dismiss="offcanvas" aria-label="إغلاق">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
         </div>
         <div class="offcanvas-body">
           <ul class="list-unstyled d-flex flex-column gap-2 mb-4">

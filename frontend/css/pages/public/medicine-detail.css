@@ -549,3 +549,19 @@ body.dark-theme .advice-list li,
 [data-theme="dark"] .advice-list li {
   color: #cbd5e1 !important;
 }
+
+body.dark-theme #DONE,
+body.dark-theme #DONE2,
+[data-theme="dark"] #DONE,
+[data-theme="dark"] #DONE2 {
+  background: rgba(16, 185, 129, 0.15) !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+  color: #34d399 !important;
+}
+
+body.dark-theme #DONE .bold,
+body.dark-theme #DONE2 .bold,
+[data-theme="dark"] #DONE .bold,
+[data-theme="dark"] #DONE2 .bold {
+  color: #6ee7b7 !important;
+}

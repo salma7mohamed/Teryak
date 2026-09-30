@@ -334,3 +334,114 @@
   background: #e2e8f0;
   color: #1e293b;
 }
+
+/* ==========================================================================
+   Dark Theme Adaptation for Toasts & Modal Boxes
+   ========================================================================== */
+body.dark-theme .teryak-toast,
+[data-theme="dark"] .teryak-toast {
+  background: rgba(17, 24, 39, 0.96) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.6),
+              0 4px 12px -2px rgba(0, 0, 0, 0.4) !important;
+  color: #f8fafc !important;
+}
+
+body.dark-theme .teryak-toast-title,
+[data-theme="dark"] .teryak-toast-title {
+  color: #f8fafc !important;
+}
+
+body.dark-theme .teryak-toast-message,
+[data-theme="dark"] .teryak-toast-message {
+  color: #cbd5e1 !important;
+}
+
+body.dark-theme .teryak-toast-close,
+[data-theme="dark"] .teryak-toast-close {
+  background: #1e293b !important;
+  color: #94a3b8 !important;
+  border: 1px solid #334155 !important;
+}
+
+body.dark-theme .teryak-toast-close:hover,
+[data-theme="dark"] .teryak-toast-close:hover {
+  background: #334155 !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .teryak-toast-success,
+[data-theme="dark"] .teryak-toast-success {
+  border-right: 4px solid #10b981 !important;
+}
+
+body.dark-theme .teryak-toast-success .teryak-toast-icon,
+[data-theme="dark"] .teryak-toast-success .teryak-toast-icon {
+  background: rgba(16, 185, 129, 0.2) !important;
+  color: #34d399 !important;
+}
+
+body.dark-theme .teryak-toast-error,
+[data-theme="dark"] .teryak-toast-error {
+  border-right: 4px solid #ef4444 !important;
+}
+
+body.dark-theme .teryak-toast-error .teryak-toast-icon,
+[data-theme="dark"] .teryak-toast-error .teryak-toast-icon {
+  background: rgba(239, 68, 68, 0.2) !important;
+  color: #f87171 !important;
+}
+
+body.dark-theme .teryak-toast-warning,
+[data-theme="dark"] .teryak-toast-warning {
+  border-right: 4px solid #f59e0b !important;
+}
+
+body.dark-theme .teryak-toast-warning .teryak-toast-icon,
+[data-theme="dark"] .teryak-toast-warning .teryak-toast-icon {
+  background: rgba(245, 158, 11, 0.2) !important;
+  color: #fbbf24 !important;
+}
+
+body.dark-theme .teryak-toast-info,
+[data-theme="dark"] .teryak-toast-info {
+  border-right: 4px solid #0284c7 !important;
+}
+
+body.dark-theme .teryak-toast-info .teryak-toast-icon,
+[data-theme="dark"] .teryak-toast-info .teryak-toast-icon {
+  background: rgba(2, 132, 199, 0.2) !important;
+  color: #38bdf8 !important;
+}
+
+body.dark-theme .teryak-modal-box,
+[data-theme="dark"] .teryak-modal-box {
+  background: #111827 !important;
+  border: 1px solid #1f2937 !important;
+  color: #f8fafc !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
+}
+
+body.dark-theme .teryak-modal-title,
+[data-theme="dark"] .teryak-modal-title {
+  color: #f8fafc !important;
+}
+
+body.dark-theme .teryak-modal-desc,
+[data-theme="dark"] .teryak-modal-desc {
+  color: #94a3b8 !important;
+}
+
+body.dark-theme .teryak-modal-btn.btn-cancel,
+[data-theme="dark"] .teryak-modal-btn.btn-cancel {
+  background: #1e293b !important;
+  color: #cbd5e1 !important;
+  border: 1px solid #334155 !important;
+}
+
+body.dark-theme .teryak-modal-btn.btn-cancel:hover,
+[data-theme="dark"] .teryak-modal-btn.btn-cancel:hover {
+  background: #334155 !important;
+  color: #ffffff !important;
+}
+

@@ -999,6 +999,78 @@ body.dark-theme .status-badge.out,
   border: 1px solid rgba(239, 68, 68, 0.35) !important;
 }
 
+/* Modal Dark Mode Fixes - Eliminates Blinding White Containers */
+body.dark-theme .inventory-modal-box,
+[data-theme="dark"] .inventory-modal-box {
+  background-color: #111827 !important;
+  color: #f1f5f9 !important;
+  border: 1px solid #1f2937 !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6) !important;
+}
+
+body.dark-theme .inventory-modal-box .modal-body,
+[data-theme="dark"] .inventory-modal-box .modal-body {
+  background-color: #111827 !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .medicine-image-upload-card,
+[data-theme="dark"] .medicine-image-upload-card {
+  background: #161f30 !important;
+  border-color: #334155 !important;
+}
+
+body.dark-theme .medicine-image-upload-card:hover,
+[data-theme="dark"] .medicine-image-upload-card:hover {
+  background: #1e293b !important;
+  border-color: var(--primary) !important;
+}
+
+body.dark-theme .image-preview-wrapper,
+[data-theme="dark"] .image-preview-wrapper {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35) !important;
+}
+
+body.dark-theme .btn-upload-overlay,
+body.dark-theme .btn-clear-image,
+[data-theme="dark"] .btn-upload-overlay,
+[data-theme="dark"] .btn-clear-image {
+  background: #1e293b !important;
+  color: #f1f5f9 !important;
+}
+
+body.dark-theme .btn-upload-overlay:hover,
+[data-theme="dark"] .btn-upload-overlay:hover {
+  background: var(--primary) !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .btn-clear-image:hover,
+[data-theme="dark"] .btn-clear-image:hover {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+}
+
+/* Profit Margin Widget in Dark Mode */
+body.dark-theme .profit-margin-bar.profit-positive,
+[data-theme="dark"] .profit-margin-bar.profit-positive {
+  background: rgba(16, 185, 129, 0.15) !important;
+  border-color: rgba(16, 185, 129, 0.35) !important;
+}
+
+body.dark-theme .profit-margin-bar.profit-negative,
+[data-theme="dark"] .profit-margin-bar.profit-negative {
+  background: rgba(239, 68, 68, 0.15) !important;
+  border-color: rgba(239, 68, 68, 0.35) !important;
+}
+
+body.dark-theme .search i,
+[data-theme="dark"] .search i {
+  color: #94a3b8 !important;
+}
+
 
 
 

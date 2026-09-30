@@ -332,11 +332,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                       <!-- Quick Presets -->
                       <div class="image-presets-row mt-2" id="imagePresetsRow">
-                        <button type="button" class="preset-btn active" data-img="../../assets/images/1.jpg" title="أقراص">💊 أقراص</button>
-                        <button type="button" class="preset-btn" data-img="../../assets/images/2.jpg" title="شراب">🧴 شراب</button>
-                        <button type="button" class="preset-btn" data-img="../../assets/images/3.jpg" title="كبسول">💊 كبسول</button>
-                        <button type="button" class="preset-btn" data-img="../../assets/images/4.jpg" title="حقن">💉 حقن</button>
-                        <button type="button" class="preset-btn" data-img="../../assets/images/5.jpg" title="مرهم">🧴 مرهم</button>
+                        <button type="button" class="preset-btn active" data-dosage="أقراص" data-img="../../assets/images/1.jpg" title="أقراص">💊 أقراص</button>
+                        <button type="button" class="preset-btn" data-dosage="شراب" data-img="../../assets/images/2.jpg" title="شراب">🧴 شراب</button>
+                        <button type="button" class="preset-btn" data-dosage="كبسولات" data-img="../../assets/images/3.jpg" title="كبسول">💊 كبسول</button>
+                        <button type="button" class="preset-btn" data-dosage="حقن" data-img="../../assets/images/4.jpg" title="حقن">💉 حقن</button>
+                        <button type="button" class="preset-btn" data-dosage="مرهم / كريم" data-img="../../assets/images/5.jpg" title="مرهم">🧴 مرهم</button>
+                        <button type="button" class="preset-btn" data-dosage="نقط / قطرة" data-img="../../assets/images/6.jpg" title="قطرة">💧 قطرة</button>
+                        <button type="button" class="preset-btn" data-dosage="بخاخ" data-img="../../assets/images/7.jpg" title="بخاخ">💨 بخاخ</button>
                       </div>
                     </div>
                   </div>
@@ -349,11 +351,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                       </label>
                       <div class="input-group">
                         <span class="input-group-text bg-light"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
-                        <input type="text" id="modalMedName" class="form-control" placeholder="ابحث في دليل الأدوية الموحد (مثل: بانادول، أوجمنتين...)" autocomplete="off" required>
+                        <input type="text" id="modalMedName" class="form-control" placeholder="ابحث في دليل الأدوية الموحد (مثل: بانادول، بروفين، أوجمنتين...)" autocomplete="off" required>
                       </div>
-                      <div id="catalogAutocompleteList" class="list-group position-absolute w-100 shadow-lg d-none" style="z-index: 1060; max-height: 220px; overflow-y: auto; top: 100%;"></div>
+                      <div id="catalogAutocompleteList" class="list-group position-absolute w-100 shadow-lg d-none" style="z-index: 1060; max-height: 240px; overflow-y: auto; top: 100%;"></div>
                       <small class="text-muted d-block mt-1" style="font-size: 12px;">
-                        💡 <span class="text-success font-bold">ميزة ذكية:</span> الاختيار من الدليل الموحد يملأ الصورة، السعر، والمادة الفعالة تلقائياً.
+                        💡 <span class="text-success font-bold">ميزة ذكية:</span> البحث متصل بالدليل المصري وقاعدة الأدوية ويملأ السعر والشكل والصورة تلقائياً.
                       </small>
                     </div>
 
@@ -420,11 +422,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
 
                 <!-- Profit Margin Widget -->
-                <div id="profitMarginWidget" class="profit-margin-bar d-flex justify-content-between align-items-center py-2 px-3 rounded mb-3 d-none" style="background: #ecfdf5; border: 1px solid #a7f3d0;">
-                  <span class="text-success font-bold" style="font-size: 13px;" id="profitMarginText">
+                <div id="profitMarginWidget" class="profit-margin-bar profit-positive d-flex justify-content-between align-items-center py-2 px-3 rounded mb-3 d-none">
+                  <span class="font-bold" style="font-size: 13px;" id="profitMarginText">
                     <i class="fa-solid fa-chart-line me-1"></i> هامش الربح المتوقع: <strong>--</strong>
                   </span>
-                  <span class="badge bg-success" id="profitPerUnitBadge">-- ج.م / علبة</span>
+                  <span class="badge" id="profitPerUnitBadge">-- ج.م / علبة</span>
                 </div>
 
                 <hr class="my-3 opacity-25">
@@ -490,7 +492,29 @@ document.addEventListener('DOMContentLoaded', async () => {
       const genBatchBtn = modalEl.querySelector('#btnGenBatch');
       const batchInput = modalEl.querySelector('#modalMedBatch');
 
-      // Profit Calculator Handler
+      // Smart Dosage Form Image Resolver
+      function resolveDosageImage(dosage) {
+        const d = (dosage || '').toLowerCase();
+        if (d.includes('شراب') || d.includes('syrup') || d.includes('معلق') || d.includes('susp')) return '../../assets/images/2.jpg';
+        if (d.includes('كبسول') || d.includes('capsule')) return '../../assets/images/3.jpg';
+        if (d.includes('حقن') || d.includes('أمبول') || d.includes('ampoule') || d.includes('vial') || d.includes('injection')) return '../../assets/images/4.jpg';
+        if (d.includes('مرهم') || d.includes('كريم') || d.includes('جل') || d.includes('ointment') || d.includes('cream') || d.includes('gel')) return '../../assets/images/5.jpg';
+        if (d.includes('نقط') || d.includes('قطرة') || d.includes('drops')) return '../../assets/images/6.jpg';
+        if (d.includes('بخاخ') || d.includes('استنشاق') || d.includes('spray') || d.includes('inhaler')) return '../../assets/images/7.jpg';
+        return '../../assets/images/1.jpg'; // default tablets
+      }
+
+      function updateSelectedPreset(imageSrc) {
+        presetsRow?.querySelectorAll('.preset-btn').forEach(b => {
+          if (b.dataset.img === imageSrc) {
+            b.classList.add('active');
+          } else {
+            b.classList.remove('active');
+          }
+        });
+      }
+
+      // Profit Calculator Handler (Theme Aware)
       function updateProfitWidget() {
         const selling = Number(priceInput?.value) || 0;
         const cost = Number(costInput?.value) || 0;
@@ -502,15 +526,17 @@ document.addEventListener('DOMContentLoaded', async () => {
           const profit = selling - cost;
           const margin = ((profit / selling) * 100).toFixed(1);
           if (profit >= 0) {
-            widget.style.background = '#ecfdf5';
-            widget.style.borderColor = '#a7f3d0';
+            widget.className = 'profit-margin-bar profit-positive d-flex justify-content-between align-items-center py-2 px-3 rounded mb-3';
+            widget.style.removeProperty('background');
+            widget.style.removeProperty('border');
             profitText.className = 'text-success font-bold';
             profitText.innerHTML = `<i class="fa-solid fa-arrow-trend-up me-1"></i> هامش الربح المتوقع: <strong>${margin}%</strong>`;
             profitBadge.className = 'badge bg-success';
             profitBadge.textContent = `+${profit.toFixed(2)} ج.م / علبة`;
           } else {
-            widget.style.background = '#fef2f2';
-            widget.style.borderColor = '#fecaca';
+            widget.className = 'profit-margin-bar profit-negative d-flex justify-content-between align-items-center py-2 px-3 rounded mb-3';
+            widget.style.removeProperty('background');
+            widget.style.removeProperty('border');
             profitText.className = 'text-danger font-bold';
             profitText.innerHTML = `<i class="fa-solid fa-arrow-trend-down me-1"></i> تحذير: سعر البيع أقل من التكلفة بنسبة <strong>${Math.abs(margin)}%</strong>`;
             profitBadge.className = 'badge bg-danger';
@@ -524,6 +550,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       priceInput?.addEventListener('input', updateProfitWidget);
       costInput?.addEventListener('input', updateProfitWidget);
+
+      // Dosage Form Dropdown Change -> Automatically change Preview Image & Presets
+      dosageSelect?.addEventListener('change', (e) => {
+        const selectedDosage = e.target.value;
+        if (!imgHidden.value || !imgHidden.value.startsWith('data:image/')) {
+          const matchingImg = resolveDosageImage(selectedDosage);
+          imgPreview.src = matchingImg;
+          imgHidden.value = matchingImg;
+          updateSelectedPreset(matchingImg);
+        }
+      });
 
       // Image Upload from File
       fileInput?.addEventListener('change', (e) => {
@@ -542,22 +579,31 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       // Clear Image to Default
       clearImgBtn?.addEventListener('click', () => {
-        imgPreview.src = '../../assets/images/1.jpg';
-        imgHidden.value = '../../assets/images/1.jpg';
-        presetsRow?.querySelectorAll('.preset-btn').forEach((b, idx) => {
-          if (idx === 0) b.classList.add('active');
-          else b.classList.remove('active');
-        });
+        const currentDosage = dosageSelect?.value || 'أقراص';
+        const defaultImg = resolveDosageImage(currentDosage);
+        imgPreview.src = defaultImg;
+        imgHidden.value = defaultImg;
+        updateSelectedPreset(defaultImg);
       });
 
-      // Image Quick Presets
+      // Image Quick Presets Click -> Updates Image & Select Dropdown
       presetsRow?.querySelectorAll('.preset-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           const imgPath = btn.dataset.img;
+          const targetDosage = btn.dataset.dosage;
           imgPreview.src = imgPath;
           imgHidden.value = imgPath;
           presetsRow.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
+
+          if (dosageSelect && targetDosage) {
+            for (let opt of dosageSelect.options) {
+              if (opt.value === targetDosage || opt.value.includes(targetDosage) || targetDosage.includes(opt.value)) {
+                dosageSelect.value = opt.value;
+                break;
+              }
+            }
+          }
         });
       });
 
@@ -568,7 +614,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       });
 
-      // Autocomplete Catalog Search
+      // Live Autocomplete with Egyptian Drug Registry API & Local Catalog
+      let searchDebounceTimer = null;
       if (nameInput && autoList) {
         nameInput.addEventListener('input', (e) => {
           const q = e.target.value.toLowerCase().trim();
@@ -577,57 +624,103 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
           }
 
-          const matches = catalogMedicines.filter(m => 
-            (m.nameAr && m.nameAr.toLowerCase().includes(q)) ||
-            (m.nameEn && m.nameEn.toLowerCase().includes(q)) ||
-            (m.activeIngredient && m.activeIngredient.toLowerCase().includes(q))
-          ).slice(0, 6);
+          clearTimeout(searchDebounceTimer);
+          searchDebounceTimer = setTimeout(async () => {
+            let matches = catalogMedicines.filter(m => 
+              (m.nameAr && m.nameAr.toLowerCase().includes(q)) ||
+              (m.nameEn && m.nameEn.toLowerCase().includes(q)) ||
+              (m.activeIngredient && m.activeIngredient.toLowerCase().includes(q))
+            ).slice(0, 5);
 
-          if (matches.length === 0) {
-            autoList.classList.add('d-none');
-            return;
-          }
-
-          autoList.innerHTML = matches.map(m => `
-            <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-2 px-3" 
-              data-id="${m._id}" 
-              data-name="${m.nameAr}" 
-              data-price="${m.price || 25}"
-              data-active="${m.activeIngredient || ''}"
-              data-dosage="${m.dosageForm || 'أقراص'}"
-              data-category="${m.category || 'أدوية عامة'}"
-              data-img="${m.image || '../../assets/images/1.jpg'}">
-              <div class="d-flex align-items-center gap-2">
-                <img src="${m.image || '../../assets/images/1.jpg'}" style="width: 36px; height: 36px; object-fit: cover; border-radius: 8px;" onerror="this.src='../../assets/images/1.jpg'">
-                <div>
-                  <strong class="d-block text-dark">${m.nameAr}</strong>
-                  <small class="text-muted">${m.nameEn || ''} • ${m.activeIngredient || m.category || 'أدوية'}</small>
-                </div>
-              </div>
-              <span class="badge bg-success">${m.price || 25} ج.م</span>
-            </button>
-          `).join('');
-
-          autoList.classList.remove('d-none');
-
-          autoList.querySelectorAll('button').forEach(itemBtn => {
-            itemBtn.addEventListener('click', () => {
-              nameInput.value = itemBtn.dataset.name;
-              medIdInput.value = itemBtn.dataset.id;
-              if (priceInput) priceInput.value = itemBtn.dataset.price;
-              if (activeInput && itemBtn.dataset.active) activeInput.value = itemBtn.dataset.active;
-              if (dosageSelect && itemBtn.dataset.dosage) dosageSelect.value = itemBtn.dataset.dosage;
-              if (categorySelect && itemBtn.dataset.category) categorySelect.value = itemBtn.dataset.category;
-
-              if (itemBtn.dataset.img) {
-                imgHidden.value = itemBtn.dataset.img;
-                imgPreview.src = itemBtn.dataset.img;
+            // Fetch from Egyptian Drug Registry API
+            try {
+              const res = await fetch(`${API_BASE_URL}/medicines/egypt-registry?search=${encodeURIComponent(q)}&limit=6`);
+              if (res.ok) {
+                const json = await res.json();
+                const egList = json.data || [];
+                const combined = [...matches];
+                for (const item of egList) {
+                  if (!combined.some(c => c.nameAr === item.nameAr)) {
+                    combined.push({
+                      _id: item._id,
+                      nameAr: item.nameAr,
+                      nameEn: item.nameEn,
+                      activeIngredient: item.activeIngredient,
+                      dosageForm: item.dosageForm,
+                      category: item.category,
+                      price: item.price,
+                      image: item.image ? `../../${item.image}` : resolveDosageImage(item.dosageForm),
+                      isEgyptianRegistry: true
+                    });
+                  }
+                }
+                matches = combined.slice(0, 8);
               }
+            } catch (err) {
+              // fallback gracefully
+            }
 
-              updateProfitWidget();
+            if (matches.length === 0) {
               autoList.classList.add('d-none');
+              return;
+            }
+
+            autoList.innerHTML = matches.map(m => {
+              const formImg = m.image || resolveDosageImage(m.dosageForm);
+              return `
+                <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-2 px-3" 
+                  data-id="${m._id}" 
+                  data-name="${m.nameAr}" 
+                  data-price="${m.price || 25}"
+                  data-active="${m.activeIngredient || ''}"
+                  data-dosage="${m.dosageForm || 'أقراص'}"
+                  data-category="${m.category || 'أدوية عامة'}"
+                  data-img="${formImg}">
+                  <div class="d-flex align-items-center gap-2">
+                    <img src="${formImg}" style="width: 38px; height: 38px; object-fit: cover; border-radius: 8px;" onerror="this.src='../../assets/images/1.jpg'">
+                    <div>
+                      <strong class="d-block text-dark" style="font-size: 13.5px;">${m.nameAr}</strong>
+                      <small class="text-muted" style="font-size: 11.5px;">${m.nameEn || ''} • ${m.activeIngredient || m.dosageForm || 'دواء مصري'}</small>
+                    </div>
+                  </div>
+                  <div class="text-end">
+                    <span class="badge bg-success">${m.price || 25} ج.م</span>
+                    ${m.isEgyptianRegistry ? '<span class="badge bg-primary text-white ms-1" style="font-size:9px;">دليل مصري</span>' : ''}
+                  </div>
+                </button>
+              `;
+            }).join('');
+
+            autoList.classList.remove('d-none');
+
+            autoList.querySelectorAll('button').forEach(itemBtn => {
+              itemBtn.addEventListener('click', () => {
+                nameInput.value = itemBtn.dataset.name;
+                medIdInput.value = itemBtn.dataset.id;
+                if (priceInput) priceInput.value = itemBtn.dataset.price;
+                if (activeInput && itemBtn.dataset.active) activeInput.value = itemBtn.dataset.active;
+                
+                const dosage = itemBtn.dataset.dosage || 'أقراص';
+                if (dosageSelect) {
+                  for (let opt of dosageSelect.options) {
+                    if (opt.value === dosage || opt.value.includes(dosage) || dosage.includes(opt.value)) {
+                      dosageSelect.value = opt.value;
+                      break;
+                    }
+                  }
+                }
+                if (categorySelect && itemBtn.dataset.category) categorySelect.value = itemBtn.dataset.category;
+
+                const formImg = itemBtn.dataset.img || resolveDosageImage(dosage);
+                imgHidden.value = formImg;
+                imgPreview.src = formImg;
+                updateSelectedPreset(formImg);
+
+                updateProfitWidget();
+                autoList.classList.add('d-none');
+              });
             });
-          });
+          }, 200);
         });
 
         document.addEventListener('click', (e) => {
@@ -636,6 +729,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           }
         });
       }
+
 
       // Form Submit Handler
       const form = modalEl.querySelector('#invModalForm');
@@ -768,6 +862,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('modalMedImagePreview').src = '../../assets/images/1.jpg';
     document.getElementById('modalSubmitBtn').innerHTML = '<i class="fa-solid fa-plus me-1"></i> إضافة للمخزون';
 
+    // Reset preset buttons
+    const presetsRow = modalEl.querySelector('#imagePresetsRow');
+    presetsRow?.querySelectorAll('.preset-btn').forEach((b, idx) => {
+      if (idx === 0) b.classList.add('active');
+      else b.classList.remove('active');
+    });
+
     // Trigger profit calculation
     const priceInput = modalEl.querySelector('#modalMedPrice');
     priceInput?.dispatchEvent(new Event('input'));
@@ -793,9 +894,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('modalMedBatch').value = item.batchNumber || `BCH-${new Date().getFullYear()}-1024`;
     document.getElementById('modalMedShelf').value = item.shelfLocation || '';
     
-    const imgSrc = item.image || '../../assets/images/1.jpg';
+    // Resolve matching image for dosage form
+    const d = (item.dosageForm || '').toLowerCase();
+    let defaultImg = '../../assets/images/1.jpg';
+    if (d.includes('شراب') || d.includes('syrup')) defaultImg = '../../assets/images/2.jpg';
+    else if (d.includes('كبسول') || d.includes('capsule')) defaultImg = '../../assets/images/3.jpg';
+    else if (d.includes('حقن') || d.includes('ampoule') || d.includes('vial') || d.includes('injection')) defaultImg = '../../assets/images/4.jpg';
+    else if (d.includes('مرهم') || d.includes('كريم') || d.includes('ointment')) defaultImg = '../../assets/images/5.jpg';
+    else if (d.includes('نقط') || d.includes('قطرة') || d.includes('drops')) defaultImg = '../../assets/images/6.jpg';
+    else if (d.includes('بخاخ') || d.includes('spray')) defaultImg = '../../assets/images/7.jpg';
+
+    const imgSrc = item.image || defaultImg;
     document.getElementById('modalMedImage').value = imgSrc;
     document.getElementById('modalMedImagePreview').src = imgSrc;
+
+    const presetsRow = modalEl.querySelector('#imagePresetsRow');
+    presetsRow?.querySelectorAll('.preset-btn').forEach(b => {
+      if (b.dataset.img === imgSrc) b.classList.add('active');
+      else b.classList.remove('active');
+    });
+
     document.getElementById('modalSubmitBtn').innerHTML = '<i class="fa-solid fa-save me-1"></i> حفظ التعديلات';
 
     // Trigger profit calculation

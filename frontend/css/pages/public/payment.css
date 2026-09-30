@@ -42,25 +42,43 @@ body {
 }
 
 /* Payment Option Item */
+.payment-option-card,
 .DIV1 {
   border: 1.5px solid #e2e8f0;
   background-color: #ffffff;
   border-radius: 14px;
   padding: 16px 20px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
 }
 
+.payment-option-card:hover,
 .DIV1:hover {
   border-color: #cbd5e1;
   background-color: #f8fafc;
+  transform: translateY(-1px);
 }
 
+.payment-option-card.active,
 .DIV1.active {
-  border-color: var(--primary-color, #008b5e);
-  background-color: rgba(0, 139, 94, 0.04);
-  box-shadow: 0 0 0 2px rgba(0, 139, 94, 0.15);
+  border-color: var(--primary-color, #008b5e) !important;
+  background-color: rgba(0, 139, 94, 0.04) !important;
+  box-shadow: 0 0 0 2px rgba(0, 139, 94, 0.25) !important;
 }
+
+.payment-check-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+}
+
+.check-indicator {
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
 
 .hidenn, .hiden {
   display: none !important;
@@ -224,32 +242,44 @@ body.dark-theme .DIV,
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
 }
 
+body.dark-theme .payment-option-card,
 body.dark-theme .DIV1,
+[data-theme="dark"] .payment-option-card,
 [data-theme="dark"] .DIV1 {
-  background-color: #1a2234 !important;
+  background-color: #111827 !important;
   border-color: #1f2937 !important;
   color: #f1f5f9 !important;
 }
 
+body.dark-theme .payment-option-card:hover,
 body.dark-theme .DIV1:hover,
+[data-theme="dark"] .payment-option-card:hover,
 [data-theme="dark"] .DIV1:hover {
   border-color: #334155 !important;
-  background-color: #1e293b !important;
+  background-color: #1a2234 !important;
 }
 
+body.dark-theme .payment-option-card.active,
 body.dark-theme .DIV1.active,
+[data-theme="dark"] .payment-option-card.active,
 [data-theme="dark"] .DIV1.active {
-  border-color: var(--primary-color) !important;
+  border-color: var(--primary-color, #008b5e) !important;
   background-color: rgba(0, 139, 94, 0.12) !important;
+  box-shadow: 0 0 0 2px rgba(0, 139, 94, 0.3) !important;
 }
 
 body.dark-theme .F1,
 body.dark-theme .F2,
+body.dark-theme #Visa,
+body.dark-theme #cash,
 [data-theme="dark"] .F1,
-[data-theme="dark"] .F2 {
+[data-theme="dark"] .F2,
+[data-theme="dark"] #Visa,
+[data-theme="dark"] #cash {
   background-color: #070c18 !important;
   border-color: #1f2937 !important;
 }
+
 
 body.dark-theme .F1 label,
 body.dark-theme .F2 label,
