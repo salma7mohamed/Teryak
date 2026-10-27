@@ -77,14 +77,31 @@ class SPARouter {
     const container = document.getElementById('spa-content') || document.querySelector('main');
     if (container) {
       const pageScripts = Array.from(document.querySelectorAll('script[src]'))
-        .map(s => s.getAttribute('src'))
+        .map(s => {
+          try {
+            return new URL(s.getAttribute('src'), window.location.href).href;
+          } catch (e) {
+            return s.getAttribute('src');
+          }
+        })
         .filter(src => src && (src.includes('/pages/') || src.includes('site.js')));
+
+      const pageStyles = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+        .map(l => {
+          try {
+            return new URL(l.getAttribute('href'), window.location.href).href;
+          } catch (e) {
+            return l.getAttribute('href');
+          }
+        })
+        .filter(href => href && href.includes('/pages/'));
 
       this.cache.set(key, {
         title: document.title,
         bodyPage: document.body.getAttribute('data-page') || '',
         contentHtml: container.innerHTML,
         pageScripts,
+        pageStyles,
         timestamp: Date.now()
       });
     }
@@ -198,12 +215,24 @@ class SPARouter {
     if (!container) throw new Error('No SPA content container found in target page');
 
     const pageScripts = Array.from(doc.querySelectorAll('script[src]'))
-      .map(s => s.getAttribute('src'))
-      .filter(src => src.includes('/pages/') || src.includes('site.js'));
+      .map(s => {
+        try {
+          return new URL(s.getAttribute('src'), url).href;
+        } catch (e) {
+          return s.getAttribute('src');
+        }
+      })
+      .filter(src => src && (src.includes('/pages/') || src.includes('site.js')));
 
     const pageStyles = Array.from(doc.querySelectorAll('link[rel="stylesheet"]'))
-      .map(l => l.getAttribute('href'))
-      .filter(href => href.includes('/pages/'));
+      .map(l => {
+        try {
+          return new URL(l.getAttribute('href'), url).href;
+        } catch (e) {
+          return l.getAttribute('href');
+        }
+      })
+      .filter(href => href && href.includes('/pages/'));
 
     const pageData = {
       title: doc.title,

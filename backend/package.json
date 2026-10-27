@@ -7,7 +7,7 @@
     "start": "node server.js",
     "dev": "node --watch server.js",
     "seed": "node seeder.js",
-    "test": "node tests/security_and_orders.test.js"
+    "test": "node tests/security_and_orders.test.js && node tests/bulk_import_verification.test.js && node tests/html_integrity.test.js"
   },
   "keywords": [
     "teryak",

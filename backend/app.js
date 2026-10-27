@@ -94,14 +94,14 @@ app.use('/api/upload', checkDbConnection, uploadRoutes);
 app.use('/api/notifications', checkDbConnection, notificationRoutes);
 app.use('/api/payment', checkDbConnection, paymentRoutes);
 
+// Serve Frontend Static Files in Local / Fullstack Standalone mode
+const frontendPath = path.join(__dirname, '../frontend');
+app.use(express.static(frontendPath));
+
 // Serve platform favicon directly
 app.get(['/favicon.ico', '/favicon.png'], (req, res) => {
   res.sendFile(path.join(frontendPath, 'assets', 'images', 'logo.png'));
 });
-
-// Serve Frontend Static Files in Local / Fullstack Standalone mode
-const frontendPath = path.join(__dirname, '../frontend');
-app.use(express.static(frontendPath));
 
 // Fallback for root
 app.get('/', (req, res) => {
